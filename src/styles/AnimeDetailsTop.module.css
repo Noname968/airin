@@ -1,0 +1,213 @@
+.detailsbanner{
+    position: relative;
+    height: 350px;
+    bottom: 0;
+}
+
+.detailsbgimage{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.gradientOverlay {
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 1));
+}
+
+.detailstrailer{
+    position: absolute;
+    background-color: white;
+    border: none;
+    color: black;
+    padding: 10px 15px;
+    bottom: 9%;
+    right: 3%;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    font-weight: 500;
+}
+
+.detailsinfo{
+    position: absolute;
+    bottom: -35%;
+    left: 8%;
+    display: flex;
+}
+
+.detailsimgcon{
+    width: 200px;
+    height: 300px;
+}
+
+.detailsimage{
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+}
+
+.detailstitle{
+    padding: 10px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-self: self-end;
+    margin: 20px 18px;
+    max-width: 700px;
+}
+
+.alttitle{
+    margin: 0 0 3px 0;
+    color: #ffffffb2;
+    text-overflow: ellipsis; 
+    overflow: hidden;
+    max-width: 500px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.scores{
+    font-size: 0.9rem;
+    color: #ffffffb2;
+    display: flex;
+    align-items: center;
+}
+
+.detailswatch{
+    background-color: white;
+    border: none;
+    margin: 8px 0 8px 0;
+    align-items: center;
+    display: flex;
+    width: max-content;
+    color: black;
+    padding: 8px 17px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    font-weight: 500;
+}
+
+.detailsaddlist{
+    background-color: rgb(250, 250, 250);
+    border: none;
+    align-items: center;
+    display: flex;
+    width: max-content;
+    color: black;
+    padding: 8px 17px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    font-weight: 500; 
+    margin: 8px 0 8px 10px;
+}
+
+.activestatus{
+    color: #1fac52;
+    margin-left: 4px;
+}
+.notactive{
+    margin-left: 4px;
+}
+
+@media(max-width:1230px){
+    .title{
+        overflow: hidden;
+        text-overflow: ellipsis;     
+        max-width: 500px;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+    }
+    .detailstrailer{
+        right: 2%;
+    }
+}
+
+@media(max-width:900px){
+    .detailsinfo{
+        left: 3%;
+    }
+    .detailsimgcon{
+        width: 180px;
+        height: 260px;
+    }
+    .detailstitle{
+        max-width: 300px;
+    }
+    .title{
+        font-size: 1.3rem;
+    }
+    .alttitle{
+        -webkit-line-clamp: 1;
+    }
+}
+
+@media(max-width:640px){
+    .detailsimgcon{
+        width: 165px;
+        height: 240px;
+    }
+    .detailsbanner{
+        /* height: 250px; */
+    }
+    .gradientOverlay{
+        background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 1));
+    }
+    .detailstrailer{
+        font-weight: 500;
+        font-size: 15px;
+        padding: 6px 15px;
+        right: 50%;
+        transform: translateX(50%);
+        bottom: -70%;
+        display: none;
+    }
+    .detailswatch{
+        font-weight: 500;
+        font-size: 15px;
+        padding: 8px 16px;
+    }
+    .detailsaddlist{
+        font-weight: 500;
+        font-size: 15px;
+        padding: 8px 16px;
+    }
+    .detailsinfo {
+        bottom: -30%;
+        left: 50%;
+        display: flex;
+        flex-direction: column;
+        transform: translateX(-50%);
+        justify-content: center;
+        align-items: center;
+      }
+      .detailstitle {
+        position: relative;
+        z-index: 9999;
+        width: 100vw;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0;
+      }
+    
+      .title {
+        font-size: 1.3rem;
+        width: 100vw;
+        text-align: center;
+        -webkit-line-clamp: 2;
+        padding: 0 3px;
+    }
+      .alttitle{
+        margin: 0;
+        font-size: 0.9rem;
+        display: none;
+    }
+}

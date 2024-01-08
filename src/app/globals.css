@@ -2,26 +2,83 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+
+::-webkit-scrollbar {
+    width: 6px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+::-webkit-scrollbar-thumb{
+    border-radius: 4px;
+    background-color: #2b2b2d;
+}
+
+::-webkit-scrollbar-track{
+    background-color: black;
+}
+
+.recommendationglobal{
+    max-width: 85%;
+    margin: auto;
+}
+
+
+@media(max-width:1200px){
+    .recommendationglobal{
+        max-width: 90%;
+    }
+}
+
+@media(max-width:900px){
+    .recommendationglobal{
+        max-width: 95%;
+    }
+}
+
+@media(max-width:600px){
+    .recommendationglobal{
+        max-width: 99%;
+    }
+}
+
+.gototop{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.top-btn {
+    font-size: 1.2rem;
+    width: 41px;
+    height: 41px;
+    color: #fff;
+    background-color: #1e1e24;
+    border-radius: 50%;
+    position: fixed;
+    bottom: 5%;
+    right: 1.5%;
+    z-index: 999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+
+}
+/* .top-btn--icon {
+  animation: gototop 1.2s linear infinite alternate-reverse;
+} */
+
+@keyframes gototop {
+  0% {
+    transform: translateY(-0.25rem);
+  }
+  100% {
+    transform: translateY(0.5rem);
   }
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
-}
+  @media (max-width: 1024px) {
+    .top-btn {
+        display: none;
+    }
+  }

@@ -1,0 +1,222 @@
+.animecard {
+    display: flex;
+    flex-direction: column;
+    /* max-width: 90%; */
+    margin: 15px auto 20px auto;
+    scroll-behavior: smooth;
+}
+
+.headtitle {
+    font-size: 24px;
+    font-weight: 500;
+    margin: 15px 0;
+    color: white;
+}
+
+.animeitems{
+    position: relative;
+}
+
+.leftarrow{
+    position: absolute;
+    display: flex;
+    align-items: center;
+    height: 97%;
+    z-index: 200;
+    background: linear-gradient(to right,#000000,rgba(0, 0, 0, 0.02));
+    transition: all 0.4s ease-in-out!important;
+    cursor: pointer;
+}
+.notactive{
+    opacity: 0.5;
+}
+
+.rightarrow{
+    position: absolute;
+    display: flex;
+    align-items: center;
+    height: 97%;
+    right: -0.5px;
+    z-index: 999;
+    background: linear-gradient(to left,#000000,rgba(0, 0, 0, 0.02));
+    transition: all 0.4s ease-in-out!important;
+    cursor: pointer;
+}
+
+.cardcontainer {
+    position: relative;
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    overflow: scroll;
+    overflow-y: none;
+    gap: 10px;
+}
+
+.cardcontainer::-webkit-scrollbar {
+    display: none;
+}
+
+.carditem {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 280px;
+    /* align-items: center; */
+    /* border: 1px solid white; */
+}
+
+.cardinfo {
+    position: absolute;
+    background: linear-gradient(to top, rgba(0,0,0,0.7), rgba(0, 0, 0, 0.02)); /* Adjust the colors and stops as needed */
+    width: 100%;
+    height: 85%;
+    bottom: 50px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content:flex-end;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.carditem:hover .cardinfo {
+    opacity: 1;
+}
+
+.cardimgcontainer {
+    width: 155px;
+    height: 230px;
+    margin: 0 3px 0 0;
+    background-color: #1e1e24;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.pulse {
+    animation: pulse 1.4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    animation-delay: 1.5s;
+}
+
+.pulseodd {
+    animation: pulse 1.4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    animation-delay: 0.5s;
+}
+
+@keyframes pulse {
+    0%,
+    100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+.cardimage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.cardtitle {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+    color: #d1d7e0;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 0 6px;
+    margin: 3px 1px;
+    cursor: pointer;
+    /* border: 1px solid white; */
+}
+
+@media(max-width:1300px){
+    .cardcontainer{
+        padding:0 0 0 0.75rem;
+    }
+    .leftarrow svg{
+        margin:0 5px;
+    }
+    .cardhead{
+        padding:0 0.75rem;
+    }
+    .headtitle{
+        font-size: 21px;
+    }
+}
+@media(max-width:768px) {
+    .cardimgcontainer {
+        width: 135px;
+        height: 190px;
+        margin: 0 3px 0 0;
+    }
+
+    .leftarrow{
+        width: 10px;
+    }
+
+    .leftarrow svg{
+        display: none;
+    }
+
+    .carditem {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        height: 240px;
+        /* align-items: center; */
+        /* border: 1px solid white; */
+    }
+    .animecard{
+        margin: 5px auto;
+    }
+    .headtitle{
+        margin: 8px 0;
+    }
+}
+
+@media(max-width:600px) {
+    .cardcontainer {
+        gap: 8px;
+    }
+
+    .cardimgcontainer {
+        width: 105px;
+        height: 160px;
+        margin:0 0 0 0px;
+    }
+
+    .carditem {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        height: 220px;
+        /* align-items: center; */
+        /* border: 1px solid white; */
+    }
+
+    .rightarrow{
+        height: 90%;
+        right: 0px;
+    }
+
+    .rightarrow svg{
+        width: 25px;
+        height: 25px;
+    }
+    .cardtitle {
+        font-size: 12px;
+        /* padding: 0 3px; */
+        margin: 3px 0;
+    }
+}
