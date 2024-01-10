@@ -15,8 +15,8 @@
 }
 
 .navbarscroll {
-    background-color: rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(8px);
+    background-color: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
     transition: background-color 300ms ease-in-out !important;
 }
 
