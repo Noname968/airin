@@ -52,7 +52,7 @@ function Navbarcomponent() {
                     </Link>
                 </div>
                 <div className={styles.navItemsContainer}>
-                    <Link href="/catalog" className={styles.navItem}>Catalog</Link>
+                    <Link href="/anime/catalog" className={styles.navItem}>Catalog</Link>
                     <Link href="/trending" className={styles.navItem}>Trending</Link>
                     <Link href="/popular" className={styles.navItem}>Popular</Link>
                 </div>
