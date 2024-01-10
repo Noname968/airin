@@ -20,7 +20,6 @@ function Searchcard({ searchvalue, selectedYear, seasonvalue, formatvalue, genre
             try {
                 const response = await AdvancedSearch(debouncedSearch, selectedYear, seasonvalue, formatvalue, genrevalue, sortbyvalue, currentPage);
                 setsearchdata(response.media);
-                console.log(response);
                 setlastpage(response.pageInfo.lastPage);
                 setLoading(false);
             } catch (error) {
