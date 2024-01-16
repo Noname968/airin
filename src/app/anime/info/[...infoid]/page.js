@@ -3,9 +3,9 @@ import { AnimeInfoAnilist } from '@/lib/Anilistfunctions'
 import React from 'react'
 import AnimeDetailsTop from '@/components/details/AnimeDetailsTop'
 import AnimeDetailsBottom from '@/components/details/AnimeDetailsBottom'
-import AnimeNavbar from '@/components/Animenavbar'
 import { getEpisodes } from '@/lib/getData'
 import RecommendationCard from '@/components/details/RecommendationCard'
+import Navbarcomponent from '@/components/Navbar'
 
 // async function getData(id,status,refresh=false) {
 //   try {
@@ -29,14 +29,14 @@ async function AnimeDetails({params}) {
   
   return (
     <div className="">
-      <AnimeNavbar/>
+      <Navbarcomponent/>
       <div className='h-[460px] sm:h-[500px] '>
       <AnimeDetailsTop data={data}/>
       </div>
       <AnimeDetailsBottom data={data}/>
-      <Episodesection data={data}/>
+      <Episodesection data={data} id={id}/>
       <div className="recommendationglobal">
-      <RecommendationCard data={data.recommendations.nodes} title={"Recommendations"}/>
+      <RecommendationCard data={data?.recommendations?.nodes} title={"Recommendations"}/>
       </div>
     </div>
   )

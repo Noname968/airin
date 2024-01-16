@@ -16,7 +16,7 @@ function EpImageList({ data, epdata, defaultProvider, subtype }) {
         >        
         <div className={styles.epimageitem}>
             <div className={styles.epimgdiv}>
-              <Image src={episode?.image || episode?.img || data?.bannerImage} width={200} height={200} className={styles.epimage} quality={100} />
+              <Image src={episode?.img || data?.bannerImage} width={200} height={200} className={styles.epimage} quality={100} />
             </div>
             <div className={styles.epimgplayicon}>
               <i className="fa-solid fa-play fa-beat fa-2xl play-buttonicon" style={{ color: "#ffffff" }}></i>

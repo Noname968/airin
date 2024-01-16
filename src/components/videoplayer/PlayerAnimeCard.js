@@ -1,39 +1,107 @@
-import React from 'react'
-import Image from 'next/image'
-import styles from '../../styles/PlayAnimeCard.module.css'
-import Link from 'next/link'
+"use client"
+"use strict"; // Add strict mode
 
-function PlayerAnimeCard({ data }) {
+import React, { useEffect, useState } from 'react';
+import Image from 'next/image';
+import styles from '../../styles/PlayAnimeCard.module.css';
+import Link from 'next/link';
+import { ContextSearch } from '@/context/DataContext';
+
+function PlayerAnimeCard({ data, id }) {
+  const { animetitle } = ContextSearch();
+  const [visibleItems, setVisibleItems] = useState(4);
+  const episodesIcon = <i className="fas fa-closed-captioning mr-1" aria-hidden="true"></i>;
+
+  useEffect(() => {
+    if (id === 'Recommendations') {
+      setVisibleItems(10)
+    }
+  }, [data])
+
+  const handleShowMore = () => {
+    setVisibleItems(data.length);
+  };
+
+  const handleShowLess = () => {
+    setVisibleItems(4);
+  };
+
   return (
+    <>
+      <h2 className="px-[10px] mb-[8px] mx-0 mt-0 leading-tight lg:px-[2px] lg:mx-2 lg:text-[22px] text-[21px]">{id}</h2>
     <div className={styles.playanimecard}>
-      {data.map((item) => (
-        <div className={styles.playcarditem} key={item.node.id}>
-          {/* Check if relationType is manga */}
-          {item?.node?.format?.toLowerCase() === 'manga' || item?.node?.format?.toLowerCase() === 'novel' ? (
-              <Image src={item?.node?.coverImage?.large} width={70} height={90} alt='image' className={styles.playcardimg}/>
-          ) : (
-            <Link href={`/anime/info/${item?.node?.id}`}>
-                  <Image src={item?.node?.coverImage?.large} width={70} height={90} alt='image' className={styles.playcardimg} />
-            </Link>
-          )}
+      {data.slice(0, visibleItems).map((item) => (
+        <div className={styles.playcarditem} key={item?.node?.id || item?.mediaRecommendation?.id}>
+          <div className={styles.playcardimgcon}>
+
+            {item?.node?.format?.toLowerCase() === 'manga' || item?.node?.format?.toLowerCase() === 'novel' ? (
+              <Image
+                src={item?.node?.coverImage?.large || item?.mediaRecommendation?.coverImage?.extraLarge}
+                width={70}
+                height={90}
+                alt='image'
+                className={styles.playcardimg}
+              />
+            ) : (
+              <Link href={`/anime/info/${item?.node?.id || item?.mediaRecommendation?.id}`}>
+                <Image
+                  src={item?.node?.coverImage?.large || item?.mediaRecommendation?.coverImage?.extraLarge}
+                  width={70}
+                  height={90}
+                  alt='image'
+                  className={styles.playcardimg}
+                />              </Link>
+            )}
+
+          </div>
           <div className={styles.playcardinfo}>
             <p className={styles.playcardrelation}>{item?.relationType}</p>
-            {/* Check if relationType is manga */}
             {item?.node?.format?.toLowerCase() === 'manga' || item?.node?.format?.toLowerCase() === 'novel' ? (
-                  <p className={styles.playcardtitle}>{item?.node?.title?.english || item?.node?.title?.romaji}</p>
-                  ) : (
-              <Link href={`/anime/info/${item?.node?.id}`}>
-                  <p className={styles.playcardtitle}>{item?.node?.title?.english || item?.node?.title?.romaji}</p>
+              <span className={styles.playcardtitle}>{item?.node?.title?.[animetitle] || item?.mediaRecommendation?.title?.[animetitle] || item?.node?.title?.romaji || item?.mediaRecommendation?.title?.romaji}</span>
+            ) : (
+              <Link href={`/anime/info/${item?.node?.id || item?.mediaRecommendation?.id}`}>
+                <p className={styles.playcardtitle}>{item?.node?.title?.[animetitle] || item?.mediaRecommendation?.title?.[animetitle] || item?.node?.title?.romaji || item?.mediaRecommendation?.title?.romaji}</p>
               </Link>
             )}
             <p className={styles.playepnum}>
-              {item.node.format} <span>.</span> {item?.node?.episodes && item?.node?.episodes + " EP" || item?.node?.chapters && item?.node?.chapters + " CH" || "?"} <span>.</span> {item.node.status ? item.node.status : ""}
+              {item?.node?.format || item?.mediaRecommendation?.format} <span>.</span>
+              {item?.node ? (
+                item?.node?.episodes && (
+                  <>
+                    {episodesIcon}
+                    {item?.node?.episodes}
+                  </>
+                ) ||
+                (item?.node?.chapters && `${item?.node?.chapters} CH`) ||
+                '?'
+              ) : (
+                item?.mediaRecommendation?.episodes !== undefined && (
+                  <>
+                    {episodesIcon}
+                    {item?.mediaRecommendation?.episodes}
+                  </>
+                )
+              )}
+              <span>.</span> {item?.node?.status || item?.mediaRecommendation?.status || ''}
             </p>
           </div>
         </div>
       ))}
+
+      {id !== 'Recommendations' && data.length > visibleItems && (
+        <div className={styles.showButton} onClick={handleShowMore}>
+          Show More
+        </div>
+      )}
+
+      {id !== 'Recommendations' && visibleItems > 5 && (
+        <div className={styles.showButton} onClick={handleShowLess}>
+          Show Less
+        </div>
+      )}
     </div>
-  )
+    </>
+  );
 }
 
 export default PlayerAnimeCard;

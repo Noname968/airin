@@ -23,33 +23,33 @@ export async function CombineEpisodeMeta(episodeData, imageData) {
   return episodeData;
 }
 
-export function ProvidersMap(episodeData,setConsumetProvider,defaultProvider,setdefaultProvider,subtype){
+export function ProvidersMap(episodeData, defaultProvider, setdefaultProvider) {
   const getConsumet = episodeData?.find((i) => i?.consumet === true);
-  let allProvider = episodeData;
+  let subProviders = episodeData;
 
   if (getConsumet) {
-    allProvider = episodeData?.filter((i) => {
+    subProviders = episodeData?.filter((i) => {
       if (i?.providerId === "gogoanime" && i?.consumet !== true) {
         return null;
       }
       return i;
     });
-    // console.log(getConsumet?.episodes[subtype])
-    setConsumetProvider(getConsumet?.episodes[subtype]);
   }
 
-  if (subtype === "dub") {
-    allProvider = allProvider?.filter((i) => Array.isArray(i?.episodes) && i?.episodes?.some((epi) => epi?.hasDub === true) || i.consumet===true);
-  }
+  const dubProviders = subProviders?.filter((i) =>
+   (Array.isArray(i?.episodes) && i?.episodes?.some((epi) => epi?.hasDub === true) ||
+    i.consumet === true && i?.episodes?.dub.length > 0));
 
-  if (allProvider?.length > 0) {
-    const dprovider = allProvider?.find(
+  if (subProviders?.length > 0) {
+    const dprovider = subProviders?.find(
       (x) => x.providerId === "gogoanime" || x.providerId === "zoro"
     );
-    if(!defaultProvider){
-      setdefaultProvider(dprovider?.providerId || allProvider[0].providerId);
+
+    if (!defaultProvider) {
+      setdefaultProvider(dprovider?.providerId || subProviders[0].providerId);
     }
   }
 
-  return allProvider;
+  return { subProviders, dubProviders };
 }
+

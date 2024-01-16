@@ -1,8 +1,61 @@
-.episodesection{
-    max-width: 1000px;
+.episodelist{
     border-top: 1px solid rgb(116, 116, 116,0.3);
     border-bottom: 1px solid rgb(116, 116, 116,0.3);
     margin: 15px 0;
+    padding: 20px 0;
+}
+.episodetop{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: #18181b;
+    border-radius: 10px;
+    gap: 40px;
+    width: 99%;
+}
+.episodetopleft{
+    display: flex;
+    flex-direction: column;
+    width: 25%;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    background-color: #4d148c;
+    border-radius: 10px;
+}
+.episodetopright{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.episodesub, .episodedub{
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+.episodetypes{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+.provider{
+    padding: 5px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    background-color: #403c44;
+}
+.provider:hover{
+    background-color: #4d148c;
+}
+.providerselected{
+    padding: 5px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    background-color: #4d148c;
 }
 .eptopsection{
     display: flex;
@@ -11,73 +64,68 @@
     margin: 15px 0 10px 0;
     /* border: 1px solid white; */
 }
+.episodebottom{
+    margin: 20px 0 0 0;
+    display: flex;
+    flex-direction: column;
+}
+.episodetitle{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
 .epleft{
     display: flex;
     align-items: center;
     margin-left: 5px;
 }
+.epheading{
+    font-size: 22px;
+    font-weight: 600;
+}
+.refresh{
+    border: none;
+    outline: none;
+    margin-left: 10px;
+}
 .epright{
     display: flex;
     align-items: center;
+    gap: 15px;
 }
-.epheading{
-    font-size: 18px;
-}
-.refresh{
-    margin-left: 10px;
-    border: none;
+
+.selectStyle{
+    padding: 7px 2px;
     outline: none;
-}
-.epbottomsection{
-    margin: 20px auto;
-    display: grid;
-    align-items: center;
-    grid-template-columns: repeat(auto-fill, minmax(50px, 1fr)); 
-    gap: 10px;
-    /* border: 1px solid white; */
-}
-.epdiv{
-    background-color: #18181b;
-    display: inline-block;
-    padding: 7px 0;
-    border-radius: 10px;
-    font-size: 15px;
-    color: #ffffffb2;
-    width: 50px;
+    font-size: 13px;
+    border-radius: 8px;
     text-align: center;
-    border: none;
-    outline: none;
+    background-color: #18181b;
+    cursor: pointer;
 }
 
-/* @media(max-width:1200px){
-    .episodesection{
-        max-width: 90%;
-        margin: auto;
+@media(max-width:768px){
+    .episodetopleft{
+        width: 35%;
     }
-} */
-
-@media(max-width:900px){
-    .episodesection{
-        max-width: 98%;
-        margin: auto;
-    }
-    .epbottomsection{
-        gap: 7px;
-        grid-template-columns: repeat(auto-fill, minmax(45px, 1fr)); 
-        max-height: 190px;
-        overflow-y: scroll;
-        margin: 20px 2px;
-    }
-    .epdiv{
-        width: 45px;
-        padding: 5px;
+    .episodetop{
+        gap: 20px;
     }
 }
 
 @media(max-width:600px){
-    .episodesection{
-        max-width: 98%;
-        margin: auto;
+    .episodetop{
+        display: flex;
+        flex-direction: column;
     }
-  
+    .episodetopleft{
+        width: 100%;
+        padding:1rem 15%;
+    }
+    .episodetopright{
+        margin-bottom: 15px;
+    }
+    .epright{
+        gap: 8px;
+    }
 }

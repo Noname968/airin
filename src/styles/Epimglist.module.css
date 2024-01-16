@@ -97,6 +97,14 @@
     outline: none;
 }
 
+.selectedEpnum{
+    background-color: #4d148c;
+    color: white;
+}
+.selectedEpnum:hover{
+    background-color: #4d148c!important;
+}
+
 .epdiv:hover{
     background-color: #41414a;
 }
@@ -109,10 +117,10 @@
 
     .epnumlistcontainer{
         gap: 6px;
-        max-height: 190px;
+        max-height: 205px!important;
         overflow-y: scroll;
         overflow-x: hidden;
-        margin: 8px 2px;
+        margin: 8px 2px 0 2px;
         grid-template-columns: repeat(auto-fill, minmax(45px, 1fr)); 
     }
 }
@@ -126,7 +134,10 @@
     flex-direction: column;
     overflow-y: scroll;
     overflow-x: hidden;
-    max-height: 40rem;
+    max-height: 42rem!important;
+}
+.epimgcondiv::-webkit-scrollbar{
+    display: none;
 }
 
 .epimageconitem{
@@ -138,11 +149,24 @@
     border-radius: 8px;
 }
 
+.selectedEpimgcon{
+    border: 2px solid rgb(255, 255, 255,1);
+    transform: scale(0.990);
+    transition: all .3s ease-in-out!important; 
+    pointer-events: none;
+    background-color: rgba(0,0,0,0.3);
+}
+.selectedEpimgcon.epimageconitem .epimgplayico {
+    display: block !important;
+}
+.selectedEpimgcon .epimgcon{
+    opacity: 0.5;
+}
 .epcondiv{
-    width: 270px;
+    width: 230px;
     border-radius: 8px;
     position: relative;
-    height: 150px;
+    height: 124px;
     margin: 0 20px 0 0;
 }
 
@@ -152,30 +176,35 @@
     height: 100%;
     border-radius: 8px;
     object-fit: cover;
-    aspect-ratio: 16/9;
+    /* aspect-ratio: 16/9; */
 }
 
 .epimgplayico{
     position: absolute;
     top: 45%;
-    left: 123px;
+    left: 105px;
     display: none;
 }
 
 .epimageconitem:hover .epimgplayico{
     display: block;
-    transition: all 0.5 ease!important;
+    transition: all .3s ease-in-out!important;
 }
 
 .epimageconitem:hover{
     transform: scale(0.992);
-    transition: all .2s ease-in-out!important; 
+    transition: all .3s ease-in-out!important; 
     background-color: #27272c;
 }
 
+.epimageconitem:hover .epimgcon{
+    opacity: 0.6;
+}
+
 .epimgright{
-    max-width: 75%;
+    width: 75%;
     display: flex;
+    padding-right: 10px;
     flex-direction: column;
 }
 
@@ -219,11 +248,11 @@
 
 @media(max-width:565px){
     .epimgcondiv{
-        max-height: 30rem;
+        max-height: 29rem;
     }
     .epcondiv{
-        width: 190px;
-        height: 110px;
+        width: 180px;
+        height: 105px;
     }
     .epimgtitle{
         overflow: hidden;
@@ -231,8 +260,14 @@
         display: -webkit-box;
        -webkit-box-orient: vertical;
         -webkit-line-clamp: 2;
-        font-size: 16px;
+        font-size: 15px;
         padding: 0;
         margin: 6px 0;
+    }
+    .epimgdescription{
+        font-size: 13px;
+    }
+    .epimgplayico{
+        left: 80px;
     }
 }

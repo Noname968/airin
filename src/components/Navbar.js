@@ -5,7 +5,7 @@ import Link from "next/link"
 import { ContextSearch } from '@/context/DataContext';
 import styles from '../styles/Navbar.module.css'
 
-function Navbarcomponent() {
+function Navbarcomponent({home=false}) {
     const [isLoggedIn, setIsLoggedIn] = useState(true);
     const [isScrolled, setIsScrolled] = useState(false);
     const { Isopen, setIsopen } = ContextSearch();
@@ -41,7 +41,11 @@ function Navbarcomponent() {
         };
     }, []);
 
-    const navbarClass = isScrolled ? `${styles.navbar} ${styles.navbarscroll}` : styles.navbar;
+    const navbarClass = isScrolled
+    ? `${home ? styles.homenavbar : styles.navbar} ${home && styles.navbarscroll}`
+    : home
+    ? styles.homenavbar
+    : styles.navbar;
 
     return (
         <div className={navbarClass}>

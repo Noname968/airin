@@ -2,27 +2,41 @@
     display: flex;
     flex-direction: column;
     width: 380px;
-    gap: 10px;
+    padding:10px 12px;
+    margin:0 10px;
+    background-color: #18181b;
+    border-radius: 8px;
 }
 
 .playcarditem {
     display: flex;
     flex-direction: row;
     overflow: hidden;
-    margin-top: 4px;
-    background-color: #18181b;
     border-radius: 5px;
-    gap: 5px;
     align-items: center;
-    padding: 0 10px 0 0;
+    gap: 10px;
+    align-items: center;
+    padding: 1rem 10px 0.7rem 10px;
+    border-bottom: 1px solid rgba(255,255,255,.05);
+}
+
+.playcardimgcon{
+    width: 57px;
+    height: 75px;
 }
 
 .playcardimg {
-    width: 60px;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
-    height: 85px;
     border-radius: 5px;
     margin: 0px 5px 0 0;
+}
+
+.playcardinfo{
+    display: flex;
+    flex-direction: column;
+    width: 85%;
 }
 
 .playcardrelation {
@@ -34,11 +48,11 @@
 .playcardtitle {
     overflow: hidden;
     display: -webkit-box;
-    -webkit-line-clamp: 1;
+    -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     text-overflow: ellipsis;
-    font-size: 15px;
-    margin: 2px 0;
+    font-size: 14px;
+    color: white;
 }
 
 .playepnum{
@@ -49,6 +63,18 @@
 }
 .playepnum span{
     margin: 0 4px 5px 4px;
+}
+
+.showButton{
+    text-align: center;
+    cursor: pointer;
+    margin: 20px 0 0 0;
+    font-size: .9em;
+    font-weight: 600;
+    border-radius: 0.4rem;
+    padding: 0.75rem 1.2rem;
+    /* background: rgba(255,255,255,.1); */
+    background-color: #4D148C;
 }
 
 @media(max-width:1500px){
@@ -65,30 +91,43 @@
 
 @media(max-width:1280px){
     .playanimecard{
-        display: flex;
-        flex-direction: row;
-        gap: 10px;
-        flex-wrap: nowrap;
-        width: max-content;
-    }
-    .playcarditem{
         width: 270px;
+        padding: 10px 5px;
+    }
+    .playcardimgcon{
+        height: 60px;
+    }
+    .playcardtitle{
+        -webkit-line-clamp: 1;
+    }
+}
+
+@media(max-width:1024px){
+    .playanimecard{
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        width: 97%;
+        margin: auto;
+        overflow: hidden;
     }
     .playcardtitle{
         -webkit-line-clamp: 2;
     }
-    .playcardimg{
-        width: 60px;
-        height: 95px;
+    .playcarditem {
+        display: flex;
+        flex-direction: row;
+        overflow:hidden;
+        border-radius: 5px;
+        align-items: center;
+        gap: 10px;
+        align-items: center;
+        padding: 0.3rem 10px 0.65rem 10px;
+        border-bottom: 1px solid rgba(255,255,255,.05);
     }
-}
-
-@media (min-width: 768px) and (max-width: 1280px) {
-    .playcardimg{
-        width: 80px;
-        height: 110px;
-    }
-    .playcardtitle{
-        font-size: 16px;
+    
+    .playcardimgcon{
+        width: 57px;
+        height: 75px!important;
     }
 }

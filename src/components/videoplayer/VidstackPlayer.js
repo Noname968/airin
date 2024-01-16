@@ -182,9 +182,9 @@ function VidstackPlayer({ data, sources, skiptimes, epid, thumbnails, subtitles,
     }
 
     return (
-        <MediaPlayer ref={playerRef} playsinline aspectRatio={16 / 9} load="eager" autoFocus={true} autoplay={autoplay} title={currentep?.title || `EP ${currentep?.number}`}
+        <MediaPlayer key={sources} ref={playerRef} playsinline aspectRatio={16 / 9} load="eager" autoFocus={true} autoplay={autoplay} title={currentep?.title || `EP ${currentep?.number}`}
             data-hocus="true"
-            className={`w-full h-full overflow-hidden rounded-lg cursor-pointer ${styles.mediaplayer}`}
+            className={`w-full h-full overflow-hidden cursor-pointer rounded-lg ${styles.mediaplayer}`}
             crossorigin={"anonymous"}
             streamType="on-demand"
             onEnd={onEnd}

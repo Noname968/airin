@@ -16,7 +16,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className='dark text-foreground bg-background'>
       <head>
-      <script src="https://kit.fontawesome.com/c189d5d7c5.js" crossorigin="anonymous" defer></script>
+      <script src="https://kit.fontawesome.com/c189d5d7c5.js" crossOrigin="anonymous" async></script>
       </head>
       <body className={inter.className}>
         <Providers>

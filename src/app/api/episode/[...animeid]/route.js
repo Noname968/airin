@@ -3,17 +3,23 @@ import { redis } from '@/lib/rediscache';
 import { NextResponse } from "next/server"
 import { CombineEpisodeMeta } from '@/utils/EpisodeFunctions';
 
+axios.interceptors.request.use(config =>{
+  config.timeout = 8000;
+  return config;
+})
+
 async function fetchConsumetEpisodes(id) {
   try {
     async function fetchData(dub) {
       const { data } = await axios.get(
-        `https://consumet-anime-api.vercel.app/meta/anilist/info/${id}${dub ? "?dub=true" : ""}`
+        `https://consumet-anime-api.vercel.app/meta/anilist/episodes/${id}${dub ? "?dub=true" : ""}`
       );
       if (data?.message === "Anime not found" && data?.length < 1) {
         return [];
       }
 
-      return data.episodes;
+      // return data.episodes;
+      return data;
     }
 
     const [subData, dubData] = await Promise.all([
@@ -91,12 +97,13 @@ export const GET = async (req, { params }) => {
     cacheTime = 60 * 60 * 24 * 30;
   }
 
-  let meta;
+  let meta = null;
   let cached;
 
   if(redis){
     if (refresh) {
       await redis.del(`episode:${id}`);
+      // await redis.flushall();
       console.log("deleted cache");
     } else {
       cached = await redis.get(`episode:${id}`);
@@ -106,12 +113,11 @@ export const GET = async (req, { params }) => {
   }
 
   if (cached) {
-    const cachedData = JSON.parse(cached);
-    let metaData
+    let cachedData = JSON.parse(cached);
     if (meta) {
-      metaData = await CombineEpisodeMeta(cachedData, JSON.parse(meta));
+      cachedData = await CombineEpisodeMeta(cachedData, JSON.parse(meta));
     }
-    return NextResponse.json(metaData);
+    return NextResponse.json(cachedData);
   } else {
 
     const [consumet, anify, cover] = await Promise.all([
@@ -122,17 +128,20 @@ export const GET = async (req, { params }) => {
       
       await redis.setex(`episode:${id}`, cacheTime, JSON.stringify([...consumet, ...anify]));
       const combinedData = [...consumet, ...anify];
-      let data;
-      
+      let data = combinedData;
+
       if (meta) {
         data = await CombineEpisodeMeta(combinedData, JSON.parse(meta));
-      } else if (cover) {
-        if (redis) await redis.set(`meta:${id}`, JSON.stringify(cover));
-        data = await CombineEpisodeMeta(combinedData, cover);
+      } else if (cover && cover?.length > 0) {
+        try {
+          if (redis) await redis.set(`meta:${id}`, JSON.stringify(cover));
+          data = await CombineEpisodeMeta(combinedData, cover);
+        } catch (error) {
+          console.error("Error serializing cover:", error.message);
+        }
       }
       
 
     return NextResponse.json(data);
   }
 };
-

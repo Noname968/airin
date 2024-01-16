@@ -8,21 +8,21 @@ import { MotionDiv } from '@/utils/MotionDiv'
 
 async function Home() {
   const herodata = await TrendingAnilist();
-  const recentdata = await RecentEpisodes();
+  // const recentdata = await RecentEpisodes();
 
   return (
     <div>
-      <Navbarcomponent />
+      <Navbarcomponent home={true}/>
       <Herosection data={herodata} />
      <div className='sm:max-w-[97%] md:max-w-[95%] lg:max-w-[90%] xl:max-w-[85%] mx-auto'>
-     <MotionDiv
+     {/* <MotionDiv
         initial={{ y: 10, opacity: 0 }}
         whileInView={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5 }}
         viewport={{ once: true }}
       >
         <Animecard data={recentdata.results} cardid="Recent Episodes" />
-      </MotionDiv>
+      </MotionDiv> */}
       <MotionDiv
         initial={{ y: 10, opacity: 0 }}
         whileInView={{ y: 0, opacity: 1 }}

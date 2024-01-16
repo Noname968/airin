@@ -247,6 +247,7 @@ query ($id: Int) {
                 }
                 episodes
                 status
+                format
             }
     }
 }

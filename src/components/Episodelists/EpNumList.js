@@ -2,7 +2,7 @@ import React from 'react'
 import Link from 'next/link'
 import styles from '../../styles/Epimglist.module.css'
 
-function EpNumList({ data, epdata, defaultProvider, subtype }) {
+function EpNumList({ data, epdata, defaultProvider, subtype, epnum }) {
     return (
         <div className={styles.epnumlistcontainer}>
             {epdata
@@ -14,7 +14,8 @@ function EpNumList({ data, epdata, defaultProvider, subtype }) {
                         )}&type=${subtype}`}
                         key={episode.id}
                     >
-                        <div className={styles.epdiv}>{episode.number}</div>
+                        <div className={`${styles.epdiv} ${parseInt(epnum) === episode.number ? styles.selectedEpnum : ''}`}>
+                            {episode.number}</div>
                     </Link>
                 ))}
         </div>

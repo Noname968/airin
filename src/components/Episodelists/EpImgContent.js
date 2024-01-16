@@ -1,11 +1,24 @@
-import React from 'react'
+"use client"
+import React, { useEffect, useRef } from 'react';
 import Image from 'next/image'
 import styles from '../../styles/Epimglist.module.css'
 import Link from 'next/link'
 
-function EpImgContent({ data, epdata, defaultProvider, subtype }) {
+function EpImgContent({ data, epdata, defaultProvider, subtype, epnum }) {
+  const scrollContainerRef = useRef(null);
+
+  useEffect(() => {
+    if (scrollContainerRef.current && epnum && epdata) {
+      const episodeElement = document.getElementById(`episode-${epnum}`);
+      if (episodeElement) {
+        const scrollTop = episodeElement.offsetTop - scrollContainerRef.current.offsetTop;
+        scrollContainerRef.current.scrollTop = scrollTop;
+      }
+    }
+  }, [epnum, epdata, scrollContainerRef]);
+
   return (
-    <div className={styles.epimgcondiv}>
+    <div className={styles.epimgcondiv} ref={scrollContainerRef}>
     {epdata?.map((episode) => (
       <Link 
         href={`/anime/watch/${data.id}/${defaultProvider}/${episode?.number}?epid=${encodeURIComponent(
@@ -13,11 +26,11 @@ function EpImgContent({ data, epdata, defaultProvider, subtype }) {
         )}&type=${subtype}`}
         key={episode.id}
       >        
-      <div className={styles.epimageconitem}>
+      <div id={`episode-${episode.number}`} className={`${styles.epimageconitem} ${parseInt(epnum) === episode.number ? styles.selectedEpimgcon : ''}`}>
           <div className={styles.epcondiv}>
-            <Image src={episode?.image || episode?.img || data?.bannerImage} width={200} height={200} className={styles.epimgcon} quality={100} />
+            <Image src={episode?.img || data?.bannerImage} width={200} height={200} className={styles.epimgcon} quality={100} />
           <div className={styles.epimgplayico}>
-            <i className="fa-solid fa-play fa-xl play-buttonicon" style={{ color: "#ffffff" }}></i>
+            <i className={`fa-solid fa-play fa-xl play-buttonicon ${styles.play}`} style={{ color: "#ffffff" }}></i>
           </div>
           <span className={styles.epimgnumber}>{"EP " + episode?.number}</span>
           </div>

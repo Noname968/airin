@@ -87,9 +87,8 @@ function Herosection({ data }) {
         <p className={styles.herodescription}>{populardata?.description.replace(/<.*?>/g, '')}</p>
         <div className={styles.herobuttons}>
           <Link href={`/anime/info/${populardata?.id}`}>
-          <button className={styles.watchnowbutton}><i className="fas fa-play-circle mr-2"></i>Watch Now</button>
+          <button className={styles.watchnowbutton}><i className="fas fa-play-circle mr-2"></i>Play Now</button>
           </Link>
-          {/* <button className={styles.detailsbutton}>Details <i className="fas fa-angle-right ml-1"></i></button> */}
         </div>
       </div>
     </div>

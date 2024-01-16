@@ -74,7 +74,7 @@ function Catalog() {
 
     return (
         <div className={styles.catalog}>
-            <h2 className={styles.catalogtitle}>Catalog</h2>
+            {/* <h2 className={styles.catalogtitle}>Catalog</h2> */}
             <div className={styles.catalogtop}>
                 <div className={styles.searchmobil}>
                     <div className={styles.search}>

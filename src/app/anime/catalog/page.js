@@ -6,7 +6,7 @@ function page() {
   return (
     <div>
       <Navbarcomponent/>
-        <div className='max-w-[94%] xl:max-w-[88%] mx-auto mt-[60px]'>
+        <div className='max-w-[94%] xl:max-w-[88%] mx-auto mt-[70px]'>
         <Catalog/>
         </div>
     </div>

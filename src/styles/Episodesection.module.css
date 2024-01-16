@@ -104,7 +104,7 @@
         transition: all .3s ease-in-out!important;
     }
     .epnumlist{
-        max-height: 12rem;
+        max-height: 14rem!important;
     }
 }
 

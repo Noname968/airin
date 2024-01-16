@@ -1,12 +1,29 @@
+.homenavbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    height: 58px;
+    padding: 0 6.8%;
+    margin: auto;
+    background: transparent;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+}
+
 .navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
     color: white;
     height: 58px;
-    padding: 0 7%;
+    padding: 0 3%;
     margin: auto;
-    background: transparent;
+    background-color: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(4px);
     position: fixed;
     top: 0;
     left: 0;
@@ -43,7 +60,7 @@
 }
 
 .navItem {
-    color: #b4b4b4;
+    color: #dadada;
     text-decoration: none;
 }
 
@@ -57,7 +74,7 @@
 }
 
 @media(max-width:1280px){
-    .navbar{
+    .homenavbar{
         padding: 0 4%;
     }
 }
