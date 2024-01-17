@@ -1,23 +1,37 @@
 "use client"
-import React from 'react';
+import React,{useState, useEffect} from 'react';
 import styles from '../../styles/VerticalList.module.css';
 import Link from 'next/link';
 import { ContextSearch } from '@/context/DataContext';
 
 const VerticalList = ({ data, id }) => {
 const {animetitle} = ContextSearch();
-  const convertMinutesToHoursAndMinutes = (minutes) => {
-    const hours = Math.floor(minutes / 60);
-    const remainingMinutes = minutes % 60;
-    return `${hours} hour, ${remainingMinutes} mins`;
-  };
+const [maxWidth, setMaxWidth] = useState(0);
 
-  const getColorStyle = (coverColor) => {
-    const maxWidth = window.innerWidth;
-    return maxWidth <= 900
-      ? { backgroundColor: coverColor, color: 'black' }
-      : { backgroundColor: 'transparent', color: coverColor };
+useEffect(() => {
+  const handleResize = () => {
+    setMaxWidth(window.innerWidth);
   };
+  handleResize();
+
+  window.addEventListener('resize', handleResize);
+
+  return () => {
+    window.removeEventListener('resize', handleResize);
+  };
+}, []);
+
+const convertMinutesToHoursAndMinutes = (minutes) => {
+  const hours = Math.floor(minutes / 60);
+  const remainingMinutes = minutes % 60;
+  return `${hours} hour, ${remainingMinutes} mins`;
+};
+
+const getColorStyle = (coverColor) => {
+  return maxWidth <= 900
+    ? { backgroundColor: coverColor, color: 'black' }
+    : { backgroundColor: 'transparent', color: coverColor };
+};
 
   return (
     <div className={styles.verticalcard}>
