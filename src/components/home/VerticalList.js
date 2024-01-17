@@ -40,7 +40,7 @@ const {animetitle} = ContextSearch();
               <div className={styles.vcardinfo}>
                <div className={styles.linktitle}>
                <Link
-                  href={`/info/${anime.id}`}
+                  href={`/anime/info/${anime.id}`}
                   onMouseOver={(e) =>
                     (e.target.style.color = `${anime.coverImage.color}`)
                   }
