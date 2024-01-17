@@ -22,7 +22,7 @@
     display: flex;
     align-items: center;
     height: 97%;
-    z-index: 200;
+    z-index: 9;
     background: linear-gradient(to right,#000000,rgba(0, 0, 0, 0.02));
     transition: all 0.4s ease-in-out!important;
     cursor: pointer;
@@ -37,7 +37,7 @@
     align-items: center;
     height: 97%;
     right: -0.5px;
-    z-index: 999;
+    z-index: 9;
     background: linear-gradient(to left,#000000,rgba(0, 0, 0, 0.02));
     transition: all 0.4s ease-in-out!important;
     cursor: pointer;
