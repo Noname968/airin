@@ -5,6 +5,7 @@ import { TrendingAnilist, RecentEpisodes, Top100Anilist, SeasonalAnilist } from 
 import React from 'react'
 import { MotionDiv } from '@/utils/MotionDiv'
 import VerticalList from '@/components/home/VerticalList'
+import ContinueWatching from '@/components/home/ContinueWatching'
 
 
 async function Home() {
@@ -18,6 +19,7 @@ async function Home() {
       <Navbarcomponent home={true}/>
       <Herosection data={herodata} />
      <div className='sm:max-w-[97%] md:max-w-[95%] lg:max-w-[90%] xl:max-w-[85%] mx-auto'>
+     
      {/* <MotionDiv
         initial={{ y: 10, opacity: 0 }}
         whileInView={{ y: 0, opacity: 1 }}
@@ -26,6 +28,14 @@ async function Home() {
       >
         <Animecard data={recentdata.results} cardid="Recent Episodes" />
       </MotionDiv> */}
+         <MotionDiv
+        initial={{ y: 10, opacity: 0 }}
+        whileInView={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.5 }}
+        viewport={{ once: true }}
+      >
+      <ContinueWatching/>
+      </MotionDiv>
       <MotionDiv
         initial={{ y: 10, opacity: 0 }}
         whileInView={{ y: 0, opacity: 1 }}
