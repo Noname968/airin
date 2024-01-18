@@ -64,8 +64,8 @@ function Animecard({ data, cardid }) {
         </span>
         <div className={styles.cardcontainer} id={cardid} {...events} ref={containerRef} onScroll={handleScroll}>
           {data?.map((item) => (
-            <Link href={`/anime/info/${item.id}`}>
-              <div key={item.id} className={styles.carditem}>
+            <Link href={`/anime/info/${item.id}`} key={item.id}>
+              <div className={styles.carditem}>
                 <div className={`${styles.cardimgcontainer}`}>
                   <Image
                     src={item.coverImage?.extraLarge || item.image}
