@@ -4,9 +4,10 @@ import styles from '../../styles/VerticalList.module.css';
 import Link from 'next/link';
 import { ContextSearch } from '@/context/DataContext';
 
-const VerticalList = ({ data, id }) => {
+const VerticalList = ({ data, id, mobiledata }) => {
 const {animetitle} = ContextSearch();
 const [maxWidth, setMaxWidth] = useState(0);
+const [isSeasonal, setIsSeasonal] = useState(true); 
 
 useEffect(() => {
   const handleResize = () => {
@@ -33,10 +34,22 @@ const getColorStyle = (coverColor) => {
     : { backgroundColor: 'transparent', color: coverColor };
 };
 
+const handleButtonClick = () => {
+    setIsSeasonal((prevIsSeasonal) => !prevIsSeasonal);
+  };
+
+  const currentData = isSeasonal ? data : mobiledata;
+
   return (
-    <div className={styles.verticalcard}>
+    <div className={styles.verticalcard} style={{ display: id === "Seasonal Anime" && maxWidth < 1024 ? 'none' : 'flex' }}>
         <h1 className={styles.headtitle}>{id}</h1>
-      {data.map((anime, index) => (
+        <div className={styles.mobiletop}>
+        <h1 className={styles.mobiletitle}>Top Anime</h1>
+        <button onClick={handleButtonClick} className={styles.mobilebtn}>
+          {isSeasonal ? 'All Time' : 'Seasonal'}
+        </button>
+        </div>
+      {currentData.map((anime, index) => (
         <div className={styles.vcarditem} key={anime.id}>
           <div
             className={styles.vcardindex}

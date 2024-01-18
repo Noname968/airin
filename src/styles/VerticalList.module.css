@@ -6,10 +6,17 @@
     margin: 20px 0;
   }
 
+  .mobiletop{
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 11px 4px 11px;
+    display: none;
+  }
+
   .headtitle {
+    margin: 0 11px 15px 11px;
     font-size: 24px;
     font-weight: 500;
-    margin: 0 11px 15px 11px;
     color: white;
 }
   
@@ -137,9 +144,28 @@
     .headtitle{
       margin: 8px 12px 0 12px;
       font-size: 21px;
+      display: none;
+  }
+  .mobiletop{
+    display: flex;
+  }
+  .mobiletitle{
+    font-size: 21px;
+    font-weight: 500;
   }
   .linktitle{
-    width: 98%;
+    width: 100%;
+    /* font-size: 0.85rem; */
+    -webkit-line-clamp: 2;
+  }
+  .mobilebtn{
+    background-color: #4d148c;
+    padding: 5px 10px;
+    border-radius: 8px;
+    font-size: 12px;
+    border: none;
+    outline: none;
+    cursor: pointer;
   }
   }
 
@@ -176,7 +202,7 @@
     }
     .linktitle{
         font-size: 0.85rem;
-        font-weight: 600;
+        font-weight: 500;
     }
     .bpopular {
         font-size: 0.7rem;
