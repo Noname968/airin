@@ -69,8 +69,14 @@ function Animecards({ data, cardid }) {
                 totalEpisodes: item?.totalEpisodes || '',
                 currentEpisode: item?.currentEpisode || ''
               };
+              const gogoEpisodes = item?.episodes?.data?.find(
+                (x) => x.providerId === "gogoanime"
+              );
+              const currentEpisode = gogoEpisodes?.episodes?.find(
+                (x) => x.number === item.currentEpisode
+              );
               return (
-                <Link href={`/anime/info/${anime.id}`} key={anime.id}>
+                <Link href={`/anime/watch/${anime.id}/gogoanime/${item?.currentEpisode}?epid=${encodeURIComponent(currentEpisode?.id)}&type=sub`} key={anime.id}>
                   <ItemContent anime={anime} cardid={cardid} />
                 </Link>
               );

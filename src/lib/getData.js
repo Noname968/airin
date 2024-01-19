@@ -1,5 +1,20 @@
 import { checkEnvironment } from "./checkEnvironment";
 
+export const getRecentEpisodes = async () => {
+  try {
+    const response = await fetch(
+      `${checkEnvironment()}/api/recent`,{ cache: "no-store" }
+    );
+    if (!response.ok) {
+      throw new Error('Failed to fetch recent episodes')
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching Anify Recent Episodes:", error);
+  }
+}
+
 export const getEpisodes = async (id, status, refresh = false) => {
   try {
     const response = await fetch(

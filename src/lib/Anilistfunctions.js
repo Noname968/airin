@@ -1,14 +1,5 @@
 import { trending, animeinfo, advancedsearch, top100anime, seasonal } from "./anilistqueries";
 
-export const RecentEpisodes = async () => {
-    try {
-        const res = await fetch(`https://api.anify.tv/recent?type=anime&page=1&perPage=20&fields=[id,slug,title,status,format,currentEpisode,coverImage,episodes,totalEpisodes]` , { next: { revalidate: 0 } });
-        return res.json();
-    } catch (error) {
-        console.error('Error fetching data:', error);
-    }
-};
-
 export const TrendingAnilist = async () => {
     try {
         const response = await fetch('https://graphql.anilist.co', {
@@ -24,7 +15,7 @@ export const TrendingAnilist = async () => {
                     perPage: 15,
                 },
             }),
-        }, { next: { revalidate: 0 } });
+        }, { cache: "no-store" });
 
         const data = await response.json();
         return data.data.Page.media;
