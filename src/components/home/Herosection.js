@@ -72,22 +72,22 @@ function Herosection({ data }) {
         </span>
       ) : (
         <span className={styles.heroimgcon}>
-          <img src={populardata?.bannerImage} alt="" className={styles.heroimg} />
+          <img src={populardata?.bannerImage} alt={populardata?.title[animetitle]} className={styles.heroimg} />
         </span>
       )}
       <div className={styles.heroinfo}>
         <h3 className={styles.spotlight}>#{data.indexOf(populardata) + 1} Trending</h3>
         <h1 className={styles.herotitle}>{populardata?.title?.[animetitle] || populardata?.title?.romaji}</h1>
         <div className={styles.herocontent}>
-          <span><i className="fas fa-play-circle mr-1"></i>{populardata?.format}</span>
+          <span><i className="fas fa-play-circle mr-1" aria-hidden></i>{populardata?.format}</span>
           <span className={`${populardata?.status === 'RELEASING' ? styles.activestatus : styles.notactive}`}>{populardata?.status}</span>
-          <span><i className="fas fa-calendar mr-1"></i>{Month[populardata?.startDate?.month]} {populardata?.startDate?.day}, {populardata?.startDate?.year}</span>
-          <span className={styles.herosub}><i className="fas fa-closed-captioning mr-1"></i>{populardata?.nextAiringEpisode?.episode-1 || populardata?.episodes}</span>
+          <span><i className="fas fa-calendar mr-1" aria-hidden></i>{Month[populardata?.startDate?.month]} {populardata?.startDate?.day}, {populardata?.startDate?.year}</span>
+          <span className={styles.herosub}><i className="fas fa-closed-captioning mr-1" aria-hidden></i>{populardata?.nextAiringEpisode?.episode-1 || populardata?.episodes}</span>
         </div>
         <p className={styles.herodescription}>{populardata?.description.replace(/<.*?>/g, '')}</p>
         <div className={styles.herobuttons}>
           <Link href={`/anime/info/${populardata?.id}`}>
-          <button className={styles.watchnowbutton}><i className="fas fa-play-circle mr-2"></i>Play Now</button>
+          <button className={styles.watchnowbutton}><i className="fas fa-play-circle mr-2" aria-hidden></i>Play Now</button>
           </Link>
         </div>
       </div>

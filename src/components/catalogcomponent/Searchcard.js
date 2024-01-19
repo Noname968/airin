@@ -57,7 +57,7 @@ function Searchcard({ searchvalue, selectedYear, seasonvalue, formatvalue, genre
                 )}
                 {!loading && (
                     searchdata?.map((item) => (
-                        <Link href={`/anime/info/${item.id}`}>
+                        <Link href={`/anime/info/${item.id}`} key={item.id}>
                             <div key={item.id} className={styles.carditem}>
                                 <div className={styles.cardimgcontainer}>
                                     <Image
