@@ -1,9 +1,8 @@
 import { trending, animeinfo, advancedsearch, top100anime, seasonal } from "./anilistqueries";
 
-
 export const RecentEpisodes = async () => {
     try {
-        const res = await fetch(`https://consumet-anime-api.vercel.app/meta/anilist/recent-episodes`, { next: { revalidate: 0 } });
+        const res = await fetch(`https://api.anify.tv/recent?type=anime&page=1&perPage=20&fields=[id,slug,title,status,format,currentEpisode,coverImage,episodes,totalEpisodes]` , { next: { revalidate: 0 } });
         return res.json();
     } catch (error) {
         console.error('Error fetching data:', error);

@@ -6,6 +6,7 @@ import PlayerAnimeCard from "@/components/videoplayer/PlayerAnimeCard";
 import { getEpisodes, getSources } from "@/lib/getData";
 import Navbarcomponent from "@/components/Navbar";
 import PlayerComponent from "@/components/videoplayer/PlayerComponent";
+import Animecards from "@/components/CardComponent/Animecards";
 
 async function AnimeWatch({ params, searchParams }) {
   const id = params.watchid[0];
@@ -34,13 +35,19 @@ async function AnimeWatch({ params, searchParams }) {
             <NextAiringDate nextAiringEpisode={data.nextAiringEpisode} />
           }
         </div>
-        <div className="h-full lg:flex lg:flex-col md:max-lg:w-full">
-          <div className="rounded-lg mb-[30px] lg:max-w-[280px] xl:max-w-[400px] w-[100%] lg:overflow-y-scroll lg:overflow-x-hidden overflow-hidden scrollbar-hide overflow-y-hidden">
+        <div className="h-full lg:flex lg:flex-col md:max-lg:w-full gap-10">
+        <div className="rounded-lg hidden lg:block lg:max-w-[280px] xl:max-w-[400px] w-[100%] xl:overflow-y-scroll xl:overflow-x-hidden overflow-hidden scrollbar-hide overflow-y-hidden">
             <PlayerAnimeCard data={data?.relations?.edges} id="Related Anime"/>
           </div>
-          <div className="rounded-lg lg:max-w-[280px] xl:max-w-[400px] w-[100%] xl:overflow-y-scroll xl:overflow-x-hidden overflow-hidden scrollbar-hide overflow-y-hidden">
+          <div className="rounded-lg hidden lg:block lg:max-w-[280px] xl:max-w-[400px] w-[100%] xl:overflow-y-scroll xl:overflow-x-hidden overflow-hidden scrollbar-hide overflow-y-hidden">
             <PlayerAnimeCard data={data?.recommendations?.nodes} id="Recommendations"/>
           </div>
+        </div>
+        <div className="lg:hidden">
+        <Animecards data={data?.relations?.edges} cardid="Related Anime"/>
+        </div>
+        <div className="lg:hidden">
+        <Animecards data={data?.recommendations?.nodes} cardid={"Recommendations"}/>
         </div>
       </div>
     </>

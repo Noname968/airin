@@ -28,7 +28,10 @@ function PlayerAnimeCard({ data, id }) {
 
   return (
     <>
-      <h2 className="px-[10px] mb-[8px] mx-0 mt-0 leading-tight lg:px-[2px] lg:mx-2 lg:text-[22px] text-[21px]">{id}</h2>
+    <div className='px-[10px] mb-[8px] mx-0 mt-0 leading-tight lg:px-[2px] lg:mx-2 flex items-center gap-2'>
+    <span className="h-6 md:h-8 rounded-md w-[.35rem] md:w-[.3rem] bg-white "></span>
+      <h2 className=" lg:text-[22px] text-[21px]">{id}</h2>
+    </div>
     <div className={styles.playanimecard}>
       {data.slice(0, visibleItems).map((item) => (
         <div className={styles.playcarditem} key={item?.node?.id || item?.mediaRecommendation?.id}>
@@ -50,7 +53,8 @@ function PlayerAnimeCard({ data, id }) {
                   height={90}
                   alt='image'
                   className={styles.playcardimg}
-                />              </Link>
+                />              
+              </Link>
             )}
 
           </div>

@@ -248,6 +248,11 @@ query ($id: Int) {
                 episodes
                 status
                 format
+                nextAiringEpisode {
+                  airingAt
+                  timeUntilAiring
+                  episode
+                }
             }
     }
 }

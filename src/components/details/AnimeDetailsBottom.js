@@ -85,14 +85,14 @@ function AnimeDetailsBottom({ data }) {
                     <Tab key="Characters" title="Characters">
                         <Card>
                             <CardBody>
-                                Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                            Coming Soon
                             </CardBody>
                         </Card>
                     </Tab>
                     <Tab key="Staff" title="Staff">
                         <Card>
                             <CardBody>
-                                Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                            Coming Soon
                             </CardBody>
                         </Card>
                     </Tab>

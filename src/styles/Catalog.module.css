@@ -164,12 +164,12 @@
     display: flex;
     flex-direction: column;
     height: 280px;
-    width: 155px;
+    width: 160px;
     justify-self: center;
 }
 
 .cardimgcontainer {
-    width: 155px;
+    width: 160px;
     height: 230px;
     margin: 0 3px 0 0;
     background-color: #1e1e24;

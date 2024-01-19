@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: column;
     width: 380px;
-    padding:10px 12px;
+    padding:8px 10px;
     margin:0 10px;
     background-color: #18181b;
     border-radius: 8px;
@@ -16,13 +16,13 @@
     align-items: center;
     gap: 10px;
     align-items: center;
-    padding: 1rem 10px 0.7rem 10px;
+    padding: 0.7rem 8px 0.6rem 8px;
     border-bottom: 1px solid rgba(255,255,255,.05);
 }
 
 .playcardimgcon{
-    width: 57px;
-    height: 75px;
+    width: 60px;
+    height: 80px;
 }
 
 .playcardimg {
@@ -51,7 +51,7 @@
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     text-overflow: ellipsis;
-    font-size: 14px;
+    font-size: 15px;
     color: white;
 }
 

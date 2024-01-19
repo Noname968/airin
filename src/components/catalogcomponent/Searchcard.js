@@ -6,8 +6,10 @@ import React, { useEffect, useState } from 'react';
 import { Pagination } from "@nextui-org/react";
 import styles from '../../styles/Catalog.module.css'
 import UseDebounce from '@/utils/UseDebounce';
+import { ContextSearch } from '@/context/DataContext';
 
 function Searchcard({ searchvalue, selectedYear, seasonvalue, formatvalue, genrevalue, sortbyvalue, airingvalue }) {
+    const { animetitle } = ContextSearch();
     const [currentPage, setCurrentPage] = useState(1);
     const [searchdata, setsearchdata] = useState(null);
     const [lastpage, setlastpage] = useState();
@@ -55,9 +57,9 @@ function Searchcard({ searchvalue, selectedYear, seasonvalue, formatvalue, genre
                 )}
                 {!loading && (
                     searchdata?.map((item) => (
-                        <div key={item.id} className={styles.carditem}>
-                            <div className={styles.cardimgcontainer}>
-                                <Link href={`/anime/info/${item.id}`}>
+                        <Link href={`/anime/info/${item.id}`}>
+                            <div key={item.id} className={styles.carditem}>
+                                <div className={styles.cardimgcontainer}>
                                     <Image
                                         src={item.coverImage?.extraLarge ?? item.image}
                                         alt={item.title.english ?? item.title.romaji}
@@ -67,14 +69,23 @@ function Searchcard({ searchvalue, selectedYear, seasonvalue, formatvalue, genre
                                         blurDataURL={item.coverImage?.extraLarge ?? item.image}
                                         className={styles.cardimage}
                                     />
-                                </Link>
-                            </div>
-                            <Link href={`/anime/info/${item.id}`}>
-                                <span className={styles.cardtitle}>
+                                </div>
+                                <div className="hidden xl:flex h-[85%] w-[100%] rounded absolute hover:bg-gradient-to-t from-black/90 to-transparent z-7 opacity-0 hover:opacity-100 transition-all duration-300 ease  justify-center">
+                                    <div className="bottom-4 absolute text-xs font-light flex flex-wrap items-center justify-center gap-[.3rem] z-10">
+                                        <span className="uppercase">{item.format || "?"}</span> <span className='text-[10px]'>&#8226;</span>
+                                        <span className={item.status === 'RELEASING' ? 'text-green-400 font-normal' : item.status === 'NOT_YET_RELEASED' ? 'text-red-600 font-normal' : 'text-white font-normal'}>
+                                            {item.status}
+                                        </span>
+                                        <span className='text-[10px]'>&#8226;</span>
+                                        <span>Ep {item.episodes || item?.nextAiringEpisode?.episode-1 || '?'}</span>
+                                    </div>
+                                </div>
+                                <span className={styles.cardtitle}> <span className={`aspect-square w-2 h-2 inline-block mr-1 rounded-full ${item.status === "NOT_YET_RELEASED" ? 'bg-red-500' : item.status === 'RELEASING' ? 'bg-green-500' : 'hidden'} xl:hidden`}></span>{item.title[animetitle] || item.title.romaji}</span>
+                                {/* <span className={styles.cardtitle}>
                                     {item.title.english ? item.title.english : item.title.romaji}
-                                </span>
-                            </Link>
-                        </div>
+                                </span> */}
+                            </div>
+                        </Link>
                     ))
                 )}
 

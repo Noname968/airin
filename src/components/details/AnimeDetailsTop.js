@@ -7,7 +7,7 @@ import Link from 'next/link'
 import { ContextSearch } from '@/context/DataContext';
 
 function AnimeDetailsTop({ data }) {
-  const { dfprovider, dfepisodes, dftype } = ContextSearch();
+  const { dfprovider, dfepisodes, dftype, animetitle } = ContextSearch();
   const [subtype, setSubtype] = useState('sub');
 
   useEffect(() => {
@@ -55,7 +55,7 @@ function AnimeDetailsTop({ data }) {
         </div>
         <div className={styles.detailstitle}>
           <h1 className={`${styles.title} text-[1.7rem] font-[500]`}>
-            {data.title.english}
+            {data.title[animetitle] || data.title.romaji}
           </h1>
           <h4 className={`${styles.alttitle}`}>
             {data.title.romaji}

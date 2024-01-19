@@ -6,8 +6,10 @@ import VidstackPlayer from './VidstackPlayer';
 import { Checkbox } from "@nextui-org/react";
 import { useRouter } from 'next/navigation'
 import { PreviousIcon, NextIcon, SettingsMenuIcon } from '@vidstack/react/icons';
+import { ContextSearch } from '@/context/DataContext';
 
 function PlayerComponent({ id, epid, provider, epnum, subdub, data }) {
+    const {animetitle} = ContextSearch();
     const [episodeData, setepisodeData] = useState(null);
     const [episodeSource, setepisodeSource] = useState();
     const [loading, setLoading] = useState(true);
@@ -216,7 +218,7 @@ function PlayerComponent({ id, epid, provider, epnum, subdub, data }) {
                     </div>
                 </div>
                 <div className=' my-[9px] mx-2 sm:mx-1 px-1 lg:px-0'>
-                    <h2 className='text-[20px]'>{data?.title?.english || data?.title?.romaji}</h2>
+                    <h2 className='text-[20px]'>{data?.title?.[animetitle] || data?.title?.romaji}</h2>
                     <h2 className='text-[16px] text-[#ffffffb2]'>{` EPISODE ${currentep?.number || epnum} `}</h2>
                 </div>
             </div>
