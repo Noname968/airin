@@ -2,10 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+    font-family: "28 Days Later";
+    src: url('../static-fonts/28 Days Later.ttf');
+}
 
-html {
+.aniplay{
+    font-family: "28 Days Later";
+}
+/* html {
     scroll-behavior: smooth !important;
-   }
+   } */
    
 ::-webkit-scrollbar {
     width: 6px;

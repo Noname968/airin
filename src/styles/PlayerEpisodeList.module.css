@@ -121,9 +121,11 @@
     .episodetopleft{
         width: 100%;
         padding:1rem 15%;
+        display: none;
+        background-color: #18181b;
     }
     .episodetopright{
-        margin-bottom: 15px;
+        margin: 15px 0;
     }
     .epright{
         gap: 8px;

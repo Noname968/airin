@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import Image from 'next/image'
 import styles from '../../styles/AnimeDetailsBottom.module.css'
 import { Tabs, Tab, Card, CardBody, CardHeader } from "@nextui-org/react";
+import Animecards from '../CardComponent/Animecards';
 
 function AnimeDetailsBottom({ data }) {
     const [showFullDescription, setShowFullDescription] = useState(false);
@@ -76,11 +77,12 @@ function AnimeDetailsBottom({ data }) {
                         </Card>
                     </Tab>
                     <Tab key="Relations" title="Relations">
-                        <Card>
+                    <Card>
                             <CardBody>
-                                Coming Soon
+                            Coming Soon
                             </CardBody>
                         </Card>
+                            {/* <Animecards data={data?.relations?.edges} cardid="Related Anime" show={false}/> */}
                     </Tab>
                     <Tab key="Characters" title="Characters">
                         <Card>

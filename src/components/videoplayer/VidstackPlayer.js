@@ -7,7 +7,7 @@ import { defaultLayoutIcons, DefaultVideoLayout } from '@vidstack/react/player/l
 import styles from '../../styles/Vidstackstyles.module.css'
 import VideoProgressSave from '@/utils/VideoProgressSave';
 
-function VidstackPlayer({ data, sources, skiptimes, epid, thumbnails, subtitles, getNextEpisode, autoplay, currentep, provider, subtype }) {
+function VidstackPlayer({ data, sources, skiptimes, epid, thumbnails, subtitles, getNextEpisode, autoplay, currentep, provider, subtype, epnum }) {
     const [getVideoProgress, UpdateVideoProgress] = VideoProgressSave();
     const playerRef = useRef(null);
     const { duration } = useMediaStore(playerRef);
@@ -137,8 +137,8 @@ function VidstackPlayer({ data, sources, skiptimes, epid, thumbnails, subtitles,
                     epid: epid,
                     eptitle: currentep?.title || `EP ${currentep?.number}`,
                     aniTitle: data?.title?.romaji || data?.title?.english,
-                    image: epimage,
-                    epnum: Number(currentep?.number),
+                    image: epimage || data?.bannerImage || data?.coverImage?.extraLarge || '',
+                    epnum: Number(currentep?.number) || Number(epnum),
                     duration: duration,
                     timeWatched: currentTime,
                     provider: provider,
@@ -159,7 +159,7 @@ function VidstackPlayer({ data, sources, skiptimes, epid, thumbnails, subtitles,
 
     function onLoadedMetadata() {
         const seek = getVideoProgress(data?.id);
-        if (seek?.epid === epid) {
+        if (seek?.epnum === Number(epnum)) {
             const seekTime = seek?.timeWatched;
             const percentage = duration !== 0 ? seekTime / Math.round(duration) : 0;
 
@@ -216,8 +216,8 @@ function VidstackPlayer({ data, sources, skiptimes, epid, thumbnails, subtitles,
             <Gesture className="vds-gesture" event="dblpointerup" action="seek:-5" />
             <Gesture className="vds-gesture" event="dblpointerup" action="seek:5" />
             <Gesture className="vds-gesture" event="dblpointerup" action="toggle:fullscreen" />
-            {opbutton && <button onClick={handleop} className='absolute bottom-[83px] right-4 z-[99999] bg-white text-black py-2 px-3 rounded-[8px] font-medium'>Skip Opening</button>}
-            {edbutton && <button onClick={handleed} className='absolute bottom-[83px] right-4 z-[99999] bg-white text-black py-2 px-3 rounded-[8px] font-medium'>Skip Ending</button>}
+            {opbutton && <button onClick={handleop} className='absolute bottom-[83px] right-4 z-[80] bg-white text-black py-2 px-3 rounded-[8px] font-medium'>Skip Opening</button>}
+            {edbutton && <button onClick={handleed} className='absolute bottom-[83px] right-4 z-[80] bg-white text-black py-2 px-3 rounded-[8px] font-medium'>Skip Ending</button>}
             <DefaultVideoLayout icons={defaultLayoutIcons} thumbnails={thumbnails ? `https://cors-anywhere.herokuapp.com/` + thumbnails[0]?.url : ""} />
         </MediaPlayer>
     )

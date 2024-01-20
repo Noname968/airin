@@ -96,7 +96,7 @@ function RecentEpisodes({ cardid }) {
                                 className={`${styles.cardimgcontainer} ${styles.pulse} h-full`}
                                 style={{ animationDelay: `${(index + 2) * 0.3}s` }}
                             ></div>
-                            <div className={`${styles.pulse} bg-[#1e1e24] mt-2 rounded-md h-5 lg:h-7 w-[98%]`}
+                            <div className={`${styles.pulse} bg-[#1e1e24] mt-2 rounded-md h-5 lg:h-7 w-[98%] mx-auto`}
                             style={{ animationDelay: `${(index + 2) * 0.3}s` }}
                             ></div>
                         </div>

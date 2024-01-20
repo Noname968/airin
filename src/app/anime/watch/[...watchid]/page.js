@@ -8,6 +8,28 @@ import Navbarcomponent from "@/components/Navbar";
 import PlayerComponent from "@/components/videoplayer/PlayerComponent";
 import Animecards from "@/components/CardComponent/Animecards";
 
+export async function generateMetadata({ params }) {
+  const id = params.watchid[0];
+  const data = await AnimeInfoAnilist(id);
+  const epnum = params.watchid[2];
+  
+  return {
+    title:"Episode "+ epnum + ' - ' + data?.title.english || data?.title.romaji || 'Loading...',
+    description: data?.description.slice(0,180),
+    openGraph: {
+      title:"Episode "+ epnum + ' - ' + data?.title.english || data?.title.romaji,
+      images: [data?.coverImage?.extraLarge],
+      description: data?.description,
+    },
+    twitter: {
+      card: "summary",
+      title:"Episode "+ epnum + ' - ' + data?.title.english || data?.title.romaji,
+      description: data?.description.slice(0,180),
+    },
+  }
+}
+
+
 async function AnimeWatch({ params, searchParams }) {
   const id = params.watchid[0];
   const provider = params.watchid[1];

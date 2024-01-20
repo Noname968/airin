@@ -182,7 +182,7 @@ function PlayerComponent({ id, epid, provider, epnum, subdub, data }) {
                     {!loading && url ? (
                         <div className='h-full w-full aspect-video overflow-hidden'>
                             <VidstackPlayer sources={url} skiptimes={skiptimes} epid={epid} getNextEpisode={getNextEpisode} provider={provider} subtype={subtype}
-                                autoplay={autoplay} currentep={currentep} data={data} thumbnails={thumbnails} subtitles={subtitles} />
+                                autoplay={autoplay} currentep={currentep} data={data} thumbnails={thumbnails} subtitles={subtitles} epnum={epnum}/>
                         </div>
                     ) : (
                         <div className="bg-[#18181b] h-full w-full rounded-[8px] flex items-center text-xl justify-center aspect-video">

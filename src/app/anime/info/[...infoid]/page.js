@@ -22,6 +22,26 @@ import Animecards from '@/components/CardComponent/Animecards'
 //   } 
 // }
 
+export async function generateMetadata({ params }) {
+  const id = params.infoid[0];
+  const data = await AnimeInfoAnilist(id);
+  
+  return {
+    title: data?.title.english || data?.title.romaji || 'Loading...',
+    description: data?.description.slice(0,180),
+    openGraph: {
+      title: data?.title.english || data?.title.romaji,
+      images: [data?.coverImage?.extraLarge],
+      description: data?.description,
+    },
+    twitter: {
+      card: "summary",
+      title: data?.title.english || data?.title.romaji,
+      description: data?.description.slice(0,180),
+    },
+  }
+}
+
 async function AnimeDetails({params}) {
   const id = params.infoid[0];
   const data = await AnimeInfoAnilist(id);

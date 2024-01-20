@@ -52,7 +52,7 @@ function Navbarcomponent({home=false}) {
             <div className={styles.navleft}>
                 <div className={styles.logoContainer}>
                     <Link href="/" className={styles.logoLink}>
-                        Aniplay
+                        ANIPLAY
                     </Link>
                 </div>
                 <div className={styles.navItemsContainer}>

@@ -1,3 +1,7 @@
+@font-face {
+    font-family: "28 Days Later";
+    src: url('../static-fonts/28 Days Later.ttf');
+}
 .homenavbar {
     display: flex;
     justify-content: space-between;
@@ -32,7 +36,7 @@
 }
 
 .navbarscroll {
-    background-color: rgba(0, 0, 0, 0.2);
+    background-color: rgba(0, 0, 0, 0.4);
     backdrop-filter: blur(10px);
     transition: background-color 300ms ease-in-out !important;
 }
@@ -44,11 +48,17 @@
 }
 
 .logoContainer {
-    font-size: 1.4rem;
     font-weight: 500;
+    display: flex;
+    align-items: center;
+    font-family: "28 Days Later";
+    /* border: 1px solid white; */
 }
 
 .logoLink {
+    font-size: 2.2rem;
+    margin: 4px 0 0 0;
+    line-height: normal;
     text-decoration: none;
 }
 

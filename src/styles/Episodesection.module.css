@@ -12,15 +12,27 @@
 .epleft{
     display: flex;
     align-items: center;
-    margin-left: 5px;
+    /* margin-left: 5px; */
 }
 .epright{
     display: flex;
     align-items: center;
 }
-.epheading{
-    font-size: 20px;
-    font-weight: 600;
+.cardhead{
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+.bar{
+    width: 0.3rem;
+    height: 2rem;
+    border-radius: 0.375rem;
+    background-color: white;
+}
+.headtitle {
+    font-size: 24px;
+    font-weight: 500;
+    color: white;
 }
 .refresh{
     margin-left: 10px;
@@ -63,6 +75,12 @@
     }
 }
 
+@media(max-width:1280px){
+    .epleft{
+        margin-left: 5px;
+    }
+}
+
 @media(max-width:1200px){
     .episodesection{
         max-width: 90%;
@@ -71,7 +89,7 @@
 
 @media(max-width:900px){
     .episodesection{
-        max-width: 98%;
+        max-width: 92.5%;
         margin: auto;
     }
     .epdiv{
@@ -106,6 +124,12 @@
     .epnumlist{
         max-height: 14rem!important;
     }
+    .bar{
+        width: 0.35rem;
+        height: 1.5rem;
+        border-radius: 0.375rem;
+        background-color: white;
+    }
 }
 
 @media(max-width:600px){
@@ -115,6 +139,9 @@
     }
     .epimagelist{
         height: 25rem;
+    }
+    .headtitle{
+        font-size: 19px;
     }
 }
 

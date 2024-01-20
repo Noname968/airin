@@ -5,7 +5,7 @@ import { useDraggable } from 'react-use-draggable-scroll';
 import Link from 'next/link';
 import ItemContent from './ItemContent';
 
-function Animecards({ data, cardid }) {
+function Animecards({ data, cardid, show=true }) {
   const containerRef = useRef();
   const { events } = useDraggable(containerRef);
   const [isLeftArrowActive, setIsLeftArrowActive] = useState(false);
@@ -45,10 +45,12 @@ function Animecards({ data, cardid }) {
 
   return (
     <div className={styles.animecard}>
-      <div className={styles.cardhead}>
+    {show && (
+        <div className={styles.cardhead}>
         <span className={styles.bar}></span>
         <h1 className={styles.headtitle}>{cardid}</h1>
       </div>
+    )}
       <div className={styles.animeitems}>
         <span className={`${styles.leftarrow} ${isLeftArrowActive ? styles.active : styles.notactive}`}>
           <svg onClick={scrollLeft} xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="mb-4"><path d="m15 18-6-6 6-6"></path></svg>

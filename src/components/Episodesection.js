@@ -153,7 +153,11 @@ function Episodesection({ data, id }) {
     <div className={styles.episodesection}>
       <div className={styles.eptopsection}>
         <div className={styles.epleft}>
-          <h3 className={styles.epheading}>Episodes</h3>
+          {/* <h3 className={styles.epheading}>Episodes</h3> */}
+          <div className={styles.cardhead}>
+        <span className={styles.bar}></span>
+        <h1 className={styles.headtitle}>Episodes</h1>
+      </div>
           <Tooltip content="Refresh Episodes">
             <button className={styles.refresh} onClick={refreshEpisodes}>
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className={`w-[22px] h-[22px] ${refreshloading ? "animate-spin" : ""}`}>

@@ -56,7 +56,7 @@ const VerticalList = ({ data, id, mobiledata }) => {
           {isSeasonal ? 'All Time' : 'Seasonal'}
         </button>
       </div>
-      {currentData.map((anime, index) => (
+      {currentData?.map((anime, index) => (
         <div className={`${styles.vcarditem} group`} key={anime.id}>
           {/* <div className="absolute -top-10 -left-[90px] opacity-0 lg:group-hover:opacity-100 transition-opacity duration-300 z-9">
             <Image alt="20" loading="lazy" width={1000} height={1000} decoding="async" className="object-cover h-[170px] w-[120px] shrink-0 rounded-md" src={anime.coverImage.large}/>
