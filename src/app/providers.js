@@ -2,13 +2,16 @@
 
 import { NextUIProvider } from '@nextui-org/react'
 import { DataProvider } from '@/context/DataContext'
+import { SessionProvider } from "next-auth/react";
 
 export function Providers({ children }) {
   return (
     <NextUIProvider>
-      <DataProvider>
-        {children}
-      </DataProvider>
+      <SessionProvider>
+        <DataProvider>
+          {children}
+        </DataProvider>
+      </SessionProvider>
     </NextUIProvider>
   )
 }

@@ -4,11 +4,14 @@ import { DropdownItem, DropdownTrigger, Dropdown, DropdownMenu, Avatar, Switch }
 import Link from "next/link"
 import { ContextSearch } from '@/context/DataContext';
 import styles from '../styles/Navbar.module.css'
+import { useSession } from 'next-auth/react';
 
 function Navbarcomponent({home=false}) {
     const [isLoggedIn, setIsLoggedIn] = useState(true);
     const [isScrolled, setIsScrolled] = useState(false);
     const { Isopen, setIsopen } = ContextSearch();
+    const {data, status} = useSession();
+    // console.log(data,status);
 
     useEffect(() => {
         const handleKeyDown = (e) => {

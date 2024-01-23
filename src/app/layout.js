@@ -15,6 +15,7 @@ const APP_DEFAULT_TITLE = "Aniplay - Watch Anime Online";
 const APP_DESCRIPTION = "Explore a vast collection of anime on Aniplay, your go-to destination for streaming the latest and classic anime series. Immerse yourself in captivating storylines, vibrant animation, and diverse genres. Discover a world of entertainment at your fingertips with Aniplay, where every episode is an adventure.";
 
 export const metadata = {
+  manifest: "/manifest.json",
   metadataBase: new URL('https://aniplay-next.vercel.app'),
   applicationName: APP_NAME,
   title: APP_DEFAULT_TITLE,
@@ -71,7 +72,6 @@ export default function RootLayout({ children }) {
       <head>
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
         <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png" />
-        <link rel="manifest" href="/site.webmanifest" />
         <script src="https://kit.fontawesome.com/c189d5d7c5.js" crossOrigin="anonymous" async></script>
       </head>
       <body className={inter.className}>

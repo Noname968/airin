@@ -1,3 +1,17 @@
+const withPWA = require("@ducanh2912/next-pwa").default({
+  dest: "public",
+  cacheOnFrontEndNav: true,
+  aggressiveFrontEndNavCaching: true,
+  reloadOnOnline: true,
+  swcMinify: true,
+  disable: process.env.NODE_ENV === "development",
+  // disable:false,
+  workboxOptions: {
+    disableDevLogs: true,
+  },
+  // ... other options you like
+});
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     images: {
@@ -7,7 +21,6 @@ const nextConfig = {
       async headers() {
         return [
             {
-                // matching all API routes
                 source: "/api/:path*",
                 headers: [
                     { key: "Access-Control-Allow-Credentials", value: "true" },
@@ -18,7 +31,7 @@ const nextConfig = {
             }
         ]
     },
-    crossOrigin: 'anonymous',
+    // crossOrigin: 'anonymous',
 }
-
-module.exports = nextConfig
+  
+module.exports = withPWA(nextConfig);
