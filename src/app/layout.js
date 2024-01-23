@@ -6,6 +6,7 @@ import Search from '@/components/search/Search'
 import GoToTop from '@/components/GoToTop';
 import localFont from 'next/font/local';
 import Footer from '@/components/Footer';
+import Script from "next/script";
 
 const inter = Inter({ subsets: ['latin'] })
 const myfont = localFont({ src: "../static-fonts/28 Days Later.ttf" })
@@ -15,7 +16,6 @@ const APP_DEFAULT_TITLE = "Aniplay - Watch Anime Online";
 const APP_DESCRIPTION = "Explore a vast collection of anime on Aniplay, your go-to destination for streaming the latest and classic anime series. Immerse yourself in captivating storylines, vibrant animation, and diverse genres. Discover a world of entertainment at your fingertips with Aniplay, where every episode is an adventure.";
 
 export const metadata = {
-  manifest: "/manifest.json",
   metadataBase: new URL('https://aniplay-next.vercel.app'),
   applicationName: APP_NAME,
   title: APP_DEFAULT_TITLE,
@@ -44,6 +44,7 @@ export const metadata = {
     'dubbed anime streaming',
     'aniplay latest anime',
   ],
+  manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
@@ -69,6 +70,18 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className='dark text-foreground bg-background'>
+      <Script
+        src="https://www.googletagmanager.com/gtag/js?id=G-W661D2QCV3"
+        strategy="afterInteractive"
+      />
+      <Script id="google-analytics" strategy="afterInteractive">
+        {`
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-W661D2QCV3');`}
+      </Script>
       <head>
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
         <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png" />
@@ -80,7 +93,7 @@ export default function RootLayout({ children }) {
           <Search />
           {children}
           <GoToTop />
-          <Footer/>
+          <Footer />
         </Providers>
       </body>
     </html>
