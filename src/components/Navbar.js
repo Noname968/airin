@@ -4,14 +4,23 @@ import { DropdownItem, DropdownTrigger, Dropdown, DropdownMenu, Avatar, Switch }
 import Link from "next/link"
 import { ContextSearch } from '@/context/DataContext';
 import styles from '../styles/Navbar.module.css'
-import { useSession } from 'next-auth/react';
+import { useSession, signIn, signOut } from 'next-auth/react';
 
-function Navbarcomponent({home=false}) {
-    const [isLoggedIn, setIsLoggedIn] = useState(true);
+function Navbarcomponent({ home = false }) {
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
     const { Isopen, setIsopen } = ContextSearch();
-    const {data, status} = useSession();
-    // console.log(data,status);
+    const { data, status } = useSession();
+    console.log(data, status);
+
+    useEffect(() => {
+        if (status === 'authenticated') {
+            setIsLoggedIn(true);
+        }
+        else {
+            setIsLoggedIn(false);
+        }
+    }, [status])
 
     useEffect(() => {
         const handleKeyDown = (e) => {
@@ -45,10 +54,10 @@ function Navbarcomponent({home=false}) {
     }, []);
 
     const navbarClass = isScrolled
-    ? `${home ? styles.homenavbar : styles.navbar} ${home && styles.navbarscroll}`
-    : home
-    ? styles.homenavbar
-    : styles.navbar;
+        ? `${home ? styles.homenavbar : styles.navbar} ${home && styles.navbarscroll}`
+        : home
+            ? styles.homenavbar
+            : styles.navbar;
 
     return (
         <div className={navbarClass}>
@@ -89,34 +98,39 @@ function Navbarcomponent({home=false}) {
                     <DropdownTrigger>
                         <Avatar
                             isBordered
+                            isDisabled={status === 'loading'}
                             as="button"
-                            className="transition-transform w-[27px] h-[27px]"
+                            className="transition-transform w-[28px] h-[28px] backdrop-blur-sm"
                             color="secondary"
-                            name="Jason Hughes"
+                            name={data?.user?.name}
                             size="sm"
-                            src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
+                            src={data?.user?.image?.large || data?.user?.image?.medium || "https://i.pravatar.cc/150?u=a042581f4e29026704d"}
                         />
                     </DropdownTrigger>
                     {isLoggedIn ? (
                         <DropdownMenu aria-label="Profile Actions" variant="flat">
                             <DropdownItem key="profile" className="h-14 gap-2">
                                 <p className="font-semibold">Signed in as</p>
-                                <p className="font-semibold">123@gmail.com</p>
+                                <p className="font-semibold">{data?.user?.name}</p>
                             </DropdownItem>
-                            <DropdownItem key="settings">Profile</DropdownItem>
-                            <DropdownItem key="settings">My List</DropdownItem>
+                            <DropdownItem key="profile">Profile</DropdownItem>
                             <DropdownItem key="help_and_feedback">Help & Feedback</DropdownItem>
+                            <DropdownItem key="settings">
+                                <Link href={`/anime/settings`}>Settings</Link>
+                            </DropdownItem>
                             <DropdownItem key="logout" color="danger">
-                                Log Out
+                                <button className="font-semibold outline-none border-none" onClick={() => signOut('AniListProvider')}>Log Out</button>
                             </DropdownItem>
                         </DropdownMenu>
                     ) : (
                         <DropdownMenu aria-label="Profile Actions" variant="flat">
                             <DropdownItem key="profile">
-                                <p className="font-semibold">Login</p>
+                                <button className="font-semibold outline-none border-none" onClick={() => signIn('AniListProvider')}>Login With Anilist</button>
                             </DropdownItem>
-                            <DropdownItem key="settings">My List</DropdownItem>
                             <DropdownItem key="help_and_feedback">Help & Feedback</DropdownItem>
+                            <DropdownItem key="settings">
+                                <Link href={`/anime/settings`}>Settings</Link>
+                            </DropdownItem>
                         </DropdownMenu>
                     )}
                 </Dropdown>

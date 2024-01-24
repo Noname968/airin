@@ -106,26 +106,30 @@ function PlayerComponent({ id, epid, provider, epnum, subdub, data }) {
             setSubtype(storedType);
         }
     }, []);
-    const [lsSettings, setlsSettings] = useState()
-
-    useEffect(() => {
-        setlsSettings(JSON.parse(localStorage.getItem('settings')) || {})
-    }, [])
-
     const defaultSettings = {
         autoplay: false,
         autoskip: false,
         autonext: false,
+        load: 'idle',
+        audio: false,
     };
-    const [settings, setSettings] = useState({
-        ...defaultSettings,
-        ...lsSettings,
-    });
 
-    const { autoplay, autoskip, autonext } = settings;
+    const [settings, setSettings] = useState({});
 
     useEffect(() => {
-        localStorage.setItem('settings', JSON.stringify(settings));
+        const storedSettings = JSON.parse(localStorage.getItem('settings'));
+
+        if (storedSettings && Object.keys(storedSettings).length > 0) {
+            setSettings(storedSettings);
+        } else {
+            setSettings(defaultSettings);
+        }
+    }, []);
+
+    useEffect(() => {
+        if (settings && Object.keys(settings).length > 0) {
+            localStorage.setItem('settings', JSON.stringify(settings));
+        }
     }, [settings]);
 
     const router = useRouter();
@@ -182,7 +186,7 @@ function PlayerComponent({ id, epid, provider, epnum, subdub, data }) {
                     {!loading && url ? (
                         <div className='h-full w-full aspect-video overflow-hidden'>
                             <VidstackPlayer sources={url} skiptimes={skiptimes} epid={epid} getNextEpisode={getNextEpisode} provider={provider} subtype={subtype}
-                                autoplay={autoplay} currentep={currentep} data={data} thumbnails={thumbnails} subtitles={subtitles} epnum={epnum}/>
+                             currentep={currentep} data={data} thumbnails={thumbnails} subtitles={subtitles} epnum={epnum} settings={settings}/>
                         </div>
                     ) : (
                         <div className="bg-[#18181b] h-full w-full rounded-[8px] flex items-center text-xl justify-center aspect-video">
@@ -193,15 +197,15 @@ function PlayerComponent({ id, epid, provider, epnum, subdub, data }) {
                 <div className="flex flex-row gap-2 items-center justify-between px-1 h-[20px] mb-[13px] w-[99%] lg:w-full">
                     <div className="flex flex-row gap-2 items-center scroll-smooth">
                         {showIcons && <>
-                            <Checkbox isSelected={autoplay} onValueChange={(value) => setSettings({ ...settings, autoplay: value })} color="default" size='sm' className="text-[10px]">
+                            <Checkbox isSelected={settings.autoplay} onValueChange={(value) => setSettings({ ...settings, autoplay: value })} color="default" size='sm' className="text-[10px]">
                                 <span className='text-[12px] text-[#ffffffb2]'>Auto Play</span>
                             </Checkbox>
-                            <Checkbox isSelected={autonext} onValueChange={(value) => setSettings({ ...settings, autonext: value })} color="default" size="sm">
+                            <Checkbox isSelected={settings.autonext} onValueChange={(value) => setSettings({ ...settings, autonext: value })} color="default" size="sm">
                                 <span className='text-[12px] text-[#ffffffb2]'>Auto Next</span>
                             </Checkbox>
                             {!isSmallScreen && (
                                 <Checkbox
-                                    isSelected={autoskip}
+                                    isSelected={settings.autoskip}
                                     onValueChange={(value) => setSettings({ ...settings, autoskip: value })}
                                     color="default"
                                     size="sm"

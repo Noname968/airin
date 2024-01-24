@@ -7,7 +7,7 @@ import { defaultLayoutIcons, DefaultVideoLayout } from '@vidstack/react/player/l
 import styles from '../../styles/Vidstackstyles.module.css'
 import VideoProgressSave from '@/utils/VideoProgressSave';
 
-function VidstackPlayer({ data, sources, skiptimes, epid, thumbnails, subtitles, getNextEpisode, autoplay, currentep, provider, subtype, epnum }) {
+function VidstackPlayer({ data, sources, skiptimes, epid, thumbnails, subtitles, getNextEpisode, currentep, provider, subtype, epnum, settings }) {
     const [getVideoProgress, UpdateVideoProgress] = VideoProgressSave();
     const playerRef = useRef(null);
     const { duration } = useMediaStore(playerRef);
@@ -181,8 +181,10 @@ function VidstackPlayer({ data, sources, skiptimes, epid, thumbnails, subtitles,
         Object.assign(playerRef.current ?? {}, { currentTime: skiptimes[1]?.endTime ?? 0 });
     }
 
+    console.log(settings.load)
     return (
-        <MediaPlayer key={sources} ref={playerRef} playsinline aspectRatio={16 / 9} load="eager" autoFocus={true} autoplay={autoplay} title={currentep?.title || `EP ${currentep?.number}`}
+        <MediaPlayer key={sources} ref={playerRef} playsinline aspectRatio={16 / 9} load={settings?.load || 'idle'} muted={settings?.audio || false}
+        autoFocus={true} autoplay={settings?.autoplay || false} title={currentep?.title || `EP ${currentep?.number}`}
             data-hocus="true"
             className={`w-full h-full overflow-hidden cursor-pointer rounded-lg ${styles.mediaplayer}`}
             crossorigin={"anonymous"}
