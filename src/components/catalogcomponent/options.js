@@ -157,11 +157,11 @@
 
   export const sortbyOptions = [
     { name: "Date Added", value: "ID_DESC" },
-    { name: "Title", value: "TITLE_ROMAJI" },
+    { name: "Title", value: "TITLE_ENGLISH" },
     { name: "Release Date", value: "START_DATE_DESC" },
     { name: "Average Score", value: "SCORE_DESC" },
     { name: "Popularity", value: "POPULARITY_DESC" },
-    { name: "Trending", value: ["TRENDING_DESC", "POPULARITY_DESC"] },
+    { name: "Trending", value: "TRENDING_DESC" },
     { name: "Favorites", value: "FAVOURITES_DESC" },
   ];
   export const yearOptions = [

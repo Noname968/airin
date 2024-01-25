@@ -33,6 +33,7 @@ function SettingsPage() {
         autonext: false,
         load: 'idle',
         audio: false,
+        herotrailer: true,
     };
 
     const [settings, setSettings] = useState({});
@@ -74,6 +75,16 @@ function SettingsPage() {
                     <div className=' items-center flex justify-center text-semibold text-[22px]'>Loading...</div>
                 ) : (
                     <>
+                      <div className='flex items-center w-[100%] justify-between'>
+                            <div className='mr-4 w-full'>
+                                <p className='text-[18px] md:text-[21px] font-medium'>Homepage Trailer</p>
+                                <p className='text-[11px] md:text-[13px] text-[#bfc6d0] lg:max-w-[55%] line-clamp-3'> Toggle this feature to stop video previews on homepage. Enabled by default for a streamlined experience, consumes more data. </p>
+                            </div>
+                            <SwitchSetting
+                                value={settings.herotrailer}
+                                onValueChange={(value) => setSettings({ ...settings, herotrailer: value })}
+                            />
+                        </div>
                         <div className='flex items-center w-[100%] justify-between'>
                             <div className='mr-4 w-full'>
                                 <p className='text-[18px] md:text-[21px] font-medium'>AutoSkip</p>

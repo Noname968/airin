@@ -7,15 +7,16 @@ import { Combobox, Transition } from '@headlessui/react'
 import { CheckIcon, ChevronDownIcon } from "@heroicons/react/20/solid";
 import Searchcard from './Searchcard';
 
-function Catalog() {
-    const [selectedYear, setSelectedYear] = useState(null);
-    const [seasonvalue, setSeasonvalue] = useState(null);
-    const [formatvalue, setFormatvalue] = useState(null);
-    const [genrevalue, setGenrevalue] = useState([])
+function Catalog({searchParams}) {
+    const { year, season, format, genre, search, sortby} = searchParams;
+    const [selectedYear, setSelectedYear] = useState(year || null);
+    const [seasonvalue, setSeasonvalue] = useState(season || null);
+    const [formatvalue, setFormatvalue] = useState(format || null);
+    const [genrevalue, setGenrevalue] = useState(genre || [])
     const [query, setQuery] = useState('')
-    const [sortbyvalue, setSortbyvalue] = useState(null);
+    const [sortbyvalue, setSortbyvalue] = useState(sortby || null);
     // const [airingvalue, setAiringvalue] = useState(null);
-    const [searchvalue, setSearchvalue] = useState("");
+    const [searchvalue, setSearchvalue] = useState(search || "");
     const [showTopBottom, setShowTopBottom] = useState(true);
 
     const handleResize = () => {

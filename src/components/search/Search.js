@@ -19,7 +19,7 @@ function Search() {
         setLoading(true);
         const res = await axios.get(
             // `https://api.anify.tv/search/anime/${query} `
-            `https://api-consumet-org-ruddy-three.vercel.app/meta/anilist/advanced-search`,{ params: { query:query,sort:["POPULARITY_DESC","SCORE_DESC","FAVOURITES","TRENDING"] } }
+            `https://consumet-anime-api.vercel.app/meta/anilist/advanced-search`,{ params: { query:query,sort:["POPULARITY_DESC","SCORE_DESC","FAVOURITES","TRENDING"] } }
 
         );
         setData(res.data)
@@ -58,7 +58,7 @@ function Search() {
                 </Transition.Child>
 
                 <div className="fixed inset-0 overflow-y-auto">
-                    <div className="flex min-h-full items-center justify-center p-4  text-center">
+                    <div className="flex min-h-full items-center justify-center p-4 text-center">
                         <Transition.Child
                             as={Fragment}
                             enter="ease-out duration-200"
@@ -154,16 +154,17 @@ function Search() {
                                                         </p>
                                                     )}
                                                 {data?.hasNextPage && (
+                                                    <Link href={`/anime/catalog?search=${encodeURIComponent(query)}&sortby=POPULARITY_DESC`}>
                                                     <button
                                                         type="button"
                                                         onClick={() => {
-                                                            //  navigate(`/advancedsearch/${query}`)
                                                             setIsopen(false);
                                                             setQuery("");
                                                         }}
-                                                        className="flex items-center justify-center gap-2 py-4 transition duration-300 ease-in-out cursor-pointer border-none bg-purple-900 text-white text-base">
-                                                        <span>View Results</span>
+                                                        className="flex w-full items-center justify-center gap-2 py-4 transition duration-300 ease-in-out cursor-pointer border-none bg-[#4d148c] text-white text-base">
+                                                            View Results
                                                     </button>
+                                                            </Link>
                                                 )}
                                             </Fragment>
                                         ) : (

@@ -9,7 +9,15 @@ function Herosection({ data }) {
   const [trailer, setTrailer] = useState(null);
   const [populardata, setpopulardata] = useState(null);
   const [videoEnded, setVideoEnded] = useState(false);
+  const [settings, setSettings] = useState({});
   const { animetitle } = ContextSearch();
+
+  useEffect(()=>{
+    const localStorageValue = localStorage.getItem('settings');
+    if(localStorageValue){
+      setSettings(JSON.parse(localStorageValue));
+    }
+  },[])
 
   useEffect(() => {
     const getPopular = () => {
@@ -39,11 +47,11 @@ function Herosection({ data }) {
         console.error('Error fetching trailer:', error);
       }
     }
-
-    if (populardata && populardata.trailer) {
+    if (populardata && populardata.trailer && settings.herotrailer !== false) {
+      console.log(settings)
       fetchTrailer(populardata.trailer.id);
     }
-  }, [populardata]);
+  }, [populardata, settings]);
 
   const handleVideoEnded = () => {
     setVideoEnded(true);

@@ -1,17 +1,18 @@
 "use client"
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { DropdownItem, DropdownTrigger, Dropdown, DropdownMenu, Avatar, Switch } from "@nextui-org/react";
 import Link from "next/link"
 import { ContextSearch } from '@/context/DataContext';
 import styles from '../styles/Navbar.module.css'
 import { useSession, signIn, signOut } from 'next-auth/react';
+import { FeedbackIcon, LoginIcon, LogoutIcon, SettingsIcon, ProfileIcon } from '@/lib/SvgIcons';
 
 function Navbarcomponent({ home = false }) {
+    const iconClasses = "w-5 h-5 text-xl text-default-500 pointer-events-none flex-shrink-0";
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
     const { Isopen, setIsopen } = ContextSearch();
     const { data, status } = useSession();
-    console.log(data, status);
 
     useEffect(() => {
         if (status === 'authenticated') {
@@ -69,8 +70,8 @@ function Navbarcomponent({ home = false }) {
                 </div>
                 <div className={styles.navItemsContainer}>
                     <Link href="/anime/catalog" className={styles.navItem}>Catalog</Link>
-                    <Link href="/trending" className={styles.navItem}>Trending</Link>
-                    <Link href="/popular" className={styles.navItem}>Popular</Link>
+                    <Link href="/anime/catalog?sortby=TRENDING_DESC" className={styles.navItem}>Trending</Link>
+                    <Link href="/anime/catalog?format=MOVIE" className={styles.navItem}>Movies</Link>
                 </div>
             </div>
             <div className={styles.navright}>
@@ -109,27 +110,27 @@ function Navbarcomponent({ home = false }) {
                     </DropdownTrigger>
                     {isLoggedIn ? (
                         <DropdownMenu aria-label="Profile Actions" variant="flat">
-                            <DropdownItem key="profile" className="h-14 gap-2">
+                            <DropdownItem key="info" className="h-14 gap-2">
                                 <p className="font-semibold">Signed in as</p>
                                 <p className="font-semibold">{data?.user?.name}</p>
                             </DropdownItem>
-                            <DropdownItem key="profile">Profile</DropdownItem>
-                            <DropdownItem key="help_and_feedback">Help & Feedback</DropdownItem>
-                            <DropdownItem key="settings">
-                                <Link href={`/anime/settings`}>Settings</Link>
+                            <DropdownItem key="profile" startContent={<ProfileIcon className={iconClasses}/>}>Profile</DropdownItem>
+                            <DropdownItem key="help_and_feedback" startContent={<FeedbackIcon className={iconClasses}/>}>Help & Feedback</DropdownItem>
+                            <DropdownItem key="settings" startContent={<SettingsIcon className={iconClasses}/>}>
+                                <Link href={`/anime/settings`} className='w-full h-full block '>Settings</Link>
                             </DropdownItem>
-                            <DropdownItem key="logout" color="danger">
-                                <button className="font-semibold outline-none border-none" onClick={() => signOut('AniListProvider')}>Log Out</button>
+                            <DropdownItem key="logout" color="danger" startContent={<LogoutIcon className={iconClasses} />}>
+                                <button className="font-semibold outline-none border-none w-full h-full block text-left" onClick={() => signOut('AniListProvider')}>Log Out</button>
                             </DropdownItem>
                         </DropdownMenu>
                     ) : (
                         <DropdownMenu aria-label="Profile Actions" variant="flat">
-                            <DropdownItem key="profile">
-                                <button className="font-semibold outline-none border-none" onClick={() => signIn('AniListProvider')}>Login With Anilist</button>
+                            <DropdownItem key="notlogprofile" startContent={<LoginIcon className={iconClasses}/>}>
+                                <button className="font-semibold outline-none border-none w-full h-full block text-left" onClick={() => signIn('AniListProvider')}>Login With Anilist</button>
                             </DropdownItem>
-                            <DropdownItem key="help_and_feedback">Help & Feedback</DropdownItem>
-                            <DropdownItem key="settings">
-                                <Link href={`/anime/settings`}>Settings</Link>
+                            <DropdownItem key="notloghelp_and_feedback" startContent={<FeedbackIcon className={iconClasses}/>}>Help & Feedback</DropdownItem>
+                            <DropdownItem key="settings" startContent={<SettingsIcon className={iconClasses}/>}>
+                                <Link href={`/anime/settings`} className='w-full h-full block '>Settings</Link>
                             </DropdownItem>
                         </DropdownMenu>
                     )}

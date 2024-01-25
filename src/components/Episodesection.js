@@ -179,6 +179,7 @@ function Episodesection({ data, id }) {
                     selectedKeys={[subtype]}
                     className="max-w-[80px] !h-[40px] !py-0"
                     onChange={handleSubDub}
+                    disallowEmptySelection={true}
                   >
                     {subdub.map((type) => (
                       <SelectItem key={type} value={type}>
@@ -195,6 +196,7 @@ function Episodesection({ data, id }) {
                       placeholder={`Episodes`}
                       labelPlacement="outside"
                       selectedKeys={[selectedRange.toString()]}
+                      disallowEmptySelection={true}
                       className="w-[130px] !h-[40px] !py-0"
                       onChange={handleRangeChange}
                     >
@@ -215,6 +217,7 @@ function Episodesection({ data, id }) {
                     selectedKeys={[defaultProvider]}
                     className="max-w-[150px] !h-[40px] !py-0"
                     onChange={handleProviderChange}
+                    disallowEmptySelection={true}
                   >
                     {subProviders?.map((item) => (
                       <SelectItem key={item.providerId} value={item.providerId}>
