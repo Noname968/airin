@@ -86,7 +86,7 @@ export const AnimeInfoAnilist = async (animeid) => {
                     id: animeid,
                 },
             }),
-        }, { next: { revalidate: 0 } });
+        }, { next: { revalidate: 3600 } });
 
         const data = await response.json();
         return data.data.Media;

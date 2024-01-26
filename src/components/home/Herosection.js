@@ -84,7 +84,7 @@ function Herosection({ data }) {
         </span>
       )}
       <div className={styles.heroinfo}>
-        <h3 className={styles.spotlight}>#{data.indexOf(populardata) + 1} Trending</h3>
+        <h3 className={styles.spotlight}>#{data?.indexOf(populardata) + 1} Trending</h3>
         <h1 className={styles.herotitle}>{populardata?.title?.[animetitle] || populardata?.title?.romaji}</h1>
         <div className={styles.herocontent}>
           <span><i className="fas fa-play-circle mr-1" aria-hidden></i>{populardata?.format}</span>

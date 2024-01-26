@@ -1,27 +1,77 @@
 .detailstabs{
     max-width: 85%;
-    margin:0px auto 25px auto;
+    margin: 0px auto 30px auto;
 }
+
+.tabHeader {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.tabItem {
+    position: relative;
+    padding: 0.25rem ;
+    margin: 0.25rem 0.75rem;
+    cursor: pointer;
+    color: #A1A1AA;
+    font-size: 14px;
+}
+
+.tabItem:hover{
+    opacity: 0.6;
+    transition: all 250ms ease-in-out!important;
+}
+
+.selected{
+    color: white!important;
+    opacity: 1!important;
+}
+
+.indicator {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background-color: white;
+}
+
 .detailsheading{
     font-size: 20px;
     color: white;
     font-weight: 600;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
 }
+
 .detailscard{
     display: flex;
     flex-direction: row;
-    min-height: 400px;
+    color: #fff;
+    background-color: #18181b;
+    overflow: auto;
+    border-radius: 14px;
+    margin: 20px 4px 4px 4px;
 }
+
 .card1{
-    max-width: 300px;
-    min-height: 400px;
+    min-height: 390px;
+    margin: 0.65rem 0 0 0.65rem;
+    padding: 0.75rem;
+    width: 300px!important;
+    flex-shrink: 0;
 }
+
+.card2{
+    padding: 0.75rem;
+    margin: 0.65rem 0.65rem 0 0rem;
+}
+
 .singlecontent{
     display: flex;
     /* align-items: center; */
     margin: 5px 10px 0 0;
 }
+
 .sideheading{
     flex-shrink: 0; 
     width: 90px;
@@ -29,20 +79,24 @@
     /* margin-right: 10px; */
     font-size: 15px;
 }
+
 .con{
     color: #ffffffb2;
     flex-grow: 1;
     font-size: 14px;
 }
+
 .descriptioncontent{
     font-size: 14px;
     color: #ffffffb2;
 }
+
 .descriptioncontentmobile{
     font-size: 14px;
     display: none;
     color: #ffffffb2;
 }
+
 .readMoreButton{
     color: white;
     border: none;
@@ -76,6 +130,29 @@
 
 @media(max-width:600px){
     .detailstabs{
-        max-width: 99%;
+        max-width: 98%;
+    }
+}
+
+.relations{
+    margin: 20px 15px;
+}
+
+.relationsheading{
+    font-size: 22px;
+    color: white;
+    font-weight: 500;
+    margin-bottom: 12px;
+}
+.characters{
+    margin: 20px 15px;
+}
+
+@media(max-width:1280px){
+    .relations, .characters{
+        margin: 15px 0px;
+    }
+    .relationsheading{
+        margin-left: 10px;
     }
 }

@@ -4,7 +4,7 @@ import { NextResponse } from "next/server"
 import { CombineEpisodeMeta } from '@/utils/EpisodeFunctions';
 
 axios.interceptors.request.use(config =>{
-  config.timeout = 8000;
+  // config.timeout = 8000;
   return config;
 })
 
