@@ -20,7 +20,7 @@ function Searchcard({ searchvalue, selectedYear, seasonvalue, formatvalue, genre
         const fetchsearch = async () => {
             setLoading(true);
             try {
-                const response = await AdvancedSearch(debouncedSearch, selectedYear, seasonvalue, formatvalue, genrevalue, sortbyvalue, currentPage);
+                const response = await AdvancedSearch(debouncedSearch, selectedYear, seasonvalue, formatvalue, genrevalue, sortbyvalue,currentPage);
                 setsearchdata(response.media);
                 setlastpage(response.pageInfo.lastPage);
                 setLoading(false);

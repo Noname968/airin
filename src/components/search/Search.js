@@ -5,25 +5,31 @@ import axios from "axios";
 import { ContextSearch } from "@/context/DataContext";
 import Link from 'next/link'
 import UseDebounce from "@/utils/UseDebounce";
+import { AdvancedSearch } from "@/lib/Anilistfunctions";
+import { useRouter } from 'next/navigation'
 
 function Search() {
-    const { Isopen, setIsopen } = ContextSearch();
+    const router = useRouter()
+    const { Isopen, setIsopen, animetitle } = ContextSearch();
     const [query, setQuery] = useState("");
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(false);
-    const debouncedSearch = UseDebounce(query, 500)
+    const debouncedSearch = UseDebounce(query, 500);
+    const [nextPage, setNextPage] = useState(false);
 
     let focusInput = useRef(null);
 
     async function searchdata() {
         setLoading(true);
-        const res = await axios.get(
-            // `https://api.anify.tv/search/anime/${query} `
-            `https://consumet-anime-api.vercel.app/meta/anilist/advanced-search`,{ params: { query:query,sort:["POPULARITY_DESC","SCORE_DESC","FAVOURITES","TRENDING"] } }
+        // const res = await axios.get(
+        //     // `https://api.anify.tv/search/anime/${query} `
+        //     `https://consumet-anime-api.vercel.app/meta/anilist/advanced-search`,{ params: { query:query,sort:["POPULARITY_DESC","SCORE_DESC","FAVOURITES","TRENDING"] } }
 
-        );
-        setData(res.data)
-        console.log(res.data);
+        // );
+        const res = await AdvancedSearch(debouncedSearch);
+        setData(res?.media)
+        setNextPage(res?.pageInfo?.hasNextPage);
+        console.log(res);
         setLoading(false);
     }
 
@@ -73,7 +79,6 @@ function Search() {
                                     as="div"
                                     className="max-w-[600px] mx-auto rounded-lg shadow-2xl relative flex flex-col"
                                     onChange={(e) => {
-                                        navigate(`/info/${e}`);
                                         setIsopen(false);
                                         setData(null);
                                         setQuery("");
@@ -86,17 +91,18 @@ function Search() {
                                             <span>+</span>
                                             <div className="bg-[#1a1a1f] text-white text-xs font-bold px-2 py-1 rounded-md">S</div>
                                         </div>
-                                        <div className="mx-2 bg-[#1a1a1f] text-xs font-bold px-2 py-1 rounded-md flex items-center justify-center">Anime</div>
+                                        <div className="mx-2 bg-[#1a1a1f] text-xs font-bold px-2 py-1 rounded-xl flex items-center justify-center">Anime</div>
                                     </div>
-                                    <div className="flex items-center text-base font-medium rounded bg-[#1a1a1f]">
+                                    <div className="flex items-center text-base font-medium rounded-xl bg-[#1a1a1f]">
                                         <Combobox.Input
                                             ref={focusInput}
-                                            className="p-5 text-white w-full bg-transparent border-0 outline-none"
+                                            className="p-4 text-white w-full bg-transparent border-0 outline-none"
                                             placeholder="Search Anime..."
                                             onChange={(event) => setQuery(event.target.value)}
                                             onKeyDown={(event) => {
-                                                if (event.key === "Enter" && data?.results?.length > 0) {
+                                                if (event.key === "Enter") {
                                                     setIsopen(false);
+                                                    router.push(`/anime/catalog?search=${encodeURIComponent(event.target.value)}`);
                                                     setData(null);
                                                     setQuery("");
                                                 }
@@ -106,12 +112,12 @@ function Search() {
                                     </div>
                                     <Combobox.Options
                                         static
-                                        className="bg-[#1a1a1f] rounded mt-2 max-h-[50dvh] overflow-y-auto flex flex-col scrollbar-thin scrollbar-thumb-primary scrollbar-thumb-rounded "
+                                        className="bg-[#1a1a1f] rounded-xl mt-2 max-h-[50dvh] overflow-y-auto flex flex-col scrollbar-thin scrollbar-thumb-primary scrollbar-thumb-rounded "
                                     >
                                         {!loading ? (
                                             <Fragment>
-                                                {data?.results?.length > 0
-                                                    ? data?.results.map((item) => (
+                                                {data?.length > 0
+                                                    ? data?.map((item) => (
                                                         <Combobox.Option
                                                             key={item.id}
                                                             value={item.id}
@@ -121,7 +127,7 @@ function Search() {
                                                             }>
                                                             <div className="shrink-0">
                                                                 <img
-                                                                    src={item.image || item.coverImage}
+                                                                    src={item.image || item.coverImage.large}
                                                                     alt="image"
                                                                     width={52}
                                                                     height={70}
@@ -131,16 +137,16 @@ function Search() {
                                                             <div className="flex flex-col overflow-hidden">
                                                                 <Link href={`/anime/info/${item.id}`} onClick={()=>{setIsopen(false)}}>
                                                                     <p className="line-clamp-2 text-base">
-                                                                        {item.title.english || item.title.romaji}
+                                                                        {item.title[animetitle] || item.title.romaji}
                                                                     </p>
                                                                 </Link>
-                                                                <span className="my-1 text-xs text-gray-400">Episodes - {item.totalEpisodes || "Na"}</span>
+                                                                <span className="my-1 text-xs text-gray-400">Episodes - {item?.episodes || item?.nextAiringEpisode?.episode-1 ||  "?"}</span>
                                                                 <div className="flex items-center text-gray-400 text-xs">
-                                                                    <span><span className="fa fa-star"></span> {item.rating / 10 || item.averageRating}</span>
+                                                                    <span><span className="fa fa-star"></span> {item.averageScore / 10 || "0"}</span>
                                                                     <span className='mx-1 mb-[5px]'>.</span>
-                                                                    <span>{item.type || "Na"}</span>
+                                                                    <span>{item.format || item.type || "Na"}</span>
                                                                     <span className='mx-1 mb-[5px]'>.</span>
-                                                                    <span> {item.releaseDate || item.year || "Na"}</span>
+                                                                    <span> {item?.startDate?.year || "Na"}</span>
                                                                     <span className='mx-1 mb-[5px]'>.</span>
                                                                     <span>{item.status}</span>
                                                                 </div>
@@ -153,15 +159,15 @@ function Search() {
                                                             No results found.
                                                         </p>
                                                     )}
-                                                {data?.hasNextPage && (
-                                                    <Link href={`/anime/catalog?search=${encodeURIComponent(query)}&sortby=POPULARITY_DESC`}>
+                                                {data && nextPage && (
+                                                    <Link href={`/anime/catalog?search=${encodeURIComponent(query)}`}>
                                                     <button
                                                         type="button"
                                                         onClick={() => {
                                                             setIsopen(false);
                                                             setQuery("");
                                                         }}
-                                                        className="flex w-full items-center justify-center gap-2 py-4 transition duration-300 ease-in-out cursor-pointer border-none bg-[#4d148c] text-white text-base">
+                                                        className="flex w-full items-center justify-center gap-2 py-4 transition duration-300 ease-in-out cursor-pointer border-none bg-[#4d148c] text-white text-base z-[5]">
                                                             View Results
                                                     </button>
                                                             </Link>

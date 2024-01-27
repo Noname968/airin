@@ -201,8 +201,8 @@
   ];
 
 export const airingOptions = [
-    { name: 'Releasing', value: 'RELEASING' },
-    { name: 'Not Yet Released', value: 'NOT_YET_RELEASED' },
-    { name: 'Finished', value: 'FINISHED' },
-    { name: 'Cancelled', value: 'CANCELLED' },
+    { name: "Releasing", value: "RELEASING" },
+    { name: "Not Yet Released", value: "NOT_YET_RELEASED" },
+    { name: "Finished", value: "FINISHED" },
+    { name: "Cancelled", value: "CANCELLED" },
   ];
