@@ -2,6 +2,11 @@ import axios from "axios";
 import { redis } from "@/lib/rediscache";
 import { NextResponse } from "next/server";
 
+axios.interceptors.request.use(config =>{
+    config.timeout = 8000;
+    return config;
+  })
+
 async function fetchRecent() {
     try {
         const { data } = await axios.get(
