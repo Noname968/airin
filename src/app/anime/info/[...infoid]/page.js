@@ -4,7 +4,7 @@ import React from 'react'
 import AnimeDetailsTop from '@/components/details/AnimeDetailsTop'
 import AnimeDetailsBottom from '@/components/details/AnimeDetailsBottom'
 import { getEpisodes } from '@/lib/getData'
-import Navbarcomponent from '@/components/Navbar'
+import Navbarcomponent from '@/components/navbar/Navbar'
 import Animecards from '@/components/CardComponent/Animecards'
 
 // async function getData(id,status,refresh=false) {

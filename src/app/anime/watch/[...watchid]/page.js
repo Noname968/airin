@@ -4,7 +4,7 @@ import { AnimeInfoAnilist } from '@/lib/Anilistfunctions'
 import NextAiringDate from "@/components/videoplayer/NextAiringDate";
 import PlayerAnimeCard from "@/components/videoplayer/PlayerAnimeCard";
 import { getEpisodes, getSources } from "@/lib/getData";
-import Navbarcomponent from "@/components/Navbar";
+import Navbarcomponent from "@/components/navbar/Navbar";
 import PlayerComponent from "@/components/videoplayer/PlayerComponent";
 import Animecards from "@/components/CardComponent/Animecards";
 

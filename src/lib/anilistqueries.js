@@ -353,3 +353,90 @@ query ($page: Int = 1, $id: Int, $type: MediaType, $search: String, $format: [Me
     }
   }
 }`;
+
+
+export const notifications = `query ($page: Int) {
+  Page(page: $page, perPage: 15) {
+    pageInfo {
+      total
+      perPage
+      currentPage
+      lastPage
+      hasNextPage
+    }
+    notifications(resetNotificationCount: true) {
+			... on AiringNotification {
+				id
+				type 
+				animeId
+				episode
+				contexts
+				createdAt
+				media: media {
+					id
+					title {
+             english
+          romaji 
+        }
+					type
+					coverImage { large, extraLarge }
+		  		}
+			}
+			... on RelatedMediaAdditionNotification {
+				id
+				type
+				mediaId
+				context
+				createdAt
+				media: media {
+					id
+					title { 
+            english
+            romaji
+           }
+					type
+					coverImage { large, extraLarge }
+		  		}
+			}
+			... on MediaDataChangeNotification {
+					id
+				type
+				mediaId
+				context
+				createdAt
+				media: media {
+					id
+					title { 
+            english
+            romaji
+           }
+					type
+					coverImage { large, extraLarge }
+		  		}
+			}
+			... on MediaMergeNotification {
+        id
+				type
+				mediaId
+				context
+				createdAt
+				media: media {
+					id
+					title { 
+            english
+            romaji
+           }
+					type
+					coverImage { large, extraLarge }
+		  		}
+			}
+			... on MediaDeletionNotification {
+        id
+				type
+				context
+				createdAt
+        deletedMediaTitle
+			}
+	  	}
+	}
+}`

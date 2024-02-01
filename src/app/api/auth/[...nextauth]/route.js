@@ -101,7 +101,6 @@ export const authOptions = {
             image: profile.image,
             createdAt: profile?.createdAt,
             list: profile?.list,
-            version: "1.0.1",
           };
         },
       },

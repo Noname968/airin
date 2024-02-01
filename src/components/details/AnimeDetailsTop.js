@@ -23,7 +23,7 @@ function AnimeDetailsTop({ data }) {
     <div className={styles.detailsbanner}>
       <div
         className={styles.detailsbgimage}
-        style={{ backgroundImage: `url(${data?.bannerImage || data?.coverImage.large || null})`, backgroundPosition: "center", backgroundSize: "cover", height: "100%" }}
+        style={{ backgroundImage: `url(${data?.bannerImage || data?.coverImage.extraLarge || null})`, backgroundPosition: "center", backgroundSize: "cover", height: "100%" }}
       ></div>
       <div className={styles.gradientOverlay}></div>
       <>
@@ -51,7 +51,7 @@ function AnimeDetailsTop({ data }) {
       </>
       <div className={styles.detailsinfo}>
         <div className={styles.detailsimgcon}>
-          <Image src={data.coverImage.large} alt='Image' width={200} height={200} className={styles.detailsimage} />
+          <Image src={data.coverImage.extraLarge} alt='Image' width={200} height={200} className={styles.detailsimage} />
         </div>
         <div className={styles.detailstitle}>
           <h1 className={`${styles.title} text-[1.7rem] font-[500]`}>

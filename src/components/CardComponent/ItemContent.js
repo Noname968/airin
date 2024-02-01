@@ -30,6 +30,7 @@ function ItemContent({ anime, cardid }) {
                     width={155}
                     height={230}
                     placeholder="blur"
+                    loading='eager'
                     blurDataURL={'https://wallpapercave.com/w/wp11913677' || anime.coverImage || anime.image}
                     className={`${styles.cardimage}`}
                     onLoad={() => setImageLoaded(true)}

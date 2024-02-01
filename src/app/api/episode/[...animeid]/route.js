@@ -84,6 +84,34 @@ async function fetchEpisodeImages(id, available = false) {
   }
 }
 
+const fetchAndCacheData = async (id, meta, redis, cacheTime) => {
+  const [consumet, anify, cover] = await Promise.all([
+    fetchConsumetEpisodes(id),
+    fetchAnifyEpisodes(id),
+    fetchEpisodeImages(id, meta)
+  ]);
+
+  if (consumet.length > 0 || anify.length > 0) {
+    await redis.setex(`episode:${id}`, cacheTime, JSON.stringify([...consumet, ...anify]));
+  }
+
+  const combinedData = [...consumet, ...anify];
+  let data = combinedData;
+
+  if (meta) {
+    data = await CombineEpisodeMeta(combinedData, JSON.parse(meta));
+  } else if (cover && cover?.length > 0) {
+    try {
+      if (redis) await redis.setex(`meta:${id}`, cacheTime, JSON.stringify(cover));
+      data = await CombineEpisodeMeta(combinedData, cover);
+    } catch (error) {
+      console.error("Error serializing cover:", error.message);
+    }
+  }
+
+  return data;
+};
+
 export const GET = async (req, { params }) => {
   const url = new URL(req.url);
   const id = params.animeid[0];
@@ -92,56 +120,54 @@ export const GET = async (req, { params }) => {
 
   let cacheTime = null;
   if (releasing === "true") {
-    cacheTime = 60 * 60 * 2; 
+    cacheTime = 60 * 60 * 3; 
   } else if (releasing === "false") {
-    cacheTime = 60 * 60 * 24 * 30;
+    cacheTime = 60 * 60 * 24 * 45;
   }
 
   let meta = null;
   let cached;
 
-  if(redis){
-    if (refresh) {
-      await redis.del(`episode:${id}`);
-      // await redis.flushall();
-      console.log("deleted cache");
-    } else {
+  if (redis) {
+    try {
+      meta = await redis.get(`meta:${id}`);
+      if(JSON.parse(meta)?.length === 0){
+        await redis.del(`meta:${id}`);
+        console.log("deleted meta cache");
+        meta = null;
+      }
       cached = await redis.get(`episode:${id}`);
+      if (JSON.parse(cached)?.length === 0) {
+        await redis.del(`episode:${id}`);
+        cached = null;
+      }
+      let data;
+      if (refresh) {
+        data = await fetchAndCacheData(id, meta, redis, cacheTime);
+      }
+      if(data?.length > 0){
+        console.log("deleted cache");
+        return NextResponse.json(data);
+      }
+
       console.log("using redis");
+    } catch (error) {
+      console.error("Error checking Redis cache:", error.message);
     }
-    meta = await redis.get(`meta:${id}`);
   }
 
   if (cached) {
-    let cachedData = JSON.parse(cached);
-    if (meta) {
-      cachedData = await CombineEpisodeMeta(cachedData, JSON.parse(meta));
-    }
-    return NextResponse.json(cachedData);
-  } else {
-
-    const [consumet, anify, cover] = await Promise.all([
-      fetchConsumetEpisodes(id),
-      fetchAnifyEpisodes(id),
-      fetchEpisodeImages(id, meta)
-    ]);
-      
-      await redis.setex(`episode:${id}`, cacheTime, JSON.stringify([...consumet, ...anify]));
-      const combinedData = [...consumet, ...anify];
-      let data = combinedData;
-
+    try {
+      let cachedData = JSON.parse(cached);
       if (meta) {
-        data = await CombineEpisodeMeta(combinedData, JSON.parse(meta));
-      } else if (cover && cover?.length > 0) {
-        try {
-          if (redis) await redis.set(`meta:${id}`, JSON.stringify(cover));
-          data = await CombineEpisodeMeta(combinedData, cover);
-        } catch (error) {
-          console.error("Error serializing cover:", error.message);
-        }
+        cachedData = await CombineEpisodeMeta(cachedData, JSON.parse(meta));
       }
-      
-
-    return NextResponse.json(data);
+      return NextResponse.json(cachedData);
+    } catch (error) {
+      console.error("Error parsing cached data:", error.message);
+    }
+  } else {
+    const fetchdata = await fetchAndCacheData(id, meta, redis, cacheTime);
+    return NextResponse.json(fetchdata);
   }
 };

@@ -181,7 +181,6 @@ function VidstackPlayer({ data, sources, skiptimes, epid, thumbnails, subtitles,
         Object.assign(playerRef.current ?? {}, { currentTime: skiptimes[1]?.endTime ?? 0 });
     }
 
-    console.log(settings.load)
     return (
         <MediaPlayer key={sources} ref={playerRef} playsinline aspectRatio={16 / 9} load={settings?.load || 'idle'} muted={settings?.audio || false}
         autoFocus={true} autoplay={settings?.autoplay || false} title={currentep?.title || `EP ${currentep?.number}`}
@@ -220,7 +219,7 @@ function VidstackPlayer({ data, sources, skiptimes, epid, thumbnails, subtitles,
             <Gesture className="vds-gesture" event="dblpointerup" action="toggle:fullscreen" />
             {opbutton && <button onClick={handleop} className='absolute bottom-[83px] right-4 z-[80] bg-white text-black py-2 px-3 rounded-[8px] font-medium'>Skip Opening</button>}
             {edbutton && <button onClick={handleed} className='absolute bottom-[83px] right-4 z-[80] bg-white text-black py-2 px-3 rounded-[8px] font-medium'>Skip Ending</button>}
-            <DefaultVideoLayout icons={defaultLayoutIcons} thumbnails={thumbnails ? `https://cors-anywhere.herokuapp.com/` + thumbnails[0]?.url : ""} />
+            <DefaultVideoLayout icons={defaultLayoutIcons} thumbnails={thumbnails ? `https://cors-anywhere-livid-six.vercel.app/` + thumbnails[0]?.url : ""} />
         </MediaPlayer>
     )
 }

@@ -15,7 +15,8 @@ export const TrendingAnilist = async () => {
                     perPage: 15,
                 },
             }),
-        }, { cache: "no-store" });
+        // }, { cache: "no-store" });
+    }, { next: { revalidate: 3600 } });
 
         const data = await response.json();
         return data.data.Page.media;
@@ -39,7 +40,7 @@ export const Top100Anilist = async () => {
                     perPage: 10,
                 },
             }),
-        }, { next: { revalidate: 0 } });
+        }, { next: { revalidate: 3600 } });
 
         const data = await response.json();
         return data.data.Page.media;
@@ -63,7 +64,7 @@ export const SeasonalAnilist = async () => {
                     perPage: 10,
                 },
             }),
-        }, { next: { revalidate: 0 } });
+        }, { next: { revalidate: 3600 } });
 
         const data = await response.json();
         return data.data.Page.media;

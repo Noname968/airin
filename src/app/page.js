@@ -1,6 +1,7 @@
+"use server"
 import Animecard from '@/components/CardComponent/Animecards'
 import Herosection from '@/components/home/Herosection'
-import Navbarcomponent from '@/components/Navbar'
+import Navbarcomponent from '@/components/navbar/Navbar'
 import { TrendingAnilist, Top100Anilist, SeasonalAnilist } from '@/lib/Anilistfunctions'
 import React from 'react'
 import { MotionDiv } from '@/utils/MotionDiv'
@@ -9,7 +10,6 @@ import ContinueWatching from '@/components/home/ContinueWatching'
 import RecentEpisodes from '@/components/home/RecentEpisodes'
 import FloatingButton from '@/components/FloatingButton'
 
-export const revalidate = 1
 
 async function Home() {
   const herodata = await TrendingAnilist();

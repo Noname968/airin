@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import styles from '../../styles/Herosection.module.css';
 import { ContextSearch } from '@/context/DataContext';
 import Link from 'next/link'
+import Image from 'next/image'
 
 function Herosection({ data }) {
   const [trailer, setTrailer] = useState(null);
@@ -12,12 +13,12 @@ function Herosection({ data }) {
   const [settings, setSettings] = useState({});
   const { animetitle } = ContextSearch();
 
-  useEffect(()=>{
+  useEffect(() => {
     const localStorageValue = localStorage.getItem('settings');
-    if(localStorageValue){
+    if (localStorageValue) {
       setSettings(JSON.parse(localStorageValue));
     }
-  },[])
+  }, [])
 
   useEffect(() => {
     const getPopular = () => {
@@ -61,7 +62,7 @@ function Herosection({ data }) {
     setVideoEnded(true);
   };
 
-  const Month = ["Jan","Feb","Mar","Apr","May","Jun","July","Aug","Sep","Oct","Nov","Dec"]
+  const Month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "July", "Aug", "Sep", "Oct", "Nov", "Dec"]
 
   return (
     <div className={`${styles.herosection}`}>
@@ -80,7 +81,9 @@ function Herosection({ data }) {
         </span>
       ) : (
         <span className={styles.heroimgcon}>
-          <img src={populardata?.bannerImage} alt={populardata?.title[animetitle]} className={styles.heroimg} />
+          {populardata &&
+            <Image src={populardata?.bannerImage} alt={populardata?.title?.[animetitle] || populardata?.title?.romaji} loading='eager' priority={true} width={200} height={200} className={styles.heroimg} />
+          }
         </span>
       )}
       <div className={styles.heroinfo}>
@@ -90,12 +93,12 @@ function Herosection({ data }) {
           <span><i className="fas fa-play-circle mr-1" aria-hidden></i>{populardata?.format}</span>
           <span className={`${populardata?.status === 'RELEASING' ? styles.activestatus : styles.notactive}`}>{populardata?.status}</span>
           <span><i className="fas fa-calendar mr-1" aria-hidden></i>{Month[populardata?.startDate?.month]} {populardata?.startDate?.day}, {populardata?.startDate?.year}</span>
-          <span className={styles.herosub}><i className="fas fa-closed-captioning mr-1" aria-hidden></i>{populardata?.nextAiringEpisode?.episode-1 || populardata?.episodes}</span>
+          <span className={styles.herosub}><i className="fas fa-closed-captioning mr-1" aria-hidden></i>{populardata?.nextAiringEpisode?.episode - 1 || populardata?.episodes}</span>
         </div>
         <p className={styles.herodescription}>{populardata?.description.replace(/<.*?>/g, '')}</p>
         <div className={styles.herobuttons}>
           <Link href={`/anime/info/${populardata?.id}`}>
-          <button className={styles.watchnowbutton}><i className="fas fa-play-circle mr-2" aria-hidden></i>Play Now</button>
+            <button className={styles.watchnowbutton}><i className="fas fa-play-circle mr-2" aria-hidden></i>Play Now</button>
           </Link>
         </div>
       </div>

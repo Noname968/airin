@@ -7,6 +7,7 @@ import GoToTop from '@/components/GoToTop';
 import localFont from 'next/font/local';
 import Footer from '@/components/Footer';
 import Script from "next/script";
+import { getServerSession } from 'next-auth';
 
 const inter = Inter({ subsets: ['latin'] })
 const myfont = localFont({ src: "../static-fonts/28 Days Later.ttf" })
@@ -67,7 +68,9 @@ export const metadata = {
 };
 
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
+  const session = await getServerSession();
+
   return (
     <html lang="en" className='dark text-foreground bg-background'>
       <Script
@@ -88,7 +91,7 @@ export default function RootLayout({ children }) {
         <script src="https://kit.fontawesome.com/c189d5d7c5.js" crossOrigin="anonymous" async></script>
       </head>
       <body className={inter.className}>
-        <Providers>
+        <Providers session={session}>
           <NextTopLoader color="#CA1313" className="z-[99999]" />
           <Search />
           {children}

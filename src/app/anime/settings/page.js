@@ -1,4 +1,4 @@
-import Navbarcomponent from '@/components/Navbar'
+import Navbarcomponent from '@/components/navbar/Navbar'
 import SettingsPage from '@/components/settingscomponent/SettingsPage'
 import React from 'react'
 

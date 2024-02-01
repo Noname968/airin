@@ -1,6 +1,6 @@
 import React from 'react'
 import Catalog from '@/components/catalogcomponent/Catalog'
-import Navbarcomponent from '@/components/Navbar'
+import Navbarcomponent from '@/components/navbar/Navbar'
 
 export async function generateMetadata({ params }) {
   return {
