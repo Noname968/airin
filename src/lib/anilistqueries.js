@@ -440,3 +440,56 @@ export const notifications = `query ($page: Int) {
 	  	}
 	}
 }`
+
+export const playeranimeinfo = `query ($id: Int) {
+  Media (id: $id) {
+    mediaListEntry {
+      progress
+      status
+      customLists
+      repeat
+    }
+    id
+    idMal
+    title {
+      romaji
+      english
+      native
+    }
+    status
+    format
+    genres
+    episodes
+    bannerImage
+    description
+    coverImage {
+      extraLarge
+      color
+    }
+    nextAiringEpisode {
+      airingAt
+      timeUntilAiring
+      episode
+    }
+    recommendations {
+      nodes {
+        mediaRecommendation {
+          id
+          title {
+            romaji
+            english
+          }
+          coverImage {
+            extraLarge
+          }
+          episodes
+          status
+          nextAiringEpisode {
+            episode
+          }
+        }
+      }
+    }
+  }
+}
+`

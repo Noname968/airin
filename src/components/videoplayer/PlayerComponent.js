@@ -2,62 +2,48 @@
 import React, { useEffect, useState } from 'react'
 import { getSources } from '@/lib/getData';
 import PlayerEpisodeList from './PlayerEpisodeList';
-import VidstackPlayer from './VidstackPlayer';
-import { Checkbox } from "@nextui-org/react";
-import { useRouter } from 'next/navigation'
-import { PreviousIcon, NextIcon, SettingsMenuIcon } from '@vidstack/react/icons';
 import { ContextSearch } from '@/context/DataContext';
+import Player from './VidstackPlayer/player';
+import { Spinner } from '@vidstack/react'
 
-function PlayerComponent({ id, epid, provider, epnum, subdub, data }) {
-    const {animetitle} = ContextSearch();
+function PlayerComponent({ id, epId, provider, epNum, subdub, data, session, savedep }) {
+    const { animetitle, setNowPlaying, setDataInfo } = ContextSearch();
     const [episodeData, setepisodeData] = useState(null);
-    const [episodeSource, setepisodeSource] = useState();
     const [loading, setLoading] = useState(true);
-    const [url, setUrl] = useState(null);
-    const [subtitles, setsubtitles] = useState(null);
-    const [thumbnails, setthumbnails] = useState(null);
-    const [downloadUrl, setDownloadUrl] = useState(null);
+    const [groupedEp, setGroupedEp] = useState(null);
+    const [sources, setSources] = useState(null);
+    const [subtitles, setSubtitles] = useState(null);
+    const [thumbnails, setThumbnails] = useState(null);
     const [skiptimes, setSkipTimes] = useState(null);
-    const [subtype, setSubtype] = useState('sub');
-
 
     useEffect(() => {
+        setDataInfo(data);
         const fetchSources = async () => {
             setLoading(true);
-
             try {
-                const response = await getSources(id, provider, epid, epnum, subdub);
-                console.log(response);
+                const response = await getSources(id, provider, epId, epNum, subdub);
 
-                setepisodeSource(response);
+                console.log(response)
+                // if (!response?.sources?.length > 0) {
+                //     router.push('/');
+                // }
+                setSources(response?.sources);
+                const download = response?.download
 
-                if (response && response.sources && response.sources.length > 0) {
-                    setUrl(response.sources);
-                }
-
-                if (response && response.download) {
-                    setDownloadUrl(response.download);
-                }
-
-                if (response && response.subtitles) {
-                    const reFormSubtitles = response.subtitles.map((i) => ({
-                        src: i.url,
+                console.log(response)
+                const reFormSubtitles = response?.subtitles?.map((i) => ({
+                        src: process.env.NEXT_PUBLIC_PROXY_URI + i.url,
                         label: i.lang,
                         kind: i.lang === "Thumbnails" ? "thumbnails" : "subtitles",
                         ...(i.lang === "English" && { default: true }),
                     }));
 
-                    setsubtitles(reFormSubtitles.filter((s) => s.kind !== 'English'));
-                    setthumbnails(response.subtitles.filter((s) => s.lang === 'Thumbnails'));
-                }
+                setSubtitles(reFormSubtitles?.filter((s) => s.kind !== 'thumbnails'));
+                setThumbnails(response?.subtitles?.filter((s) => s.lang === 'Thumbnails'));
 
                 const skipResponse = await fetch(
-                    `https://api.aniskip.com/v2/skip-times/${data?.idMal}/${parseInt(epnum)}?types[]=ed&types[]=mixed-ed&types[]=mixed-op&types[]=op&types[]=recap&episodeLength=`
+                    `https://api.aniskip.com/v2/skip-times/${data?.idMal}/${parseInt(epNum)}?types[]=ed&types[]=mixed-ed&types[]=mixed-op&types[]=op&types[]=recap&episodeLength=`
                 );
-
-                if (!skipResponse.ok) {
-                    throw new Error('Failed to fetch skip data');
-                }
 
                 const skipData = await skipResponse.json();
                 const op = skipData?.results?.find((item) => item.skipType === 'op') || null;
@@ -66,15 +52,14 @@ function PlayerComponent({ id, epid, provider, epnum, subdub, data }) {
 
                 const skiptime = [];
 
-                if (op && op.interval) {
+                if (op?.interval) {
                     skiptime.push({
                         startTime: op.interval.startTime ?? 0,
                         endTime: op.interval.endTime ?? 0,
                         text: 'Opening',
                     });
                 }
-
-                if (ed && ed.interval) {
+                if (ed?.interval) {
                     skiptime.push({
                         startTime: ed.interval.startTime ?? 0,
                         endTime: ed.interval.endTime ?? 0,
@@ -88,146 +73,83 @@ function PlayerComponent({ id, epid, provider, epnum, subdub, data }) {
                     });
                 }
 
-                setSkipTimes(skiptime);
+                const episode = {
+                    download: download || null,
+                    skiptimes: skiptime || [],
+                    epId: epId || null,        
+                    provider: provider || null,
+                    epNum: epNum || null,       
+                    subtype: subdub || null,
+                  };
+                  
+                  setNowPlaying(episode);
+                  setSkipTimes(skiptime);
+                  console.log(episode);
                 setLoading(false);
             } catch (error) {
                 console.error('Error fetching data:', error);
+                const episode = {
+                    download: null,
+                    skiptimes: [],
+                    epId: epId || null,        
+                    provider: provider || null,
+                    epNum: epNum || null,       
+                    subtype: subdub || null,
+                  };
+                  
+                  setNowPlaying(episode);
                 setLoading(false);
             }
         };
-
         fetchSources();
-    }, [id, provider, epid, epnum, subdub]);
+    }, [id, provider, epId, epNum, subdub]);
 
-
-    useEffect(() => {
-        const storedType = localStorage.getItem('selectedType');
-        if (storedType) {
-            setSubtype(storedType);
+    useEffect(()=>{
+        if(episodeData){
+            const previousep = episodeData?.find(
+                (i) => i.number === parseInt(epNum) - 1
+            );
+            const nextep = episodeData?.find(
+                (i) => i.number === parseInt(epNum) + 1
+            );
+            const currentep = episodeData?.find(
+                (i) => i.number === parseInt(epNum)
+            );
+            const epdata = {
+                previousep,
+                currentep,
+                nextep,
+            }
+            setGroupedEp(epdata);
         }
-    }, []);
-    const defaultSettings = {
-        autoplay: false,
-        autoskip: false,
-        autonext: false,
-        load: 'idle',
-        audio: false,
-    };
-
-    const [settings, setSettings] = useState({});
-
-    useEffect(() => {
-        const storedSettings = JSON.parse(localStorage.getItem('settings'));
-
-        if (storedSettings && Object.keys(storedSettings).length > 0) {
-            setSettings(storedSettings);
-        } else {
-            setSettings(defaultSettings);
-        }
-    }, []);
-
-    useEffect(() => {
-        if (settings && Object.keys(settings).length > 0) {
-            localStorage.setItem('settings', JSON.stringify(settings));
-        }
-    }, [settings]);
-
-    const router = useRouter();
-    const [showIcons, setShowIcons] = useState(false);
-    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-
-    const handleResize = () => {
-        setWindowWidth(window.innerWidth);
-    };
-
-    useEffect(() => {
-        window.addEventListener('resize', handleResize);
-
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        };
-    }, []);
-
-    const isSmallScreen = windowWidth < 500;
-
-    const toggleIcons = () => {
-        setShowIcons((prevShowIcons) => !prevShowIcons);
-    };
-
-    const getPrevEpisode = () => {
-        const previousep = episodeData?.find(
-            (i) => i.number === parseInt(epnum) - 1
-        );
-        if (previousep) {
-            router.push(`/anime/watch/${data.id}/${provider}/${previousep.number}?epid=${previousep.id}&type=${subtype}`)
-        }
-    };
-
-    const getNextEpisode = () => {
-        const nextep = episodeData?.find(
-            (i) => i.number === parseInt(epnum) + 1
-        );
-        if (nextep) {
-            router.push(`/anime/watch/${data.id}/${provider}/${nextep.number}?epid=${nextep.id}&type=${subtype}`)
-        }
-    };
-
-    const getCurrentEpisode = () => {
-        const epdetails = episodeData?.find((i) => i.number === parseInt(epnum))
-        return epdetails;
-    };
-
-    const currentep = getCurrentEpisode();
+    },[episodeData, epId, provider, epNum, subdub]);
 
     return (
-        <div className='xl:w-[96.5%]'>
+        <div className='xl:w-[99%]'>
             <div>
                 <div className='mb-2'>
-                    {!loading && url ? (
+                    {!loading ? (
                         <div className='h-full w-full aspect-video overflow-hidden'>
-                            <VidstackPlayer sources={url} skiptimes={skiptimes} epid={epid} getNextEpisode={getNextEpisode} provider={provider} subtype={subtype}
-                             currentep={currentep} data={data} thumbnails={thumbnails} subtitles={subtitles} epnum={epnum} settings={settings}/>
+                            <Player dataInfo={data} groupedEp={groupedEp} session={session} savedep={savedep} sources={sources} subtitles={subtitles} thumbnails={thumbnails} skiptimes={skiptimes}/>
                         </div>
                     ) : (
-                        <div className="bg-[#18181b] h-full w-full rounded-[8px] flex items-center text-xl justify-center aspect-video">
-                            Loading...
+                        <div className="h-full w-full rounded-[8px] relative flex items-center text-xl justify-center aspect-video">
+                             <div className="pointer-events-none absolute inset-0 z-50 flex h-full w-full items-center justify-center">
+      <Spinner.Root className="text-white animate-spin opacity-100" size={84}>
+        <Spinner.Track className="opacity-25" width={8} />
+        <Spinner.TrackFill className="opacity-75" width={8} />
+      </Spinner.Root>
+    </div>
                         </div>
                     )}
                 </div>
-                <div className="flex flex-row gap-2 items-center justify-between px-1 h-[20px] mb-[13px] w-[99%] lg:w-full">
-                    <div className="flex flex-row gap-2 items-center scroll-smooth">
-                        {showIcons && <>
-                            <Checkbox isSelected={settings.autoplay} onValueChange={(value) => setSettings({ ...settings, autoplay: value })} color="default" size='sm' className="text-[10px]">
-                                <span className='text-[12px] text-[#ffffffb2]'>Auto Play</span>
-                            </Checkbox>
-                            <Checkbox isSelected={settings.autonext} onValueChange={(value) => setSettings({ ...settings, autonext: value })} color="default" size="sm">
-                                <span className='text-[12px] text-[#ffffffb2]'>Auto Next</span>
-                            </Checkbox>
-                            {!isSmallScreen && (
-                                <Checkbox
-                                    isSelected={settings.autoskip}
-                                    onValueChange={(value) => setSettings({ ...settings, autoskip: value })}
-                                    color="default"
-                                    size="sm"
-                                >
-                                    <span className='text-[12px] text-[#ffffffb2]'>Auto Skip</span>
-                                </Checkbox>
-                            )}
-                        </>}
-                    </div>
-                    <div className='flex flex-row gap-2 items-center scroll-smooth'>
-                        <span className='flex flex-row text-[12.5px] gap-[3px] cursor-pointer text-[#ffffffb2]' onClick={getPrevEpisode}> <PreviousIcon width={17} /> Prev </span>
-                        <span className='flex flex-row text-[12.5px] gap-[3px] cursor-pointer text-[#ffffffb2]' onClick={getNextEpisode}> <NextIcon width={17} /> Next </span>
-                        <span className='flex flex-row text-[12.5px] gap-[3px] cursor-pointer' onClick={toggleIcons}> <SettingsMenuIcon width={20} /> </span>
-                    </div>
-                </div>
                 <div className=' my-[9px] mx-2 sm:mx-1 px-1 lg:px-0'>
                     <h2 className='text-[20px]'>{data?.title?.[animetitle] || data?.title?.romaji}</h2>
-                    <h2 className='text-[16px] text-[#ffffffb2]'>{` EPISODE ${currentep?.number || epnum} `}</h2>
+                    <h2 className='text-[16px] text-[#ffffffb2]'>{` EPISODE ${epNum} `}</h2>
                 </div>
             </div>
             <div className='w-[98%] mx-auto lg:w-full'>
-            <PlayerEpisodeList id={id} data={data} setwatchepdata={setepisodeData} onprovider={provider} epnum={epnum}/>
+            <PlayerEpisodeList id={id} data={data} setwatchepdata={setepisodeData} onprovider={provider} epnum={epNum}/>
             </div>
         </div>
     )

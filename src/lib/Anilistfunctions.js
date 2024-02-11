@@ -15,8 +15,8 @@ export const TrendingAnilist = async () => {
                     perPage: 15,
                 },
             }),
-        // }, { cache: "no-store" });
-    }, { next: { revalidate: 3600 } });
+        }, { cache: "no-store" });
+    // }, { next: { revalidate: 3600 } });
 
         const data = await response.json();
         return data.data.Page.media;

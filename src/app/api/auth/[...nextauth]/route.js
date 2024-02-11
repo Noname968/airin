@@ -1,6 +1,10 @@
 import NextAuth from "next-auth"
+import { MongoDBAdapter } from "@auth/mongodb-adapter"
+import clientPromise from "@/mongodb/db";
+import { getServerSession } from "next-auth"
 
 export const authOptions = {
+  adapter: MongoDBAdapter(clientPromise),
     secret: process.env.NEXTAUTH_SECRET,
     providers: [
       {
@@ -120,5 +124,7 @@ export const authOptions = {
   };
   
 const handler = NextAuth(authOptions)
+
+export const getAuthSession = () => getServerSession(authOptions)
 
 export { handler as GET, handler as POST }

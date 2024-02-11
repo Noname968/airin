@@ -10,6 +10,7 @@
 .aniplay{
     font-family: "28 Days Later";
 }
+
 /* html {
     scroll-behavior: smooth !important;
    } */
@@ -29,7 +30,7 @@
 
 .recommendationglobal{
     max-width: 85%;
-    margin: auto;
+    margin: 20px auto 0 auto;
 }
 
 

@@ -9,13 +9,16 @@ import VerticalList from '@/components/home/VerticalList'
 import ContinueWatching from '@/components/home/ContinueWatching'
 import RecentEpisodes from '@/components/home/RecentEpisodes'
 import FloatingButton from '@/components/FloatingButton'
+import { getWatchHistory } from '@/lib/EpHistoryfunctions'
 
 
 async function Home() {
   const herodata = await TrendingAnilist();
   const top100data = await Top100Anilist();
   const seasonaldata = await SeasonalAnilist();
+  const history = await getWatchHistory();
 
+  // console.log(history)
   return (
     <div>
       <Navbarcomponent home={true} />
@@ -29,14 +32,14 @@ async function Home() {
         >
           <Animecard data={herodata} cardid="Trending Now" />
         </MotionDiv>
-        {/* <MotionDiv
+        <MotionDiv
           initial={{ y: 10, opacity: 0 }}
           whileInView={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.5 }}
           viewport={{ once: true }}
         >
           <RecentEpisodes cardid="Recent Episodes"/>
-        </MotionDiv> */}
+        </MotionDiv>
         <MotionDiv
           initial={{ y: 10, opacity: 0 }}
           whileInView={{ y: 0, opacity: 1 }}

@@ -57,7 +57,7 @@
     display: flex;
 }
 
-.epnumlist, .epimagelist{
+.epnumlist{
     max-width: 100%;
     max-height: 35rem;
     overflow-y: scroll;
@@ -69,11 +69,11 @@
     display: none;
 }
 
-@media(min-width:1900px){
+/* @media(min-width:1900px){
     .epimagelist{
         max-height: 50rem;
     }
-}
+} */
 
 @media(max-width:1280px){
     .epleft{
@@ -137,9 +137,9 @@
         max-width: 96%;
         margin: auto;
     }
-    .epimagelist{
+    /* .epimagelist{
         height: 25rem;
-    }
+    } */
     .headtitle{
         font-size: 19px;
     }

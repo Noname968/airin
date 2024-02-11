@@ -8,6 +8,33 @@ export const DataProvider = ({ children }) => {
   const [dfepisodes,setdfepisodes] = useState(null);
   const [dftype,setdftype] = useState(null);
   const [animetitle, setAnimetitle] = useState('english');
+  const [nowPlaying, setNowPlaying] = useState(null);
+  const [dataInfo, setDataInfo] = useState(null);
+  const defaultSettings = {
+    autoplay: false,
+    autoskip: false,
+    autonext: false,
+    load: 'idle',
+    audio: false,
+};
+
+const [settings, setSettings] = useState({});
+
+useEffect(() => {
+    const storedSettings = JSON.parse(localStorage.getItem('settings'));
+
+    if (storedSettings && Object.keys(storedSettings).length > 0) {
+        setSettings(storedSettings);
+    } else {
+        setSettings(defaultSettings);
+    }
+}, []);
+
+useEffect(() => {
+    if (settings && Object.keys(settings).length > 0) {
+        localStorage.setItem('settings', JSON.stringify(settings));
+    }
+}, [settings]);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -23,7 +50,10 @@ export const DataProvider = ({ children }) => {
 
 
   return (
-    <DataContext.Provider value={{ Isopen, setIsopen,setdfprovider,setdfepisodes,dfepisodes,dfprovider, dftype,setdftype,animetitle,changeLanguage}}>
+    <DataContext.Provider value={{ Isopen, setIsopen, setdfprovider, setdfepisodes,
+     dfepisodes, dfprovider, dftype, setdftype, animetitle, changeLanguage, setSettings, settings,
+     nowPlaying, setNowPlaying, dataInfo, setDataInfo
+     }}>
       {children}
     </DataContext.Provider>
   );

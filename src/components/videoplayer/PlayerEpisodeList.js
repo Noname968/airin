@@ -2,17 +2,15 @@
 import React, { useEffect, useState } from "react";
 import { Tooltip } from "@nextui-org/react";
 import styles from '../../styles/PlayerEpisodeList.module.css'
-import Link from 'next/link'
 import { getEpisodes } from "@/lib/getData";
 import { ProvidersMap } from "@/utils/EpisodeFunctions";
-import { useRouter } from 'next/navigation'
+import { useRouter } from 'next-nprogress-bar';
 import EpImgContent from "../Episodelists/EpImgContent";
 import EpNumList from "../Episodelists/EpNumList";
 
 function PlayerEpisodeList({ id, data, onprovider, setwatchepdata, epnum }) {
   const [subtype, setSubtype] = useState('sub');
   const router = useRouter();
-
   useEffect(() => {
     const storedType = localStorage.getItem('selectedType');
     if (storedType) {
@@ -28,7 +26,7 @@ function PlayerEpisodeList({ id, data, onprovider, setwatchepdata, epnum }) {
   const [providerChanged, setProviderChanged] = useState(true);
   const [refreshloading, setRefreshLoading] = useState(false);
   const [dataRefreshed, setDataRefreshed] = useState(false);
-  const [eplisttype, setEplistType] = useState(3);
+  const [eplisttype, setEplistType] = useState(2);
   const [currentPage, setCurrentPage] = useState(1);
   const [filteredEp, setFilteredEp] = useState([]);
   const itemsPerPage = 35;
@@ -49,10 +47,12 @@ function PlayerEpisodeList({ id, data, onprovider, setwatchepdata, epnum }) {
 
   useEffect(() => {
     const listtype = localStorage.getItem('eplisttype');
-    if (listtype && parseInt(listtype, 10) === 1) {
-      setEplistType(2);
-    } else {
-      setEplistType(parseInt(listtype, 10));
+    if (listtype) {
+      if (parseInt(listtype, 10) === 1) {
+        setEplistType(2);
+      } else {
+        setEplistType(parseInt(listtype, 10));
+      }
     }
   }, []);
 
@@ -119,7 +119,7 @@ function PlayerEpisodeList({ id, data, onprovider, setwatchepdata, epnum }) {
     if (!providerChanged && currentEpisodes[epnum - 1]?.id) {
       // Use  setTimeout to wait for the component to re-render
       setTimeout(() => {
-        router.push(`/anime/watch/${id}/${defaultProvider}/${epnum}?epid=${encodeURIComponent(currentEpisodes[epnum - 1]?.id)}&type=${subtype}`);
+        router.push(`/anime/watch?id=${id}&host=${defaultProvider}&epid=${encodeURIComponent(currentEpisodes[epnum - 1]?.id)}&ep=${epnum}&type=${subtype}`);
       }, 0);
     }
   }, [providerChanged]);

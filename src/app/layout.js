@@ -1,13 +1,14 @@
 import { Inter } from 'next/font/google'
 import './globals.css'
 import { Providers } from "./providers";
-import NextTopLoader from 'nextjs-toploader';
+// import NextTopLoader from 'nextjs-toploader';
 import Search from '@/components/search/Search'
 import GoToTop from '@/components/GoToTop';
 import localFont from 'next/font/local';
 import Footer from '@/components/Footer';
 import Script from "next/script";
 import { getServerSession } from 'next-auth';
+import { authOptions } from './api/auth/[...nextauth]/route';
 
 const inter = Inter({ subsets: ['latin'] })
 const myfont = localFont({ src: "../static-fonts/28 Days Later.ttf" })
@@ -69,7 +70,7 @@ export const metadata = {
 
 
 export default async function RootLayout({ children }) {
-  const session = await getServerSession();
+  const session = await getServerSession(authOptions);
 
   return (
     <html lang="en" className='dark text-foreground bg-background'>
@@ -92,7 +93,7 @@ export default async function RootLayout({ children }) {
       </head>
       <body className={inter.className}>
         <Providers session={session}>
-          <NextTopLoader color="#CA1313" className="z-[99999]" />
+          {/* <NextTopLoader color="#CA1313" className="z-[99999]" /> */}
           <Search />
           {children}
           <GoToTop />

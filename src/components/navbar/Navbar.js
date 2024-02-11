@@ -7,6 +7,7 @@ import styles from '../../styles/Navbar.module.css'
 import { useSession, signIn, signOut } from 'next-auth/react';
 import { FeedbackIcon, LoginIcon, LogoutIcon, SettingsIcon, ProfileIcon, NotificationIcon } from '@/lib/SvgIcons';
 import { Usernotifications } from '@/lib/AnilistUser';
+import { motion, useScroll, useMotionValueEvent } from 'framer-motion'
 
 function Navbarcomponent({ home = false }) {
     const iconClasses = "w-5 h-5 text-xl text-default-500 pointer-events-none flex-shrink-0";
@@ -15,6 +16,22 @@ function Navbarcomponent({ home = false }) {
     const { Isopen, setIsopen, animetitle } = ContextSearch();
     const { data, status } = useSession();
     const [notifications, setNotifications] = useState([]);
+    const [hidden, setHidden] = useState(false);
+    const { scrollY } = useScroll();
+
+    useMotionValueEvent(scrollY, "change", (latest)=>{
+        const previous = scrollY.getPrevious();
+        if(latest > previous && latest > 150){
+            setHidden(true);
+        }
+        else{
+            setHidden(false);
+            setIsScrolled(false);
+        }
+        if(latest > 50){
+            setIsScrolled(true)
+        }
+    })
 
     useEffect(() => {
         if (status === 'authenticated') {
@@ -25,7 +42,7 @@ function Navbarcomponent({ home = false }) {
         }
     }, [status])
 
-    console.log(data)
+    // console.log(data)
 
     useEffect(() => {
         const fetchNotifications = async () => {
@@ -82,21 +99,21 @@ function Navbarcomponent({ home = false }) {
         };
     }, [setIsopen]);
 
-    useEffect(() => {
-        const handleScroll = () => {
-            if (window.scrollY > 0) {
-                setIsScrolled(true);
-            } else {
-                setIsScrolled(false);
-            }
-        };
+    // useEffect(() => {
+    //     const handleScroll = () => {
+    //         if (window.scrollY > 0) {
+    //             setIsScrolled(true);
+    //         } else {
+    //             setIsScrolled(false);
+    //         }
+    //     };
 
-        window.addEventListener('scroll', handleScroll);
+    //     window.addEventListener('scroll', handleScroll);
 
-        return () => {
-            window.removeEventListener('scroll', handleScroll);
-        };
-    }, []);
+    //     return () => {
+    //         window.removeEventListener('scroll', handleScroll);
+    //     };
+    // }, []);
 
     const navbarClass = isScrolled
         ? `${home ? styles.homenavbar : styles.navbar} ${home && styles.navbarscroll}`
@@ -105,7 +122,14 @@ function Navbarcomponent({ home = false }) {
             : styles.navbar;
 
     return (
-        <div className={navbarClass}>
+        <motion.nav className={navbarClass}
+        variants={{
+            visible:{ y: 0 },
+            hidden:{ y: "-100%"},
+        }}
+        animate={hidden ? 'hidden' : 'visible'}
+        transition={{duration: 0.3, ease: "easeInOut"}}
+        >
             <div className={styles.navleft}>
                 <div className={styles.logoContainer}>
                     <Link href="/" className={styles.logoLink}>
@@ -227,7 +251,7 @@ function Navbarcomponent({ home = false }) {
                     )}
                 </Dropdown>
             </div>
-        </div>
+        </motion.nav>
     )
 }
 

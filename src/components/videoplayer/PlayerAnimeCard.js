@@ -33,7 +33,7 @@ function PlayerAnimeCard({ data, id }) {
       <h2 className=" lg:text-[22px] text-[21px]">{id}</h2>
     </div>
     <div className={styles.playanimecard}>
-      {data.slice(0, visibleItems).map((item) => (
+      {data && data?.slice(0, visibleItems).map((item) => (
         <div className={styles.playcarditem} key={item?.node?.id || item?.mediaRecommendation?.id}>
           <div className={styles.playcardimgcon}>
 

@@ -63,7 +63,7 @@ function ContinueWatching() {
             </div>
             <div className={styles.bottomsection} {...events} ref={containerRef}>
                 {storedData?.map((anime) => (
-                    <div key={anime?.id} className={`${styles.animeitem} group`}>
+                    <div key={anime?.aniId || anime?.id} className={`${styles.animeitem} group`}>
                         <Popover placement="bottom-end" offset={10} radius={"sm"}>
                             <PopoverTrigger>
                                 <button className='absolute z-[8] py-[4px] bg-white rounded-[6px] px-[1px] top-2 right-2 shadow-md shadow-black/50 transition-all duration-200 ease-out opacity-0 xl:group-hover:opacity-100 scale-90 group-hover:scale-100 outline-none border-none'>
@@ -85,7 +85,7 @@ function ContinueWatching() {
                                 )}
                             </PopoverContent>
                         </Popover>
-                        <Link href={`/anime/watch/${anime.id}/${anime.provider}/${anime.epnum}?epid=${anime.epid}&type=${anime.subtype}`}>
+                        <Link href={`/anime/watch?id=${anime?.aniId || anime?.id}&host=${anime?.provider}&epid=${anime?.epId || anime?.epid}&ep=${anime?.epNum || anime?.epnum}&type=${anime.subtype}`}>
                             <div className={styles.animeimg}>
                                 <Image src={anime?.image} alt={anime?.aniTitle} width={155} height={230} placeholder="blur" blurDataURL={anime?.image} className={`${styles.imgcover} `} />
                             </div>

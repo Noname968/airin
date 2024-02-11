@@ -66,7 +66,7 @@ function RecentEpisodes({ cardid }) {
                     <svg onClick={scrollRight} xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="mb-4"><path d="m9 18 6-6-6-6"></path></svg>
                 </span>
                 <div className={styles.cardcontainer} id={cardid} {...events} ref={containerRef} onScroll={handleScroll}>
-                    {data?.map((item) => {
+                    {data && data?.map((item) => {
                         const anime = {
                             id: item.id || '',
                             coverImage: item?.coverImage || '',

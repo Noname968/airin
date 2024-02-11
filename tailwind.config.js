@@ -19,5 +19,10 @@ module.exports = {
     },
   },
   darkMode: "class",
-  plugins: [nextui()]
+  plugins: [
+    nextui(),
+    require("@vidstack/react/tailwind.cjs")({
+      prefix: "media",
+    }),
+  ]
 }

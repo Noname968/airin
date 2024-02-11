@@ -1,20 +1,24 @@
-.epimgcontainer{
+/* .epimgcontainer{
     width: 100%;
     display: grid;
     grid-template-columns: repeat(4, auto);
     gap: 10px;
     align-items: center;
-}
-.epimageitem{
+    max-height: 35rem;
+    overflow-y: scroll;
+    overflow-x: hidden;
+} */
+/* .epimageitem{
     position: relative;
     cursor: pointer;
-}
+} */
 .epimgdiv{
     width: 100%;
     flex: 1;
     border-radius: 8px;
     overflow: hidden;
     background-color: #18181b;
+    position: relative;
 }
 .epimage{
     background-color: #18181b;
@@ -23,7 +27,7 @@
     object-fit: cover;
     aspect-ratio: 16/9;
     border-radius: 8px;
-    transition: all .3s ease!important;
+    transition: all 300ms ease!important;
 }
 .epimage:hover{
     transform:scale(1.05);
@@ -31,23 +35,12 @@
 }
 .epimgnumber{
     position: absolute;
-    bottom: 0;
+    bottom: 4px;
+    left: 4px;
     background-color: rgba(0,0,0,0.6);
-    padding: 5px;
-    font-size: 14px;
-    border-top-right-radius: 8px;
-}
-
-.epimgplayicon{
-    position: absolute;
-    top: 47%;
-    left: 50%;
-    transform: translate(-50%, 0);
-    display: none;
-}
-
-.epimageitem:hover > .epimgplayicon{
-    display: block;
+    padding: 3px 6px;
+    font-size: 13px;
+    border-radius: 6px;
 }
 
 @media(min-width:1700px){
@@ -141,65 +134,63 @@
 }
 
 .epimageconitem{
-    display: flex;
     align-items: center;
     flex-direction: row;
-    margin: 5px 0 5px 3px;
     background-color: #18181b;
     border-radius: 8px;
 }
 
-.selectedEpimgcon{
+/* .selectedEpimgcon{
     border: 2px solid rgb(255, 255, 255,1);
     transform: scale(0.990);
     transition: all .3s ease-in-out!important; 
     pointer-events: none;
     background-color: rgba(0,0,0,0.3);
-}
-.selectedEpimgcon.epimageconitem .epimgplayico {
+} */
+/* .selectedEpimgcon.epimageconitem .epimgplayico {
     display: block !important;
 }
 .selectedEpimgcon .epimgcon{
     opacity: 0.5;
-}
-.epcondiv{
+} */
+.epcondiv {
     width: 230px;
     border-radius: 8px;
     position: relative;
     height: 124px;
     margin: 0 20px 0 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.epimgcon{
+.epimgcon {
     position: absolute;
     width: 100%;
     height: 100%;
     border-radius: 8px;
     object-fit: cover;
-    /* aspect-ratio: 16/9; */
 }
 
-.epimgplayico{
+.epimgplayico {
     position: absolute;
-    top: 45%;
-    left: 105px;
-    display: none;
 }
 
-.epimageconitem:hover .epimgplayico{
+
+/* .epimageconitem:hover .epimgplayico{
     display: block;
-    transition: all .3s ease-in-out!important;
+    transition: all 300ms ease-in-out!important;
 }
 
 .epimageconitem:hover{
     transform: scale(0.992);
-    transition: all .3s ease-in-out!important; 
+    transition: all 300ms ease-in-out!important; 
     background-color: #27272c;
-}
+} */
 
-.epimageconitem:hover .epimgcon{
+/* .epimageconitem:hover .epimgcon{
     opacity: 0.6;
-}
+} */
 
 .epimgright{
     width: 75%;
@@ -248,11 +239,14 @@
 
 @media(max-width:565px){
     .epimgcondiv{
-        max-height: 29rem;
+        max-height: 25rem!important;
+    }
+    .epimgright{
+        max-width: 60%;
     }
     .epcondiv{
         width: 180px;
-        height: 105px;
+        height: 90px;
     }
     .epimgtitle{
         overflow: hidden;
@@ -266,8 +260,5 @@
     }
     .epimgdescription{
         font-size: 13px;
-    }
-    .epimgplayico{
-        left: 80px;
     }
 }

@@ -15,7 +15,7 @@ async function fetchRecent() {
         return data;
     } catch (error) {
         console.error("Error fetching Recent Episodes:", error);
-        return null;
+        return [];
     }
 }
 

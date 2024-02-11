@@ -7,7 +7,7 @@
     justify-content: space-between;
     align-items: center;
     color: white;
-    height: 58px;
+    height: 68px;
     padding: 0 6.8%;
     margin: auto;
     background: transparent;
@@ -16,6 +16,7 @@
     left: 0;
     right: 0;
     z-index: 90;
+    transition:all 300ms ease-in-out;
 }
 
 .navbar {
@@ -23,7 +24,7 @@
     justify-content: space-between;
     align-items: center;
     color: white;
-    height: 58px;
+    height: 68px;
     padding: 0 3%;
     margin: auto;
     background-color: rgba(0, 0, 0, 0.4);
@@ -33,12 +34,13 @@
     left: 0;
     right: 0;
     z-index: 90;
+    transition:all 300ms ease-in-out;
 }
 
 .navbarscroll {
     background-color: rgba(0, 0, 0, 0.4);
     backdrop-filter: blur(10px);
-    transition: background-color 300ms ease-in-out !important;
+    transition:all 300ms ease-in-out;
 }
 
 .navleft {
