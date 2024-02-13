@@ -31,7 +31,7 @@ function NextAiringDate({ nextAiringEpisode }) {
   if (!nextAiringEpisode || timeLeft === null) {
     return (
     <div className='hidden w-[98%] mx-auto lg:w-full md:flex xl:max-w-[96.5%] my-5 text-[13px] bg-[#18181B] py-2 rounded-[8px] text-center text-[#ffffffb2]  flex-row gap-1 items-center justify-center'>
-       The next episode is not announced yet 
+       The next episode will be Airing Shortly... 
     </div>
     )}
 

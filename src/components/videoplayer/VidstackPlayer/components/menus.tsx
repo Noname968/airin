@@ -35,9 +35,10 @@ export interface SettingsProps {
   subtitles?: any
 }
 
+export const menuClass =
+  'animate-out fade-out slide-out-to-bottom-2 data-[open]:animate-in data-[open]:fade-in data-[open]:slide-in-from-bottom-4 flex h-[var(--menu-height)] max-h-[400px] min-w-[260px] flex-col overflow-y-auto overscroll-y-contain rounded-md border border-white/10 bg-black/95 p-2.5 font-sans text-[15px] font-medium outline-none backdrop-blur-sm transition-[height] duration-300 will-change-[height] data-[resizing]:overflow-hidden';
 
 export function Settings({ placement, tooltipPlacement, subtitles }: SettingsProps) {
-  const isFullscreen = useMediaState("fullscreen");
 
   return (
     <Menu.Root className="parent">
@@ -49,15 +50,14 @@ export function Settings({ placement, tooltipPlacement, subtitles }: SettingsPro
       </Tooltip.Trigger>
       <Tooltip.Content
         // offset={offset}
-        className={tooltipStyles.tooltip} 
+        className={`${tooltipStyles.tooltip} parent-data-[open]:hidden`}
         placement={tooltipPlacement}
         >
         Settings
       </Tooltip.Content>
     </Tooltip.Root>
-    {!isFullscreen ? (
-      <Menu.Portal >
-      <Menu.Content className={styles.menu} placement={placement}>
+      <Menu.Portal disabled="fullscreen" >
+      <Menu.Content className={menuClass} placement={placement}>
       <AutoPlay />
         <AutoNext />
         <AutoSkip />
@@ -66,16 +66,6 @@ export function Settings({ placement, tooltipPlacement, subtitles }: SettingsPro
         <QualitySubmenu />
         </Menu.Content>
       </Menu.Portal>
-     ) : ( 
-      <Menu.Content className={styles.menu} placement={placement}>
-         <AutoPlay />
-        <AutoNext />
-        <AutoSkip />
-        <SpeedSubmenu />
-        {  subtitles?.length > 0 && <CaptionSubmenu/>}
-        <QualitySubmenu />
-      </Menu.Content>
-     )}
   </Menu.Root>
 );
 }

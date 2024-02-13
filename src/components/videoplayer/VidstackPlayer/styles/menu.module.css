@@ -29,15 +29,16 @@
 
 .menu[data-resizing] {
   overflow: hidden;
-  pointer-events: none;
+  /* pointer-events: none; */
 }
 
 .menu:not([data-open]) {
-  animation: media-menu-exit 0.2s ease-out;
+  animation: media-menu-exit 200ms ease-out;
+  bottom: 60px;
 }
 
 .menu[data-open] {
-  animation: media-menu-enter 0.3s ease-out;
+  animation: media-menu-enter 200ms ease-out;
   animation-fill-mode: forwards;
 }
 

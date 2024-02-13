@@ -84,7 +84,7 @@ function PlayerComponent({ id, epId, provider, epNum, subdub, data, session, sav
                   
                   setNowPlaying(episode);
                   setSkipTimes(skiptime);
-                  console.log(episode);
+                  console.log(skipData);
                 setLoading(false);
             } catch (error) {
                 console.error('Error fetching data:', error);

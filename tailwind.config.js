@@ -7,8 +7,10 @@ module.exports = {
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
     "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}"
-
   ],
+  future: {
+    hoverOnlyWhenSupported: true,
+  },
   theme: {
     extend: {
       // backgroundImage: {
@@ -24,5 +26,15 @@ module.exports = {
     require("@vidstack/react/tailwind.cjs")({
       prefix: "media",
     }),
+    require('tailwindcss-animate'),
+    customVariants
   ]
+}
+
+function customVariants({ addVariant, matchVariant }) {
+  // Strict version of `.group` to help with nesting.
+  matchVariant('parent-data', (value) => `.parent[data-${value}] > &`);
+
+  addVariant('hocus', ['&:hover', '&:focus-visible']);
+  addVariant('group-hocus', ['.group:hover &', '.group:focus-visible &']);
 }

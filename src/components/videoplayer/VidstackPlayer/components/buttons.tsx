@@ -58,7 +58,7 @@ export function Play({ tooltipPlacement, offset }: MediaButtonProps) {
           <Icon className="w-8 h-8" />
         </PlayButton>
       </Tooltip.Trigger>
-      <Tooltip.Content className={tooltipStyles.tooltip} placement={tooltipPlacement} offset={offset}>
+      <Tooltip.Content className={`${tooltipStyles.tooltip} parent-data-[open]:hidden`} placement={tooltipPlacement} offset={offset}>
         {isPaused ? "Play" : "Pause"}
       </Tooltip.Content>
     </Tooltip.Root>
@@ -78,7 +78,7 @@ export function SeekForwardButton({
       </Tooltip.Trigger>
       <Tooltip.Content
         offset={offset}
-        className={tooltipStyles.tooltip}
+        className={`${tooltipStyles.tooltip} parent-data-[open]:hidden`}
         placement={tooltipPlacement}
       >
         Forward 10sec
@@ -100,7 +100,7 @@ export function SeekBackwardButton({
       </Tooltip.Trigger>
       <Tooltip.Content
         offset={offset}
-        className={tooltipStyles.tooltip}
+        className={`${tooltipStyles.tooltip} parent-data-[open]:hidden`}
         placement={tooltipPlacement}
       >
         Backward 10sec
@@ -137,7 +137,7 @@ export function NextEpisode({
         </Tooltip.Trigger>
         <Tooltip.Content
           offset={offset}
-          className={tooltipStyles.tooltip}
+          className={`${tooltipStyles.tooltip} parent-data-[open]:hidden`}
           placement={tooltipPlacement}
         >
           Next Episode
@@ -175,7 +175,7 @@ export function PreviousEpisode({
         </Tooltip.Trigger>
         <Tooltip.Content
           offset={offset}
-          className={tooltipStyles.tooltip}
+          className={`${tooltipStyles.tooltip} parent-data-[open]:hidden`}
           placement={tooltipPlacement}
         >
           Previous Episode
@@ -229,7 +229,7 @@ export function Mute({ tooltipPlacement, offset }: MediaButtonProps) {
       </Tooltip.Trigger>
       <Tooltip.Content
         offset={offset}
-        className={tooltipStyles.tooltip}
+        className={`${tooltipStyles.tooltip} parent-data-[open]:hidden`}
         placement={tooltipPlacement}
       >
         {isMuted ? "Unmute" : "Mute"}
@@ -254,7 +254,7 @@ export function Caption({ tooltipPlacement, offset }: MediaButtonProps) {
       </Tooltip.Trigger>
       <Tooltip.Content
         offset={offset}
-        className={tooltipStyles.tooltip}
+        className={`${tooltipStyles.tooltip} parent-data-[open]:hidden`}
         placement={tooltipPlacement}
       >
         {isOn ? "Closed-Captions On" : "Closed-Captions Off"}
@@ -279,7 +279,7 @@ export function PIP({ tooltipPlacement, offset }: MediaButtonProps) {
       </Tooltip.Trigger>
       <Tooltip.Content
         offset={offset}
-        className={tooltipStyles.tooltip}
+        className={`${tooltipStyles.tooltip} parent-data-[open]:hidden`}
         placement={tooltipPlacement}
       >
         {isActive ? "Exit PIP" : "Enter PIP"}
@@ -330,7 +330,7 @@ export function Fullscreen({ tooltipPlacement, offset }: MediaButtonProps) {
       </Tooltip.Trigger>
       <Tooltip.Content
         offset={offset}
-        className={tooltipStyles.tooltip}
+        className={`${tooltipStyles.tooltip} parent-data-[open]:hidden`}
         placement={tooltipPlacement}
       >
         {isActive ? "Exit Fullscreen" : "Enter Fullscreen"}
@@ -349,7 +349,7 @@ export function ChromeCast({ tooltipPlacement, offset }: MediaButtonProps) {
       </Tooltip.Trigger>
       <Tooltip.Content
         offset={offset}
-        className={tooltipStyles.tooltip}
+        className={`${tooltipStyles.tooltip} parent-data-[open]:hidden`}
         placement={tooltipPlacement}
       >
         Chromecast
@@ -368,7 +368,7 @@ export function AirPlay({ tooltipPlacement, offset }: MediaButtonProps) {
     </Tooltip.Trigger>
     <Tooltip.Content
       offset={offset}
-      className={tooltipStyles.tooltip}
+      className={`${tooltipStyles.tooltip} parent-data-[open]:hidden`}
       placement={tooltipPlacement}
     >
       Airplay

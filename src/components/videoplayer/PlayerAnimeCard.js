@@ -14,7 +14,7 @@ function PlayerAnimeCard({ data, id }) {
 
   useEffect(() => {
     if (id === 'Recommendations') {
-      setVisibleItems(10)
+      setVisibleItems(15)
     }
   }, [data])
 

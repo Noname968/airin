@@ -484,6 +484,7 @@ export const playeranimeinfo = `query ($id: Int) {
           }
           episodes
           status
+          format
           nextAiringEpisode {
             episode
           }

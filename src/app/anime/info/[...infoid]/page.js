@@ -27,17 +27,17 @@ export async function generateMetadata({ params }) {
   const data = await AnimeInfoAnilist(id);
   
   return {
-    title: data?.title.english || data?.title.romaji || 'Loading...',
+    title: data?.title?.english || data?.title?.romaji || 'Loading...',
     description: data?.description.slice(0,180),
     openGraph: {
-      title: data?.title.english || data?.title.romaji,
+      title: data?.title?.english || data?.title?.romaji,
       images: [data?.coverImage?.extraLarge],
       description: data?.description,
     },
     twitter: {
       card: "summary",
-      title: data?.title.english || data?.title.romaji,
-      description: data?.description.slice(0,180),
+      title: data?.title?.english || data?.title?.romaji,
+      description: data?.description?.slice(0,180),
     },
   }
 }

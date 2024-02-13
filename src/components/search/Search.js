@@ -91,9 +91,9 @@ function Search() {
                                             <span>+</span>
                                             <div className="bg-[#1a1a1f] text-white text-xs font-bold px-2 py-1 rounded-md">S</div>
                                         </div>
-                                        <div className="mx-2 bg-[#1a1a1f] text-xs font-bold px-2 py-1 rounded-xl flex items-center justify-center">Anime</div>
+                                        <div className="mx-1 bg-[#1a1a1f] text-xs font-bold px-2 py-1 rounded-lg flex items-center justify-center">Anime</div>
                                     </div>
-                                    <div className="flex items-center text-base font-medium rounded-xl bg-[#1a1a1f]">
+                                    <div className="flex items-center text-base font-medium rounded-lg bg-[#1a1a1f]">
                                         <Combobox.Input
                                             ref={focusInput}
                                             className="p-4 text-white w-full bg-transparent border-0 outline-none"
@@ -125,32 +125,34 @@ function Search() {
                                                                 `flex items-center gap-3 py-[8px] px-5 border-b border-solid border-gray-800  ${active ? "bg-black/20 cursor-pointer" : ""
                                                                 }`
                                                             }>
-                                                            <div className="shrink-0">
-                                                                <img
-                                                                    src={item.image || item.coverImage.large}
-                                                                    alt="image"
-                                                                    width={52}
-                                                                    height={70}
-                                                                    className="rounded"
-                                                                />
-                                                            </div>
-                                                            <div className="flex flex-col overflow-hidden">
-                                                                <Link href={`/anime/info/${item.id}`} onClick={()=>{setIsopen(false)}}>
+                                                            <Link href={`/anime/info/${item.id}`} onClick={() => { setIsopen(false) }}>
+                                                                <div className="shrink-0">
+                                                                    <img
+                                                                        src={item.image || item.coverImage.large}
+                                                                        alt="image"
+                                                                        width={52}
+                                                                        height={70}
+                                                                        className="rounded"
+                                                                    />
+                                                                </div>
+                                                            </Link>
+                                                            <Link href={`/anime/info/${item.id}`} onClick={() => { setIsopen(false) }}>
+                                                                <div className="flex flex-col overflow-hidden">
                                                                     <p className="line-clamp-2 text-base">
                                                                         {item.title[animetitle] || item.title.romaji}
                                                                     </p>
-                                                                </Link>
-                                                                <span className="my-1 text-xs text-gray-400">Episodes - {item?.episodes || item?.nextAiringEpisode?.episode-1 ||  "?"}</span>
-                                                                <div className="flex items-center text-gray-400 text-xs">
-                                                                    <span><span className="fa fa-star"></span> {item.averageScore / 10 || "0"}</span>
-                                                                    <span className='mx-1 mb-[5px]'>.</span>
-                                                                    <span>{item.format || item.type || "Na"}</span>
-                                                                    <span className='mx-1 mb-[5px]'>.</span>
-                                                                    <span> {item?.startDate?.year || "Na"}</span>
-                                                                    <span className='mx-1 mb-[5px]'>.</span>
-                                                                    <span>{item.status}</span>
+                                                                    <span className="my-1 text-xs text-gray-400">Episodes - {item?.episodes || item?.nextAiringEpisode?.episode - 1 || "?"}</span>
+                                                                    <div className="flex items-center text-gray-400 text-xs">
+                                                                        <span><span className="fa fa-star"></span> {item.averageScore / 10 || "0"}</span>
+                                                                        <span className='mx-1 mb-[5px]'>.</span>
+                                                                        <span>{item.format || item.type || "Na"}</span>
+                                                                        <span className='mx-1 mb-[5px]'>.</span>
+                                                                        <span> {item?.startDate?.year || "Na"}</span>
+                                                                        <span className='mx-1 mb-[5px]'>.</span>
+                                                                        <span>{item.status}</span>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
+                                                            </Link>
                                                         </Combobox.Option>
                                                     ))
                                                     :
@@ -161,16 +163,16 @@ function Search() {
                                                     )}
                                                 {data && nextPage && (
                                                     <Link href={`/anime/catalog?search=${encodeURIComponent(query)}`}>
-                                                    <button
-                                                        type="button"
-                                                        onClick={() => {
-                                                            setIsopen(false);
-                                                            setQuery("");
-                                                        }}
-                                                        className="flex w-full items-center justify-center gap-2 py-4 transition duration-300 ease-in-out cursor-pointer border-none bg-[#4d148c] text-white text-base z-[5]">
+                                                        <button
+                                                            type="button"
+                                                            onClick={() => {
+                                                                setIsopen(false);
+                                                                setQuery("");
+                                                            }}
+                                                            className="flex w-full items-center justify-center gap-2 py-4 transition duration-300 ease-in-out cursor-pointer border-none bg-[#4d148c] text-white text-base z-[5]">
                                                             View Results
-                                                    </button>
-                                                            </Link>
+                                                        </button>
+                                                    </Link>
                                                 )}
                                             </Fragment>
                                         ) : (

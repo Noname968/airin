@@ -6,7 +6,7 @@ import Link from 'next/link'
 function EpImageList({ data, epdata, defaultProvider, subtype }) {
 
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-3 lg:gap-4 max-h-[28rem] md:max-h-[26rem] lg:max-h-[29rem] xl:max-h-[34rem] max-2xl:max-h-[40rem] overflow-y-auto ">
+    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-3 lg:gap-4 !max-h-[22.2rem] md:max-h-[26rem] lg:max-h-[29rem] xl:!max-h-[28.8rem] max-2xl:max-h-[40rem] overflow-y-auto ">
       {epdata?.map((episode) => (
         <Link
           href={`/anime/watch?id=${data?.id}&host=${defaultProvider}&epid=${encodeURIComponent(

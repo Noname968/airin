@@ -3088,10 +3088,10 @@
   resolved "https://registry.npmjs.org/@ungap/structured-clone/-/structured-clone-1.2.0.tgz"
   integrity sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==
 
-"@vidstack/react@^1.10.4":
-  version "1.10.4"
-  resolved "https://registry.npmjs.org/@vidstack/react/-/react-1.10.4.tgz"
-  integrity sha512-4Qr7mIT3k370XvNRJoNRaCNmrFW/ghKvA+Rsc8QTb6XgPJDy0N7xHCg5kKAfs1XywcO3rzpGI4e3JX/MCi8TAw==
+"@vidstack/react@^1.10.5":
+  version "1.10.5"
+  resolved "https://registry.npmjs.org/@vidstack/react/-/react-1.10.5.tgz"
+  integrity sha512-EenrfDm3or3uPvFhNtNFBKzNbCs362X/t7nYMxP3KS7Hsi1h0QuYqBLxWsBPfRgyQrjbccYmLDoXZTSKy7LkTg==
   dependencies:
     media-captions "^1.0.1"
 
@@ -4643,10 +4643,10 @@ hasown@^2.0.0:
   dependencies:
     function-bind "^1.1.2"
 
-hls.js@^1.5.3:
-  version "1.5.3"
-  resolved "https://registry.npmjs.org/hls.js/-/hls.js-1.5.3.tgz"
-  integrity sha512-gonnYpZ5bxuVdwpcbzfylUlNZ8917LjACUjpWXiaeo8zPAIDfPcMZjEQPy6CeeRSJbcg1P+aVqwxrXr2J+SeUg==
+hls.js@^1.5.4:
+  version "1.5.4"
+  resolved "https://registry.npmjs.org/hls.js/-/hls.js-1.5.4.tgz"
+  integrity sha512-MB+e+tcBl+A/EamWvsvx7d/3m9JOLi3wbLaXyZdHlscgXkhiX5zajJxnt7lzn/w9ONxs5qaFTp/kkIMI9fD4KA==
 
 html-escaper@^2.0.2:
   version "2.0.2"
@@ -6516,7 +6516,12 @@ tailwind-variants@^0.1.18, tailwind-variants@>=0.1.13:
   dependencies:
     tailwind-merge "^1.14.0"
 
-tailwindcss@*, tailwindcss@^3.3.0:
+tailwindcss-animate@^1.0.7:
+  version "1.0.7"
+  resolved "https://registry.npmjs.org/tailwindcss-animate/-/tailwindcss-animate-1.0.7.tgz"
+  integrity sha512-bl6mpH3T7I3UFxuvDEXLxy/VuFxBk5bbzplh7tXI68mwMokNYd1t9qPBHlnyTwfa4JGC4zP516I1hYYtQ/vspA==
+
+tailwindcss@*, tailwindcss@^3.3.0, "tailwindcss@>=3.0.0 || insiders":
   version "3.4.1"
   resolved "https://registry.npmjs.org/tailwindcss/-/tailwindcss-3.4.1.tgz"
   integrity sha512-qAYmXRfk3ENzuPBakNK0SRrUDipP8NQnEY6772uDhflcQz5EhRdD7JNZxyrFHVQNCwULPBn6FNPp9brpO7ctcA==

@@ -16,7 +16,6 @@ function EpImgContent({ data, epdata, defaultProvider, subtype, epnum }) {
       }
     }
   }, [epnum, epdata, scrollContainerRef]);
-  console.log(epdata)
 
   return (
     <div className={styles.epimgcondiv} ref={scrollContainerRef}>
@@ -38,7 +37,7 @@ function EpImgContent({ data, epdata, defaultProvider, subtype, epnum }) {
           <span className={styles.epimgnumber}>{"EP " + episode?.number}</span>
           </div>
           <div className={styles.epimgright}>
-            <div className={styles.epimgtitle}>{episode?.title}</div>
+            <div className={styles.epimgtitle}>{episode?.title || "Episode " + episode?.number}</div>
             <div className={styles.epimgdescription}>{episode?.description}</div>
         </div>
        </Link>

@@ -130,6 +130,14 @@ export const GET = async (req, { params }) => {
 
   if (redis) {
     try {
+        // // Find keys matching the pattern "meta:*"
+        // const keys = await redis.keys("meta:*");
+        
+        // // Delete keys matching the pattern "meta:*"
+        // if (keys.length > 0) {
+        //   await redis.del(keys);
+        //   console.log(`Deleted ${keys.length} keys matching the pattern "meta:*"`);
+        // }
       meta = await redis.get(`meta:${id}`);
       if(JSON.parse(meta)?.length === 0){
         await redis.del(`meta:${id}`);
