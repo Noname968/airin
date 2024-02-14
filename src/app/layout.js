@@ -13,12 +13,12 @@ import { authOptions } from './api/auth/[...nextauth]/route';
 const inter = Inter({ subsets: ['latin'] })
 const myfont = localFont({ src: "../static-fonts/28 Days Later.ttf" })
 
-const APP_NAME = "Aniplay";
-const APP_DEFAULT_TITLE = "Aniplay - Watch Anime Online";
+const APP_NAME = "MussabAniplay";
+const APP_DEFAULT_TITLE = "Mussabaniplay - Watch Anime Online";
 const APP_DESCRIPTION = "Explore a vast collection of anime on Aniplay, your go-to destination for streaming the latest and classic anime series. Immerse yourself in captivating storylines, vibrant animation, and diverse genres. Discover a world of entertainment at your fingertips with Aniplay, where every episode is an adventure.";
 
 export const metadata = {
-  metadataBase: new URL('https://aniplay-next.vercel.app'),
+  metadataBase: new URL('https://mussabaniplay.vercel.app'),
   applicationName: APP_NAME,
   title: APP_DEFAULT_TITLE,
   description: APP_DESCRIPTION,
