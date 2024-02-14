@@ -5,7 +5,7 @@ import { NextResponse, NextRequest } from "next/server"
 async function consumetEpisode(id) {
     try {
       const { data } = await axios.get(
-        `https://consumet-api-pb49.onrender.com/meta/anilist/watch/${id}`
+        `https://anime-seven-xi.vercel.app/meta/anilist/watch/${id}`
       );
       return data;
     } catch (error) {
