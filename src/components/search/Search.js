@@ -23,7 +23,7 @@ function Search() {
         setLoading(true);
         // const res = await axios.get(
         //     // `https://api.anify.tv/search/anime/${query} `
-        //     `https://consumet-api-pb49.onrender.com/meta/anilist/advanced-search`,{ params: { query:query,sort:["POPULARITY_DESC","SCORE_DESC","FAVOURITES","TRENDING"] } }
+        //     `https://anime-seven-xi.vercel.app/meta/anilist/advanced-search`,{ params: { query:query,sort:["POPULARITY_DESC","SCORE_DESC","FAVOURITES","TRENDING"] } }
 
         // );
         const res = await AdvancedSearch(debouncedSearch);
