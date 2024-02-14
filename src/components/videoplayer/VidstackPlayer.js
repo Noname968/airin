@@ -219,7 +219,7 @@ function VidstackPlayer({ data, sources, skiptimes, epid, thumbnails, subtitles,
             <Gesture className="vds-gesture" event="dblpointerup" action="toggle:fullscreen" />
             {opbutton && <button onClick={handleop} className='absolute bottom-[83px] right-4 z-[80] bg-white text-black py-2 px-3 rounded-[8px] font-medium'>Skip Opening</button>}
             {edbutton && <button onClick={handleed} className='absolute bottom-[83px] right-4 z-[80] bg-white text-black py-2 px-3 rounded-[8px] font-medium'>Skip Ending</button>}
-            <DefaultVideoLayout icons={defaultLayoutIcons} thumbnails={thumbnails ? `https://cors-anywhere-livid-six.vercel.app/` + thumbnails[0]?.url : ""} />
+            <DefaultVideoLayout icons={defaultLayoutIcons} thumbnails={thumbnails ? `https://consumet-api-pb49.onrender.com/` + thumbnails[0]?.url : ""} />
         </MediaPlayer>
     )
 }
