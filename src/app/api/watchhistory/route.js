@@ -139,45 +139,42 @@ export const POST = async (request) => {
         return NextResponse.json({ message: "UnAuthorized" }, { status: 404 });
       }
   
-      if (data.watchId) {
+      let deletedData;
+  
+      if (data.epId) {
         // Delete a specific document based on watchId
-        const deletedWatch = await Watch.findOneAndDelete({
+        deletedData = await Watch.findOneAndDelete({
           userName: data.name,
           epId: data.epId
         });
-  
-        if (!deletedWatch) {
-          return NextResponse.json({ message: "Episode data not found" }, { status: 404 });
-        }
-  
-        return NextResponse.json(
-          { message: "Episode Deleted Successfully", deletedWatch },
-          { status: 200 }
-        );
       } else if (data.aniId) {
         // Delete all documents with a specific aniId
-        const deletedWatches = await Watch.deleteMany({
+        deletedData = await Watch.deleteMany({
           userName: data.name,
           aniId: data.aniId,
         });
-  
-        if (deletedWatches.deletedCount === 0) {
-          return NextResponse.json({ message: "No Episodes found" }, { status: 404 });
-        }
-  
-        return NextResponse.json(
-          { message: "Episode Deleted Successfully", deletedCount: deletedWatches.deletedCount },
-          { status: 200 }
-        );
       } else {
         return NextResponse.json(
           { message: "Invalid request, provide watchId or aniId" },
           { status: 400 }
         );
       }
+  
+      if (!deletedData) {
+        return NextResponse.json({ message: "Data not found for deletion" }, { status: 404 });
+      }
+  
+      // Fetch remaining data after deletion
+      const remainingData = await Watch.find({ userName: data.name });
+  
+      return NextResponse.json(
+        { message: `Removed anime from history`, remainingData, deletedData },
+        { status: 200 }
+      );
     } catch (error) {
       console.log(error);
       return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
     }
   };
+  
   

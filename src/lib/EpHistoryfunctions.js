@@ -7,13 +7,14 @@ export const getWatchHistory = async () => {
         `${checkEnvironment()}/api/watchhistory`, {
           method: "GET",
           headers: new headers()
+        }, 
+        { cache: "no-store" }
+        );        
+        if (!response.ok) {
+          throw new Error('Failed to fetch recent history')
         }
-      );
-      if (!response.ok) {
-        throw new Error('Failed to fetch recent history')
-      }
-      const data = await response.json();
-      return data;
+        const data = await response.json();
+        return data;
     } catch (error) {
       console.error("Error fetching watch history", error);
     }

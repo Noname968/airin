@@ -5,13 +5,12 @@ import PlayerAnimeCard from "@/components/videoplayer/PlayerAnimeCard";
 import Navbarcomponent from "@/components/navbar/Navbar";
 import PlayerComponent from "@/components/videoplayer/PlayerComponent";
 import Animecards from "@/components/CardComponent/Animecards";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { createWatchEp, getEpisode } from "@/lib/EpHistoryfunctions";
 import { WatchPageInfo } from "@/lib/AnilistUser";
+import { getAuthSession } from "../../../api/auth/[...nextauth]/route";
 
 export async function generateMetadata({ params, searchParams }) {
-  const session = await getServerSession(authOptions);
+  const session = await getAuthSession();
   const id =  searchParams.id;
   const data = await WatchPageInfo(session?.user?.token, id);
   const epnum =  searchParams.ep;
@@ -40,10 +39,10 @@ export async function createWatch(session, epId){
   } catch (error) {
     console.error(error);
   }
-}
+};
 
 async function AnimeWatch({ params, searchParams }) {
-  const session = await getServerSession(authOptions);
+  const session = await getAuthSession();
   const id = searchParams.id;
   const provider = searchParams.host;
   const epNum = searchParams.ep;

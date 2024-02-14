@@ -118,6 +118,7 @@
     overflow: hidden;
     transition: all 300ms ease;
 }
+
 .cardimgcontainer:hover .cardimage{
     transform: scale(1.03);
     object-fit: cover;

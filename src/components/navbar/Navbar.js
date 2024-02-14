@@ -7,7 +7,8 @@ import styles from '../../styles/Navbar.module.css'
 import { useSession, signIn, signOut } from 'next-auth/react';
 import { FeedbackIcon, LoginIcon, LogoutIcon, SettingsIcon, ProfileIcon, NotificationIcon } from '@/lib/SvgIcons';
 import { Usernotifications } from '@/lib/AnilistUser';
-import { motion, useScroll, useMotionValueEvent } from 'framer-motion'
+import { motion, useScroll, useMotionValueEvent } from 'framer-motion';
+import { toast } from 'sonner';
 
 function Navbarcomponent({ home = false }) {
     const iconClasses = "w-5 h-5 text-xl text-default-500 pointer-events-none flex-shrink-0";

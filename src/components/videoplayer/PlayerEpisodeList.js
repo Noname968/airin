@@ -1,12 +1,12 @@
 "use client"
 import React, { useEffect, useState } from "react";
-import { Tooltip } from "@nextui-org/react";
 import styles from '../../styles/PlayerEpisodeList.module.css'
 import { getEpisodes } from "@/lib/getData";
 import { ProvidersMap } from "@/utils/EpisodeFunctions";
 import { useRouter } from 'next-nprogress-bar';
 import EpImgContent from "../Episodelists/EpImgContent";
 import EpNumList from "../Episodelists/EpNumList";
+import { Select, SelectItem, Tooltip } from "@nextui-org/react";
 
 function PlayerEpisodeList({ id, data, onprovider, setwatchepdata, epnum }) {
   const [subtype, setSubtype] = useState('sub');
@@ -32,7 +32,7 @@ function PlayerEpisodeList({ id, data, onprovider, setwatchepdata, epnum }) {
   const itemsPerPage = 35;
 
   useEffect(() => {
-    const startIndex = (currentPage - 1) * itemsPerPage;
+    const startIndex = (parseInt(currentPage) - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
     const slicedep = currentEpisodes.slice(startIndex, endIndex) || [];
     setFilteredEp(slicedep);
@@ -191,23 +191,34 @@ function PlayerEpisodeList({ id, data, onprovider, setwatchepdata, epnum }) {
           <div className={styles.epright}>
             {currentEpisodes.length > itemsPerPage && (
               <>
-                <select
-                  id="pageSelect"
-                  value={currentPage}
+                <Select
+                  label=""
+                  aria-label="Episode Range"
+                  placeholder={`Episodes`}
+                  labelPlacement="outside"
+                  selectedKeys={[currentPage.toString()]}
+                  disallowEmptySelection={true}
+                  classNames={{
+                    base: "!m-0 !p-0 ",
+                    mainWrapper: "p-0 m-0 h-[34px]",
+                    trigger: "m-0 !min-h-[30px] w-[120px] pr-0",
+                    value: "",
+                    listbox: "m-0 p-0",
+                  }}
+                  radius="sm"
                   onChange={(e) => setCurrentPage(parseInt(e.target.value))}
-                  className={styles.selectStyle}
                 >
                   {Array.from({ length: Math.ceil(currentEpisodes?.length / itemsPerPage) }, (_, i) => i + 1).map((page) => {
                     const startIdx = (page - 1) * itemsPerPage + 1;
                     const endIdx = Math.min(page * itemsPerPage, currentEpisodes?.length);
 
                     return (
-                      <option key={page} value={page}>
+                      <SelectItem key={page} value={page}>
                         {`${startIdx}-${endIdx}`}
-                      </option>
-                    );
+                      </SelectItem>
+                    )
                   })}
-                </select>
+                </Select>
               </>)}
             <span
               className={` cursor-pointer ${eplisttype === 2 ? 'selected' : ''}`}

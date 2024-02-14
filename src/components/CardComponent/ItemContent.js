@@ -32,8 +32,9 @@ function ItemContent({ anime, cardid }) {
                     placeholder="blur"
                     loading='eager'
                     blurDataURL={'https://wallpapercave.com/w/wp11913677' || anime.coverImage || anime.image}
-                    className={`${styles.cardimage}`}
-                    onLoad={() => setImageLoaded(true)}
+                    className={`${styles.cardimage} opacity-0 transition-all duration-500`}
+                    onLoad={(e) => e.target.classList.remove('opacity-0')}
+                    // onLoad={() => setImageLoaded(true)}
                 />
             </div>
             <div className="hidden xl:flex h-[85%] w-[100%] rounded absolute hover:bg-gradient-to-t from-black/90 to-transparent z-7 opacity-0 hover:opacity-100 transition-all duration-300 ease  justify-center">
