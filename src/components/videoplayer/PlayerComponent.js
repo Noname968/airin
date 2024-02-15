@@ -32,11 +32,11 @@ function PlayerComponent({ id, epId, provider, epNum, subdub, data, session, sav
 
                 console.log(response)
                 const reFormSubtitles = response?.subtitles?.map((i) => ({
-                        src: process.env.NEXT_PUBLIC_PROXY_URI + i.url,
-                        label: i.lang,
-                        kind: i.lang === "Thumbnails" ? "thumbnails" : "subtitles",
-                        ...(i.lang === "English" && { default: true }),
-                    }));
+                    src: process.env.NEXT_PUBLIC_PROXY_URI + i.url,
+                    label: i.lang,
+                    kind: i.lang === "Thumbnails" ? "thumbnails" : "subtitles",
+                    ...(i.lang === "English" && { default: true }),
+                }));
 
                 setSubtitles(reFormSubtitles?.filter((s) => s.kind !== 'thumbnails'));
                 setThumbnails(response?.subtitles?.filter((s) => s.lang === 'Thumbnails'));
@@ -76,36 +76,36 @@ function PlayerComponent({ id, epId, provider, epNum, subdub, data, session, sav
                 const episode = {
                     download: download || null,
                     skiptimes: skiptime || [],
-                    epId: epId || null,        
+                    epId: epId || null,
                     provider: provider || null,
-                    epNum: epNum || null,       
+                    epNum: epNum || null,
                     subtype: subdub || null,
-                  };
-                  
-                  setNowPlaying(episode);
-                  setSkipTimes(skiptime);
-                  console.log(skipData);
+                };
+
+                setNowPlaying(episode);
+                setSkipTimes(skiptime);
+                console.log(skipData);
                 setLoading(false);
             } catch (error) {
                 console.error('Error fetching data:', error);
                 const episode = {
                     download: null,
                     skiptimes: [],
-                    epId: epId || null,        
+                    epId: epId || null,
                     provider: provider || null,
-                    epNum: epNum || null,       
+                    epNum: epNum || null,
                     subtype: subdub || null,
-                  };
-                  
-                  setNowPlaying(episode);
+                };
+
+                setNowPlaying(episode);
                 setLoading(false);
             }
         };
         fetchSources();
     }, [id, provider, epId, epNum, subdub]);
 
-    useEffect(()=>{
-        if(episodeData){
+    useEffect(() => {
+        if (episodeData) {
             const previousep = episodeData?.find(
                 (i) => i.number === parseInt(epNum) - 1
             );
@@ -122,7 +122,7 @@ function PlayerComponent({ id, epId, provider, epNum, subdub, data, session, sav
             }
             setGroupedEp(epdata);
         }
-    },[episodeData, epId, provider, epNum, subdub]);
+    }, [episodeData, epId, provider, epNum, subdub]);
 
     return (
         <div className='xl:w-[99%]'>
@@ -130,16 +130,16 @@ function PlayerComponent({ id, epId, provider, epNum, subdub, data, session, sav
                 <div className='mb-2'>
                     {!loading ? (
                         <div className='h-full w-full aspect-video overflow-hidden'>
-                            <Player dataInfo={data} groupedEp={groupedEp} session={session} savedep={savedep} sources={sources} subtitles={subtitles} thumbnails={thumbnails} skiptimes={skiptimes}/>
+                            <Player dataInfo={data} groupedEp={groupedEp} session={session} savedep={savedep} sources={sources} subtitles={subtitles} thumbnails={thumbnails} skiptimes={skiptimes} />
                         </div>
                     ) : (
                         <div className="h-full w-full rounded-[8px] relative flex items-center text-xl justify-center aspect-video">
-                             <div className="pointer-events-none absolute inset-0 z-50 flex h-full w-full items-center justify-center">
-      <Spinner.Root className="text-white animate-spin opacity-100" size={84}>
-        <Spinner.Track className="opacity-25" width={8} />
-        <Spinner.TrackFill className="opacity-75" width={8} />
-      </Spinner.Root>
-    </div>
+                            <div className="pointer-events-none absolute inset-0 z-50 flex h-full w-full items-center justify-center">
+                                <Spinner.Root className="text-white animate-spin opacity-100" size={84}>
+                                    <Spinner.Track className="opacity-25" width={8} />
+                                    <Spinner.TrackFill className="opacity-75" width={8} />
+                                </Spinner.Root>
+                            </div>
                         </div>
                     )}
                 </div>
@@ -149,7 +149,7 @@ function PlayerComponent({ id, epId, provider, epNum, subdub, data, session, sav
                 </div>
             </div>
             <div className='w-[98%] mx-auto lg:w-full'>
-            <PlayerEpisodeList id={id} data={data} setwatchepdata={setepisodeData} onprovider={provider} epnum={epNum}/>
+                <PlayerEpisodeList id={id} data={data} setwatchepdata={setepisodeData} onprovider={provider} epnum={epNum} />
             </div>
         </div>
     )

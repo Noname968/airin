@@ -104,6 +104,7 @@ export function VideoLayout({ groupedEp, thumbnails, subtitles }: VideoLayoutPro
           <Titleb />
           <div className={styles.spacer} />
           <Buttons.Caption tooltipPlacement="top"/>
+          {/* <Buttons.Download tooltipPlacement='top'/> */}
           <Menus.Settings placement="top end" tooltipPlacement="top end" subtitles={subtitles}/>
           <Buttons.ChromeCast tooltipPlacement='top'/>
           <Buttons.AirPlay tooltipPlacement='top'/>

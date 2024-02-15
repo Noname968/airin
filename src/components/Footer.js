@@ -19,6 +19,8 @@ function Footer() {
 
     const format = ['WINTER', 'SPRING', 'SUMMER', 'FALL'];
 
+    console.log(month)
+
     function nextSeason(currentSeason) {
         const currentSeasonIndex = format.indexOf(currentSeason);
 
@@ -48,7 +50,7 @@ function Footer() {
                                         <Link href={`/anime/catalog?season=${getSeason(month + 1)}&year=2024`} className="hover:text-white">This Season</Link>
                                     </li>
                                     <li className="">
-                                        <Link href={`/anime/catalog?season=${nextSeason(getSeason(month + 2))}&year=2024`} className="hover:text-white">Upcoming Season</Link>
+                                        <Link href={`/anime/catalog?season=${nextSeason(getSeason(month + 1))}&year=2024`} className="hover:text-white">Upcoming Season</Link>
                                     </li>
                                     <li>
                                         <Link href="/anime/catalog?format=MOVIE" className="hover:text-white"> Movies</Link>

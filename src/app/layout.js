@@ -7,8 +7,7 @@ import GoToTop from '@/components/GoToTop';
 import localFont from 'next/font/local';
 import Footer from '@/components/Footer';
 import Script from "next/script";
-import { getServerSession } from 'next-auth';
-import { authOptions } from './api/auth/[...nextauth]/route';
+import { getAuthSession } from './api/auth/[...nextauth]/route';
 import { Toaster } from 'sonner'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -71,7 +70,7 @@ export const metadata = {
 
 
 export default async function RootLayout({ children }) {
-  const session = await getServerSession(authOptions);
+  const session = await getAuthSession();
 
   return (
     <html lang="en" className='dark text-foreground bg-background'>

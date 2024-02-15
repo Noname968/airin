@@ -79,7 +79,7 @@ function ContinueWatching({session}) {
                 if (response.status === 200) {
                     const { remainingData, deletedData } = await response.json();
                     toast.success(`${aniTitle}`, {
-                        description: `Successfully removed ${deletedData?.deletedCount || 0} episode(s).`,
+                        description: `Successfully removed ${deletedData?.deletedCount || 0} episode${deletedData?.deletedCount > 1 ? 's' : ''}`,
                     });
                     if (remainingData?.length > 0) {
                         const data = filterHistory(remainingData);

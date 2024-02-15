@@ -8,7 +8,7 @@ import { useSession, signIn, signOut } from 'next-auth/react';
 import { FeedbackIcon, LoginIcon, LogoutIcon, SettingsIcon, ProfileIcon, NotificationIcon } from '@/lib/SvgIcons';
 import { Usernotifications } from '@/lib/AnilistUser';
 import { motion, useScroll, useMotionValueEvent } from 'framer-motion';
-import { toast } from 'sonner';
+
 
 function Navbarcomponent({ home = false }) {
     const iconClasses = "w-5 h-5 text-xl text-default-500 pointer-events-none flex-shrink-0";
@@ -42,12 +42,6 @@ function Navbarcomponent({ home = false }) {
             setIsLoggedIn(false);
         }
     }, [status])
-
-    useEffect(()=>{
-        if(data?.user?.name){
-            toast.message(`Welcome Back, ${data.user.name}! You are currently loggedIn. Enjoy your time with us.`)
-        }
-    },[])
 
     useEffect(() => {
         const fetchNotifications = async () => {
@@ -84,6 +78,9 @@ function Navbarcomponent({ home = false }) {
         } else if (timeDifference < 24 * 60 * 60) {
             const hours = Math.floor(timeDifference / (60 * 60));
             formattedRelativeTime = `${hours} hr${hours > 1 ? 's' : ''} ago`;
+        } else {
+            const days = Math.floor(timeDifference / (60 * 60 * 24));
+            formattedRelativeTime = `${days} day${days > 1 ? 's' : ''} ago`;
         }
 
         return formattedRelativeTime;

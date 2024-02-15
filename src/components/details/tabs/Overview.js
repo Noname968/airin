@@ -59,7 +59,7 @@ function Overview({data}) {
                         <span className={styles.sideheading}>Type</span> <span className={styles.con}>{data?.format}</span>
                     </div>
                     <div className={styles.singlecontent}>
-                        <span className={styles.sideheading}>Episodes</span> <span className={styles.con}>{data?.episodes || data?.nextAiringEpisode?.episode - 1 || "Na"}</span>
+                        <span className={styles.sideheading}>Episodes</span> <span className={styles.con}>{data?.episodes || data?.nextAiringEpisode?.episode - 1 || "?"}</span>
                     </div>
                     <div className={styles.singlecontent}>
                         <span className={styles.sideheading}>Genres</span> <span className={styles.con}>{data?.genres.join(", ")}</span>

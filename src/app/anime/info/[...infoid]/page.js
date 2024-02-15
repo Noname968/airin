@@ -25,10 +25,10 @@ import Animecards from '@/components/CardComponent/Animecards'
 export async function generateMetadata({ params }) {
   const id = params.infoid[0];
   const data = await AnimeInfoAnilist(id);
-  
+
   return {
     title: data?.title?.english || data?.title?.romaji || 'Loading...',
-    description: data?.description.slice(0,180),
+    description: data?.description.slice(0, 180),
     openGraph: {
       title: data?.title?.english || data?.title?.romaji,
       images: [data?.coverImage?.extraLarge],
@@ -37,27 +37,29 @@ export async function generateMetadata({ params }) {
     twitter: {
       card: "summary",
       title: data?.title?.english || data?.title?.romaji,
-      description: data?.description?.slice(0,180),
+      description: data?.description?.slice(0, 180),
     },
   }
 }
 
-async function AnimeDetails({params}) {
+async function AnimeDetails({ params }) {
   const id = params.infoid[0];
   const data = await AnimeInfoAnilist(id);
   // const episodeData = await getEpisodes(id,data?.status,false);
-  
+
   return (
     <div className="">
-      <Navbarcomponent/>
-      <div className='h-[460px] sm:h-[500px] '>
-      <AnimeDetailsTop data={data}/>
+      <Navbarcomponent />
+      <div className='h-[500px] '>
+        <AnimeDetailsTop data={data} />
       </div>
-      <AnimeDetailsBottom data={data}/>
-      <Episodesection data={data} id={id}/>
-      <div className="recommendationglobal">
-      <Animecards data={data?.recommendations?.nodes} cardid={"Recommendations"}/>
-      </div>
+      <AnimeDetailsBottom data={data} />
+      <Episodesection data={data} id={id} />
+      {data?.recommendations?.nodes?.length > 0 && (
+        <div className="recommendationglobal">
+          <Animecards data={data.recommendations.nodes} cardid={"Recommendations"} />
+        </div>
+      )}
     </div>
   )
 }

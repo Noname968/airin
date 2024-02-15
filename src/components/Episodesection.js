@@ -28,13 +28,13 @@ function Episodesection({ data, id }) {
   const [currentEpisodes, setCurrentEpisodes] = useState([]);
   const [defaultProvider, setdefaultProvider] = useState("");
   const [subProviders, setSubProviders] = useState(null);
-  const [dubProviders, setDubProviders] = useState(null); 
+  const [dubProviders, setDubProviders] = useState(null);
 
-  
+
   useEffect(() => {
     const storedType = localStorage.getItem('selectedType');
     const listtype = localStorage.getItem('eplisttype');
-    if(listtype){
+    if (listtype) {
       setEplistType(parseInt(listtype, 10));
     }
 
@@ -59,7 +59,9 @@ function Episodesection({ data, id }) {
         setloading(false)
       }
     }
-    fetchepisodes();
+    if (data.type !== 'MANGA' && data.status !== 'NOT_YET_RELEASED') {
+      fetchepisodes();
+    }
   }, [data?.id])
 
   const handleProviderChange = (event) => {
@@ -73,25 +75,25 @@ function Episodesection({ data, id }) {
   }, [episodeData]);
 
   const selectedProvider =
-  subtype === 'sub'
-    ? subProviders?.find((provider) => provider.providerId === defaultProvider)
-    : dubProviders?.find((provider) => provider.providerId === defaultProvider);
+    subtype === 'sub'
+      ? subProviders?.find((provider) => provider.providerId === defaultProvider)
+      : dubProviders?.find((provider) => provider.providerId === defaultProvider);
 
   useEffect(() => {
     setdfprovider(selectedProvider?.providerId);
     setdftype(subtype);
-  
+
     const episodes = selectedProvider?.episodes || [];
     const filteredEp =
       selectedProvider?.consumet === true
         ? subtype === 'sub' ? episodes.sub : episodes.dub
         : subtype === 'dub'
-        ? episodes.filter((item) => item.hasDub === true) || []
-        : episodes.slice(0) || [];
-  
+          ? episodes.filter((item) => item.hasDub === true) || []
+          : episodes.slice(0) || [];
+
     setCurrentEpisodes(filteredEp);
     setdfepisodes(filteredEp);
-  }, [selectedProvider, subtype, dataRefreshed]);  
+  }, [selectedProvider, subtype, dataRefreshed]);
 
   const totalEpisodes = currentEpisodes?.length || 0;
 
@@ -152,11 +154,11 @@ function Episodesection({ data, id }) {
     <div className={styles.episodesection}>
       <div className={styles.eptopsection}>
         <div className={styles.epleft}>
-          {/* <h3 className={styles.epheading}>Episodes</h3> */}
           <div className={styles.cardhead}>
-        <span className={styles.bar}></span>
-        <h1 className={styles.headtitle}>Episodes</h1>
-      </div>
+            <span className={styles.bar}></span>
+            <h1 className={styles.headtitle}>Episodes</h1>
+          </div>
+          {data?.status !== 'NOT_YET_RELEASED' && data?.type !== 'MANGA' && 
           <Tooltip content="Refresh Episodes">
             <button className={styles.refresh} onClick={refreshEpisodes}>
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className={`w-[22px] h-[22px] ${refreshloading ? "animate-spin" : ""}`}>
@@ -164,6 +166,7 @@ function Episodesection({ data, id }) {
               </svg>
             </button>
           </Tooltip>
+          }
         </div>
         {!loading && <>
           {!refreshloading && <>
@@ -177,11 +180,11 @@ function Episodesection({ data, id }) {
                     labelPlacement="outside"
                     selectedKeys={[subtype]}
                     classNames={{
-                      base:"!m-0 !p-0 ",
-                      mainWrapper:"p-0 m-0 !h-[34px]",
-                      trigger:"m-0 !min-h-[34px] !max-w-[70px] pr-0",
-                      value:"",
-                      listbox:"m-0 p-0",
+                      base: "!m-0 !p-0 ",
+                      mainWrapper: "p-0 m-0 !h-[34px]",
+                      trigger: "m-0 !min-h-[34px] !max-w-[70px] pr-0",
+                      value: "",
+                      listbox: "m-0 p-0",
                     }}
                     radius="sm"
                     onChange={handleSubDub}
@@ -194,8 +197,8 @@ function Episodesection({ data, id }) {
                     ))}
                   </Select>
                 </div>
-                  {totalEpisodes > 100 && (
-                <div className="flex flex-col w-[120px] mr-2">
+                {totalEpisodes > 100 && (
+                  <div className="flex flex-col w-[120px] mr-2">
                     <Select
                       label=""
                       aria-label="Episode Range"
@@ -205,11 +208,11 @@ function Episodesection({ data, id }) {
                       disallowEmptySelection={true}
                       // className="w-[130px] !h-[40px] !py-0"
                       classNames={{
-                        base:"!m-0 !p-0 ",
-                        mainWrapper:"p-0 m-0 h-[34px]",
-                        trigger:"m-0 !min-h-[34px] !max-w-[115px] pr-0",
-                        value:"",
-                        listbox:"m-0 p-0",
+                        base: "!m-0 !p-0 ",
+                        mainWrapper: "p-0 m-0 h-[34px]",
+                        trigger: "m-0 !min-h-[34px] !max-w-[115px] pr-0",
+                        value: "",
+                        listbox: "m-0 p-0",
                       }}
                       radius="sm"
                       onChange={handleRangeChange}
@@ -220,8 +223,8 @@ function Episodesection({ data, id }) {
                         </SelectItem>
                       ))}
                     </Select>
-                </div>
-                  )}
+                  </div>
+                )}
                 <div className="flex w-[133px] flex-col gap-2 mr-3">
                   <Select
                     label=""
@@ -231,11 +234,11 @@ function Episodesection({ data, id }) {
                     selectedKeys={[defaultProvider]}
                     // className="max-w-[150px] !h-[40px] !py-0"
                     classNames={{
-                      base:"!m-0 !p-0 ",
-                      mainWrapper:"p-0 m-0 h-[34px]",
-                      trigger:"m-0 !min-h-[34px] !max-w-[128px] pr-0",
-                      value:"",
-                      listbox:"m-0 p-0",
+                      base: "!m-0 !p-0 ",
+                      mainWrapper: "p-0 m-0 h-[34px]",
+                      trigger: "m-0 !min-h-[34px] !max-w-[128px] pr-0",
+                      value: "",
+                      listbox: "m-0 p-0",
                     }}
                     radius="sm"
                     onChange={handleProviderChange}
@@ -297,88 +300,105 @@ function Episodesection({ data, id }) {
       </div>
       {showSelect && (
         <div className={styles.selectmobile}>
-                <div className="flex w-[75px] flex-col gap-2 mr-2">
-                  <Select
-                    label=""
-                    aria-label="Switch"
-                    placeholder={`Switch`}
-                    labelPlacement="outside"
-                    selectedKeys={[subtype]}
-                    classNames={{
-                      base:"!m-0 !p-0 ",
-                      mainWrapper:"p-0 m-0 !h-[34px]",
-                      trigger:"m-0 !min-h-[34px] !max-w-[70px] pr-0",
-                      value:"",
-                      listbox:"m-0 p-0",
-                    }}
-                    radius="sm"
-                    onChange={handleSubDub}
-                    disallowEmptySelection={true}
-                  >
-                    {subdub.map((type) => (
-                      <SelectItem key={type} value={type}>
-                        {type}
-                      </SelectItem>
-                    ))}
-                  </Select>
-                </div>
-                  {totalEpisodes > 100 && (
-                <div className="flex flex-col w-[120px] mr-2">
-                    <Select
-                      label=""
-                      aria-label="Episode Range"
-                      placeholder={`Episodes`}
-                      labelPlacement="outside"
-                      selectedKeys={[selectedRange.toString()]}
-                      disallowEmptySelection={true}
-                      // className="w-[130px] !h-[40px] !py-0"
-                      classNames={{
-                        base:"!m-0 !p-0 ",
-                        mainWrapper:"p-0 m-0 h-[34px]",
-                        trigger:"m-0 !min-h-[34px] !max-w-[115px] pr-0",
-                        value:"",
-                        listbox:"m-0 p-0",
-                      }}
-                      radius="sm"
-                      onChange={handleRangeChange}
-                    >
-                      {episodeRangeOptions.map((option) => (
-                        <SelectItem key={option.value} value={option.value}>
-                          {option.label}
-                        </SelectItem>
-                      ))}
-                    </Select>
-                </div>
-                  )}
-                <div className="flex w-[133px] flex-col gap-2 mr-3">
-                  <Select
-                    label=""
-                    aria-label="Switch"
-                    placeholder={`Switch`}
-                    labelPlacement="outside"
-                    selectedKeys={[defaultProvider]}
-                    // className="max-w-[150px] !h-[40px] !py-0"
-                    classNames={{
-                      base:"!m-0 !p-0 ",
-                      mainWrapper:"p-0 m-0 h-[34px]",
-                      trigger:"m-0 !min-h-[34px] !max-w-[128px] pr-0",
-                      value:"",
-                      listbox:"m-0 p-0",
-                    }}
-                    radius="sm"
-                    onChange={handleProviderChange}
-                    disallowEmptySelection={true}
-                  >
-                    {subProviders?.map((item) => (
-                      <SelectItem key={item.providerId} value={item.providerId}>
-                        {item.providerId}
-                      </SelectItem>
-                    ))}
-                  </Select>
-                </div>
+          <div className="flex w-[75px] flex-col gap-2 mr-2">
+            <Select
+              label=""
+              aria-label="Switch"
+              placeholder={`Switch`}
+              labelPlacement="outside"
+              selectedKeys={[subtype]}
+              classNames={{
+                base: "!m-0 !p-0 ",
+                mainWrapper: "p-0 m-0 !h-[34px]",
+                trigger: "m-0 !min-h-[34px] !max-w-[70px] pr-0",
+                value: "",
+                listbox: "m-0 p-0",
+              }}
+              radius="sm"
+              onChange={handleSubDub}
+              disallowEmptySelection={true}
+            >
+              {subdub.map((type) => (
+                <SelectItem key={type} value={type}>
+                  {type}
+                </SelectItem>
+              ))}
+            </Select>
+          </div>
+          {totalEpisodes > 100 && (
+            <div className="flex flex-col w-[120px] mr-2">
+              <Select
+                label=""
+                aria-label="Episode Range"
+                placeholder={`Episodes`}
+                labelPlacement="outside"
+                selectedKeys={[selectedRange.toString()]}
+                disallowEmptySelection={true}
+                // className="w-[130px] !h-[40px] !py-0"
+                classNames={{
+                  base: "!m-0 !p-0 ",
+                  mainWrapper: "p-0 m-0 h-[34px]",
+                  trigger: "m-0 !min-h-[34px] !max-w-[115px] pr-0",
+                  value: "",
+                  listbox: "m-0 p-0",
+                }}
+                radius="sm"
+                onChange={handleRangeChange}
+              >
+                {episodeRangeOptions.map((option) => (
+                  <SelectItem key={option.value} value={option.value}>
+                    {option.label}
+                  </SelectItem>
+                ))}
+              </Select>
+            </div>
+          )}
+          <div className="flex w-[133px] flex-col gap-2 mr-3">
+            <Select
+              label=""
+              aria-label="Switch"
+              placeholder={`Switch`}
+              labelPlacement="outside"
+              selectedKeys={[defaultProvider]}
+              // className="max-w-[150px] !h-[40px] !py-0"
+              classNames={{
+                base: "!m-0 !p-0 ",
+                mainWrapper: "p-0 m-0 h-[34px]",
+                trigger: "m-0 !min-h-[34px] !max-w-[128px] pr-0",
+                value: "",
+                listbox: "m-0 p-0",
+              }}
+              radius="sm"
+              onChange={handleProviderChange}
+              disallowEmptySelection={true}
+            >
+              {subProviders?.map((item) => (
+                <SelectItem key={item.providerId} value={item.providerId}>
+                  {item.providerId}
+                </SelectItem>
+              ))}
+            </Select>
+          </div>
         </div>
       )}
-      {loading && <p className="text-center my-4">Loading Episode Data</p>}
+      {loading && (
+        <>
+          {data?.type === 'MANGA' ? (
+              <div className="text-[17px] font-semibold">
+              <p className="text-center mt-4">Coming Soon! </p>
+              <p className="text-center mb-4 ">Cannot Fetch Manga, Feature Coming Soon.</p>
+            </div> 
+          ) : data?.status === 'NOT_YET_RELEASED' ? (
+            <div className="text-[17px] font-semibold">
+            <p className="text-center mt-4">Coming Soon! </p>
+            <p className="text-center mb-4">Anime not found. Stay tuned for updates!</p>
+          </div>          
+          ) : (
+            <p className="text-center my-4 text-[17px] font-semibold">Loading Episode Data</p>
+          )}
+        </>
+      )}
+
       {refreshloading && <p className="text-center my-4">Refreshing Episode Data</p>}
       {!loading && !refreshloading && (
         <>

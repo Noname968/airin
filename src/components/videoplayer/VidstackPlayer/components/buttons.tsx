@@ -35,9 +35,10 @@ import {
   SeekForward10Icon,
   SeekBackward10Icon,
   ChromecastIcon,
-  AirPlayIcon
+  AirPlayIcon,
+  DownloadIcon
 } from "@vidstack/react/icons";
-import { useRouter } from "next/navigation";
+import { useRouter } from 'next-nprogress-bar';
 
 export interface MediaButtonProps {
   tooltipPlacement: TooltipPlacement;
@@ -118,8 +119,8 @@ export function NextEpisode({
   const { dataInfo, nowPlaying } = ContextSearch();
   function handleNext() {
     router.push(
-      `/anime/watch/${dataInfo?.id}/${nowPlaying?.provider}/${groupedEp?.nextep?.number}?epid=${
-        groupedEp?.nextep?.id}&type=${nowPlaying?.subtype}`
+      `/anime/watch?id=${dataInfo?.id}&host=${nowPlaying?.provider}&epid=${
+        groupedEp?.nextep?.id}&ep=${groupedEp?.nextep?.number}&type=${nowPlaying?.subtype}`
     );
   }
 
@@ -156,8 +157,8 @@ export function PreviousEpisode({
   const { dataInfo, nowPlaying } = ContextSearch();
   function handlePrev() {
     router.push(
-      `/anime/watch/${dataInfo?.id}/${nowPlaying?.provider}/${groupedEp?.previousep?.number}?epid=${
-        groupedEp?.previousep?.id}&type=${nowPlaying?.subtype}`
+      `/anime/watch?id=${dataInfo?.id}&host=${nowPlaying?.provider}&epid=${
+        groupedEp?.previousep?.id}&ep=${groupedEp?.previousep?.number}&type=${nowPlaying?.subtype}`
     );
   }
 
@@ -297,13 +298,13 @@ export function PlayNextButton({
   const { dataInfo, nowPlaying } = ContextSearch();
   return (
     <button
-      title="Next Ep"
+      // title="Next Ep"
       type="button"
       onClick={() => {
         if (groupedEp?.nextep) {
           router.push(
-            `/anime/watch/${dataInfo?.id}/${nowPlaying?.provider}/${groupedEp?.nextep?.number}?epid=${
-              groupedEp?.nextep?.id}&type=${nowPlaying?.subtype}`
+            `/anime/watch?id=${dataInfo?.id}&host=${nowPlaying?.provider}&epid=${
+              groupedEp?.nextep?.id}&ep=${groupedEp?.nextep?.number}&type=${nowPlaying?.subtype}`
           );
         }
       }}
@@ -376,3 +377,40 @@ export function AirPlay({ tooltipPlacement, offset }: MediaButtonProps) {
   </Tooltip.Root>
   )
 }
+
+// export function Download({
+//   tooltipPlacement,
+//   offset,
+//   groupedEp
+// }: MediaButtonProps) {
+//   const router = useRouter();
+//   const { dataInfo, nowPlaying } = ContextSearch();
+//   function handleDownload() {
+//     router.push(
+//       `${nowPlaying.download}`
+//     );
+//   }
+
+//   return (
+//     nowPlaying?.download && (
+//       <Tooltip.Root>
+//         <Tooltip.Trigger asChild>
+//           <div
+//             onClick={handleDownload}
+//             onTouchEnd={handleDownload}
+//             className={`play-button ${buttonStyles.button}`}
+//           >
+//           <DownloadIcon/>
+//           </div>
+//         </Tooltip.Trigger>
+//         <Tooltip.Content
+//           offset={offset}
+//           className={`${tooltipStyles.tooltip} parent-data-[open]:hidden`}
+//           placement={tooltipPlacement}
+//         >
+//           Download Episode
+//         </Tooltip.Content>
+//       </Tooltip.Root>
+//     )
+//   );
+// }

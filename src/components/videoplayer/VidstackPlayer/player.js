@@ -81,16 +81,18 @@ function Player({ dataInfo, groupedEp, sources, session, savedep,  subtitles, th
   }
 
   function onEnd() {
-    // if (settings.autoNext) {
-    // }
     // console.log("End")
     setIsPlaying(false);
   }
 
   function onEnded() {
-    // if (autoNext) {
-    //     getNextEpisode();
-    // }
+    if (!nextep?.id) return;
+    if (settings?.autonext) {
+      router.push(
+        `/anime/watch?id=${dataInfo?.id}&host=${provider}&epid=${
+          nextep?.id}&ep=${nextep?.number}&type=${subtype}`
+      );
+    }
   }
 
   function onPlay() {
@@ -184,6 +186,22 @@ function Player({ dataInfo, groupedEp, sources, session, savedep,  subtitles, th
     }
   }
 
+  function onTimeUpdate(){
+    const currentTime = playerRef.current?.currentTime
+    const timeToShowButton = duration - 8;
+
+    if(currentTime >= timeToShowButton){
+      if(nextep?.id){
+        const nextButton = document.querySelector(".nextbtn");
+        nextButton?.classList.remove("hidden");
+      }
+    }
+    else{
+      const nextButton = document.querySelector(".nextbtn");
+      nextButton?.classList.add("hidden");
+    }
+  }
+
   function handleop() {
     console.log("Skipping Intro");
     Object.assign(playerRef.current ?? {}, { currentTime: skiptimes[0]?.endTime ?? 0 });
@@ -212,7 +230,7 @@ function Player({ dataInfo, groupedEp, sources, session, savedep,  subtitles, th
       onPlay={onPlay}
       onPause={onPause}
       onLoadedMetadata={onLoadedMetadata}
-    // onTimeUpdate={onTimeUpdate}
+      onTimeUpdate={onTimeUpdate}
     >
       <MediaProvider>
         {subtitles && subtitles?.map((track) => (
