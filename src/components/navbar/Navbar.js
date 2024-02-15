@@ -43,7 +43,11 @@ function Navbarcomponent({ home = false }) {
         }
     }, [status])
 
-    // console.log(data)
+    useEffect(()=>{
+        if(data?.user?.name){
+            toast.message(`Welcome Back, ${data.user.name}! You are currently loggedIn. Enjoy your time with us.`)
+        }
+    },[])
 
     useEffect(() => {
         const fetchNotifications = async () => {

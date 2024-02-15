@@ -12,7 +12,7 @@ async function fetchConsumetEpisodes(id) {
   try {
     async function fetchData(dub) {
       const { data } = await axios.get(
-        `https://consumet-anime-api.vercel.app/meta/anilist/episodes/${id}${dub ? "?dub=true" : ""}`
+        `${process.env.CONSUMET_URI}/meta/anilist/episodes/${id}${dub ? "?dub=true" : ""}`
       );
       if (data?.message === "Anime not found" && data?.length < 1) {
         return [];

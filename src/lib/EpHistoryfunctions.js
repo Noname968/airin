@@ -46,7 +46,7 @@ export const getEpisode = async(epId)=>{
     const response = await fetch(
       `${checkEnvironment()}/api/watchhistory?epId=${epId}`, {
         method: "GET",
-        headers: new headers()
+        headers: new Headers(headers()),
       }
     );
     if (!response.ok) {
