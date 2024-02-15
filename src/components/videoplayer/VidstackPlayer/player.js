@@ -186,21 +186,21 @@ function Player({ dataInfo, groupedEp, sources, session, savedep,  subtitles, th
     }
   }
 
-  function onTimeUpdate(){
-    const currentTime = playerRef.current?.currentTime
+  function onTimeUpdate() {
+    const currentTime = playerRef.current?.currentTime;
     const timeToShowButton = duration - 8;
-
-    if(currentTime >= timeToShowButton){
-      if(nextep?.id){
-        const nextButton = document.querySelector(".nextbtn");
-        nextButton?.classList.remove("hidden");
+  
+    const nextButton = document.querySelector(".nextbtn");
+  
+    if (nextButton) {
+      if (duration !== 0 && (currentTime > timeToShowButton && nextep?.id)) {
+        nextButton.classList.remove("hidden");
+      } else {
+        nextButton.classList.add("hidden");
       }
     }
-    else{
-      const nextButton = document.querySelector(".nextbtn");
-      nextButton?.classList.add("hidden");
-    }
   }
+  
 
   function handleop() {
     console.log("Skipping Intro");
