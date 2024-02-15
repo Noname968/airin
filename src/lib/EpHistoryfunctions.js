@@ -6,9 +6,9 @@ export const getWatchHistory = async () => {
       const response = await fetch(
         `${checkEnvironment()}/api/watchhistory`, {
           method: "GET",
-          headers: new headers()
+          headers: new Headers(headers()),
+          cache: "no-store"
         }, 
-        { cache: "no-store" }
         );        
         if (!response.ok) {
           throw new Error('Failed to fetch recent history')
@@ -29,7 +29,7 @@ export const createWatchEp = async (name, epId) =>{
                 name,
                 epId
               }),
-              headers: new headers()
+              headers: new Headers(headers()),
             }
           );
           if (!response.ok) {

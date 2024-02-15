@@ -22,7 +22,7 @@ function Episodesection({ data, id }) {
   const [selectedRange, setSelectedRange] = useState("1-100");
 
   const [episodeData, setepisodeData] = useState(null);
-  const [eplisttype, setEplistType] = useState(3);
+  const [eplisttype, setEplistType] = useState(2);
   const [showSelect, setShowSelect] = useState(false);
 
   const [currentEpisodes, setCurrentEpisodes] = useState([]);
