@@ -1,6 +1,10 @@
-import { notifications, playeranimeinfo } from "./anilistqueries";
+'use server'
 
-export const Usernotifications = async (token, currentPage=1) => {
+import { notifications, playeranimeinfo } from "./anilistqueries";
+import { revalidatePath } from 'next/cache'
+
+
+export const Usernotifications = async (token, currentPage) => {
     try {
         const response = await fetch('https://graphql.anilist.co', {
             method: 'POST',
@@ -16,9 +20,10 @@ export const Usernotifications = async (token, currentPage=1) => {
                     perPage: 15,
                 },
             }),
-        }, { next: { revalidate: 0 } });
-
+        }, );
+        revalidatePath('/');
         const data = await response.json();
+        // console.log(data)
         return data.data.Page;
     } catch (error) {
         console.error('Error fetching notifications from AniList:', error);

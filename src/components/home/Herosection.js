@@ -49,7 +49,6 @@ function Herosection({ data }) {
       }
     }
     if (populardata && populardata.trailer && settings.herotrailer !== false) {
-      console.log(settings)
       fetchTrailer(populardata.trailer.id);
     }
   }, [populardata, settings]);

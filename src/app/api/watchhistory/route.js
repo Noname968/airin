@@ -66,7 +66,6 @@ export const POST = async (request) => {
         epId: data.epId
       });
   
-      await newwatch.save();
       return NextResponse.json(
         { message: "Episode Saved Successfully" },
         { status: 201 }

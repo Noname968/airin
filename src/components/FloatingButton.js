@@ -10,7 +10,10 @@ function FloatingButton() {
     const { status } = useSession();
 
     return (
-        <Dropdown backdrop="blur" placement="bottom-end">
+        <Dropdown backdrop="blur" placement="bottom-end" classNames={{
+            base: "before:bg-default-200",
+            content: "py-1 px-1 border border-default-200 bg-gradient-to-br from-white to-default-200 dark:from-default-50 dark:to-black",
+        }}>
             <DropdownTrigger>
                 <button className="fixed bottom-5 left-4 w-[45px] h-[45px] text-white rounded-full flex items-center justify-center box-border outline-none bg-[#4d148c] shadow-2xl md:hidden">
                     <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-category" width="26" height="26" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#ffffff" fill="none" strokeLinecap="round" strokeLinejoin="round">
@@ -27,7 +30,7 @@ function FloatingButton() {
                     <Link href={`/anime/catalog`} className='w-full h-full block '>Catalog</Link>
                 </DropdownItem>
                 <DropdownItem key="settings" startContent={<SettingsIcon className={iconClasses} />}>
-                    <Link href={`/anime/settings`} className='w-full h-full block '>Settings</Link>
+                    <Link href={`/settings`} className='w-full h-full block '>Settings</Link>
                 </DropdownItem>
                 {status === 'authenticated' ? (
                     <DropdownItem key="logout" color="danger" startContent={<LogoutIcon className={iconClasses} />}>
@@ -38,7 +41,6 @@ function FloatingButton() {
                         <button className="font-semibold outline-none border-none w-full h-full block text-left" onClick={() => signIn('AniListProvider')}>LogIn With Anilist</button>
                     </DropdownItem>
                 )}
-
             </DropdownMenu>
         </Dropdown>
     )

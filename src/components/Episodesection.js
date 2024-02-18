@@ -10,9 +10,8 @@ import EpNumList from "./Episodelists/EpNumList";
 import EpImgContent from "./Episodelists/EpImgContent";
 
 function Episodesection({ data, id }) {
-  const { setdfprovider, setdfepisodes, setdftype } = ContextSearch();
+  const { setdfprovider, setdfepisodes, setdftype, subtype, setSubtype } = ContextSearch();
   const subdub = ["sub", "dub"];
-  const [subtype, setSubtype] = useState('sub');
 
   const [loading, setloading] = useState(true);
   const [refreshloading, setRefreshLoading] = useState(false);
@@ -32,21 +31,16 @@ function Episodesection({ data, id }) {
 
 
   useEffect(() => {
-    const storedType = localStorage.getItem('selectedType');
     const listtype = localStorage.getItem('eplisttype');
     if (listtype) {
       setEplistType(parseInt(listtype, 10));
     }
 
-    if (storedType) {
-      setSubtype(storedType);
-    }
   }, []);
 
   const toggleShowSelect = () => {
     setShowSelect(!showSelect);
   };
-
 
   useEffect(() => {
     const fetchepisodes = async () => {
@@ -127,7 +121,6 @@ function Episodesection({ data, id }) {
 
   const handleSubDub = (e) => {
     setSubtype(e.target.value);
-    localStorage.setItem("selectedType", e.target.value);
   };
 
   const handleOptionClick = (option) => {

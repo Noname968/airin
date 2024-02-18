@@ -3,28 +3,41 @@ import { AnimeInfoAnilist } from '@/lib/Anilistfunctions'
 import React from 'react'
 import AnimeDetailsTop from '@/components/details/AnimeDetailsTop'
 import AnimeDetailsBottom from '@/components/details/AnimeDetailsBottom'
-import { getEpisodes } from '@/lib/getData'
 import Navbarcomponent from '@/components/navbar/Navbar'
 import Animecards from '@/components/CardComponent/Animecards'
+import { redis } from '@/lib/rediscache'
 
-// async function getData(id,status,refresh=false) {
-//   try {
-//     const response = await fetch(
-//       `${checkEnvironment()}/api/episode/${id}?releasing=${status === "RELEASING" ? "true" : "false"}&refresh=${refresh}`
-//     );
-//     if (!response.ok) {
-//       throw new Error('Failed to fetch episodes')
-//     }
-//     const data = await response.json();
-//     return data;
-//   } catch (error) {
-//     console.error("Error fetching Consumet Episodes:", error);
-//   } 
-// }
+async function getInfo(id) {
+  try {
+    let cachedData;
+    if (redis) {
+      cachedData = await redis.get(`info:${id}`); 
+    }
+    if (cachedData) {
+      // console.log("using cached info")
+      return JSON.parse(cachedData);
+    } else {
+      const data = await AnimeInfoAnilist(id);
+      const cacheTime = data?.nextAiringEpisode?.episode ? 60 * 60 * 2 : 60 * 60 * 24 * 45;
+      if (redis) {
+        await redis.set(
+          `info:${id}`,
+          JSON.stringify(data),
+          "EX",
+          cacheTime
+        );
+        // console.log("cached info")
+      }
+      return data;
+    }
+  } catch (error) {
+    console.error("Error fetching info: ", error);
+  } 
+}
 
 export async function generateMetadata({ params }) {
   const id = params.infoid[0];
-  const data = await AnimeInfoAnilist(id);
+  const data = await getInfo(id);
 
   return {
     title: data?.title?.english || data?.title?.romaji || 'Loading...',
@@ -44,8 +57,7 @@ export async function generateMetadata({ params }) {
 
 async function AnimeDetails({ params }) {
   const id = params.infoid[0];
-  const data = await AnimeInfoAnilist(id);
-  // const episodeData = await getEpisodes(id,data?.status,false);
+  const data = await getInfo(id);
 
   return (
     <div className="">

@@ -28,11 +28,11 @@ function AnimeDetailsTop({ data }) {
       <div className={styles.gradientOverlay}></div>
       <>
         <Button className={styles.detailstrailer} onPress={onOpen}>Watch Trailer</Button>
-        <Modal backdrop='blur' isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} size={"2xl"} className='z-[99999999]'>
+        <Modal backdrop='blur' isOpen={isOpen} onOpenChange={onOpenChange} size={"2xl"}>
           <ModalContent>
             {(onClose) => (
               <>
-                <ModalHeader className="flex flex-col gap-0">{data.title.english}</ModalHeader>
+                <ModalHeader className="flex flex-col gap-0">{data.title?.[animetitle] || data?.title?.romaji}</ModalHeader>
                 <ModalBody>
                   <div>
                     <iframe
@@ -55,10 +55,10 @@ function AnimeDetailsTop({ data }) {
         </div>
         <div className={styles.detailstitle}>
           <h1 className={`${styles.title} text-[1.7rem] font-[500]`}>
-            {data.title[animetitle] || data.title.romaji}
+            {data?.title?.[animetitle] || data?.title?.romaji}
           </h1>
           <h4 className={`${styles.alttitle}`}>
-            {data.title.romaji}
+            {animetitle === 'romaji' ? data?.title?.english : data?.title?.romaji}
           </h4>
           <p className={styles.scores}>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-[17px] h-[17px] mr-[2px]">

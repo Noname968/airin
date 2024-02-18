@@ -1,9 +1,17 @@
+"use client"
 import React from 'react'
 import Link from 'next/link'
+import { ContextSearch } from '@/context/DataContext';
+
 
 function Footer() {
+    const { animetitle, l, setl } = ContextSearch();
     const year = new Date().getFullYear();
-    const month = new Date().getMonth()
+    const month = new Date().getMonth();
+
+    const handleToggle = () => {
+        setl(prev => !prev);
+    };
 
     function getSeason(month) {
         if (month === 12 || month === 1 || month === 2) {
@@ -19,13 +27,9 @@ function Footer() {
 
     const format = ['WINTER', 'SPRING', 'SUMMER', 'FALL'];
 
-    console.log(month)
-
     function nextSeason(currentSeason) {
         const currentSeasonIndex = format.indexOf(currentSeason);
-
         const nextSeasonIndex = (currentSeasonIndex + 1) % format.length;
-
         return format[nextSeasonIndex];
     }
 
@@ -45,7 +49,7 @@ function Footer() {
                         </div>
                         <div className="grid grid-cols-2 lg:gap-16 sm:gap-6 sm:grid-cols-2">
                             <div>
-                                <ul className=" font-normal flex flex-col gap-2 lg:text-[0.85rem] text-[0.7rem] text-[#ffffffb2] ">
+                                <ul className=" font-semibold flex flex-col gap-2 lg:text-[0.85rem] text-[0.7rem] text-[#ffffffb2] ">
                                     <li className="">
                                         <Link href={`/anime/catalog?season=${getSeason(month + 1)}&year=2024`} className="hover:text-white">This Season</Link>
                                     </li>
@@ -61,12 +65,15 @@ function Footer() {
                                 </ul>
                             </div>
                             <div>
-                                <ul className="font-medium flex flex-col gap-2 lg:text-[0.85rem] text-[0.7rem] text-[#ffffffb2]">
+                                <ul className="font-semibold flex flex-col gap-2 lg:text-[0.85rem] text-[0.7rem] text-[#ffffffb2]">
                                     <li className="">
                                         <Link href="/" className="hover:text-white">Privacy Policy</Link>
                                     </li>
                                     <li>
                                         <Link href="/" className="hover:text-white"> DMCA</Link>
+                                    </li>
+                                    <li>
+                                        <Link href="https://ko-fi.com/luckyhv" target='_blank' className="hover:text-white !font-semibold !text-[0.8rem]">Donate</Link>
                                     </li>
                                 </ul>
                             </div>
@@ -75,7 +82,7 @@ function Footer() {
                 </div>
                 <div className='bg-tersier border-t border-white/5 mt-2'></div>
                 <div className="mx-auto w-full lg:max-w-[83%] lg:flex lg:items-center lg:justify-between lg:text-[0.8rem] text-[0.7rem] text-[#ffffffb2] py-3">
-                    <span className="sm:text-center ms-5 lg:ms-0">© {year} <Link href="/" className="hover:text-white">ANIPLAY™</Link> | Made by Luckyhv
+                    <span className="sm:text-center ms-5 lg:ms-0">© {year} <Link href="/" className="hover:text-white">ANIPLAY™</Link> | Made by <span className="font-bold" >Luckyhv</span>
                     </span>
                     <div className="flex mt-4 lg:justify-center lg:mt-0">
                         <Link href="https://github.com/Luckyhv/aniplay" target="_blank" className=" hover:text-gray-900 dark:hover:text-white ms-5 lg:ms-0">
@@ -85,17 +92,25 @@ function Footer() {
                             <span className="sr-only">GitHub account</span>
                         </Link>
                         <Link href="https://discord.gg/HaVe2SMvJB" target="_blank" className=" hover:text-gray-900 dark:hover:text-white ms-5">
-                            <svg className="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 21 16">
+                            <svg className="w-[22px] h-[22px]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 21 16">
                                 <path d="M16.942 1.556a16.3 16.3 0 0 0-4.126-1.3 12.04 12.04 0 0 0-.529 1.1 15.175 15.175 0 0 0-4.573 0 11.585 11.585 0 0 0-.535-1.1 16.274 16.274 0 0 0-4.129 1.3A17.392 17.392 0 0 0 .182 13.218a15.785 15.785 0 0 0 4.963 2.521c.41-.564.773-1.16 1.084-1.785a10.63 10.63 0 0 1-1.706-.83c.143-.106.283-.217.418-.33a11.664 11.664 0 0 0 10.118 0c.137.113.277.224.418.33-.544.328-1.116.606-1.71.832a12.52 12.52 0 0 0 1.084 1.785 16.46 16.46 0 0 0 5.064-2.595 17.286 17.286 0 0 0-2.973-11.59ZM6.678 10.813a1.941 1.941 0 0 1-1.8-2.045 1.93 1.93 0 0 1 1.8-2.047 1.919 1.919 0 0 1 1.8 2.047 1.93 1.93 0 0 1-1.8 2.045Zm6.644 0a1.94 1.94 0 0 1-1.8-2.045 1.93 1.93 0 0 1 1.8-2.047 1.918 1.918 0 0 1 1.8 2.047 1.93 1.93 0 0 1-1.8 2.045Z" />
                             </svg>
                             <span className="sr-only">Discord community</span>
                         </Link>
-                        <Link href="/" className="pointer-events-none hover:text-gray-900 dark:hover:text-white ms-5">
-                            <svg className="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 17">
-                                <path fillRule="evenodd" d="M20 1.892a8.178 8.178 0 0 1-2.355.635 4.074 4.074 0 0 0 1.8-2.235 8.344 8.344 0 0 1-2.605.98A4.13 4.13 0 0 0 13.85 0a4.068 4.068 0 0 0-4.1 4.038 4 4 0 0 0 .105.919A11.705 11.705 0 0 1 1.4.734a4.006 4.006 0 0 0 1.268 5.392 4.165 4.165 0 0 1-1.859-.5v.05A4.057 4.057 0 0 0 4.1 9.635a4.19 4.19 0 0 1-1.856.07 4.108 4.108 0 0 0 3.831 2.807A8.36 8.36 0 0 1 0 14.184 11.732 11.732 0 0 0 6.291 16 11.502 11.502 0 0 0 17.964 4.5c0-.177 0-.35-.012-.523A8.143 8.143 0 0 0 20 1.892Z" clipRule="evenodd" />
-                            </svg>
-                            <span className="sr-only">Twitter page</span>
-                        </Link>
+                        <div className="flex items-center ml-5">
+                            <label className="relative cursor-pointer">
+                                {animetitle && (
+                                    <input
+                                        type="checkbox"
+                                        className="sr-only peer"
+                                        checked={l}
+                                        onChange={handleToggle}
+                                    />
+                                )}
+                                <div className="w-[40px] text-xs h-4 flex items-center bg-[#EAEEFB] rounded-full  peer-checked:text-[#18181b] text-[black] font-bold after:flex after:items-center after:justify-center peer after:content-['JP'] peer-checked:after:content-['EN'] peer-checked:after:translate-x-3/4 after:absolute peer-checked:after:border-white after:bg-white after:border after:border-gray-300 after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-[#EAEEFB]">
+                                </div>
+                            </label>
+                        </div>
                     </div>
                 </div>
             </footer>

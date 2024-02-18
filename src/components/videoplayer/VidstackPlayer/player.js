@@ -122,7 +122,7 @@ function Player({ dataInfo, groupedEp, sources, session, savedep,  subtitles, th
               body: JSON.stringify({
                 userName: session?.user?.name,
                 aniId: String(dataInfo?.id),
-                aniTitle: dataInfo.title?.[animetitle] || dataMedia.title?.romaji,
+                aniTitle: dataInfo?.title?.[animetitle] || dataInfo?.title?.romaji,
                 epTitle: currentep?.title || `EP ${epNum}`,
                 image: currentep?.image || currentep?.img ||
                        dataInfo?.bannerImage || dataInfo?.coverImage?.extraLarge || '',
@@ -140,7 +140,7 @@ function Player({ dataInfo, groupedEp, sources, session, savedep,  subtitles, th
 
         UpdateVideoProgress(dataInfo?.id, {
           aniId: String(dataInfo?.id),
-          aniTitle: dataInfo.title?.[animetitle] || dataMedia.title?.romaji,
+          aniTitle: dataInfo?.title?.[animetitle] || dataInfo.title?.romaji,
           epTitle: currentep?.title || `EP ${epNum}`,
           image: currentep?.image || currentep?.img ||
                  dataInfo?.bannerImage || dataInfo?.coverImage?.extraLarge || '',

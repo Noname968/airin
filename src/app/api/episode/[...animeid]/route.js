@@ -91,25 +91,31 @@ const fetchAndCacheData = async (id, meta, redis, cacheTime) => {
     fetchEpisodeImages(id, meta)
   ]);
 
-  if (consumet.length > 0 || anify.length > 0) {
-    await redis.setex(`episode:${id}`, cacheTime, JSON.stringify([...consumet, ...anify]));
-  }
-
-  const combinedData = [...consumet, ...anify];
-  let data = combinedData;
-
-  if (meta) {
-    data = await CombineEpisodeMeta(combinedData, JSON.parse(meta));
-  } else if (cover && cover?.length > 0) {
-    try {
-      if (redis) await redis.setex(`meta:${id}`, cacheTime, JSON.stringify(cover));
-      data = await CombineEpisodeMeta(combinedData, cover);
-    } catch (error) {
-      console.error("Error serializing cover:", error.message);
+  // Check if redis is available
+  if (redis) {
+    if (consumet.length > 0 || anify.length > 0) {
+      await redis.setex(`episode:${id}`, cacheTime, JSON.stringify([...consumet, ...anify]));
     }
-  }
 
-  return data;
+    const combinedData = [...consumet, ...anify];
+    let data = combinedData;
+
+    if (meta) {
+      data = await CombineEpisodeMeta(combinedData, JSON.parse(meta));
+    } else if (cover && cover?.length > 0) {
+      try {
+        await redis.setex(`meta:${id}`, cacheTime, JSON.stringify(cover));
+        data = await CombineEpisodeMeta(combinedData, cover);
+      } catch (error) {
+        console.error("Error serializing cover:", error.message);
+      }
+    }
+
+    return data;
+  } else {
+    console.error("Redis URL not provided. Caching not possible.");
+    return [...consumet, ...anify];
+  }
 };
 
 export const GET = async (req, { params }) => {

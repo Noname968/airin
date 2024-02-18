@@ -1,6 +1,6 @@
 "use client"
 import React, { useEffect, useState } from 'react';
-import { DropdownItem, DropdownTrigger, Dropdown, DropdownMenu, DropdownSection, Avatar, Badge } from "@nextui-org/react";
+import { DropdownItem, DropdownTrigger, Dropdown, DropdownMenu, DropdownSection, Avatar, Badge, useDisclosure } from "@nextui-org/react";
 import Link from "next/link"
 import { ContextSearch } from '@/context/DataContext';
 import styles from '../../styles/Navbar.module.css'
@@ -8,28 +8,36 @@ import { useSession, signIn, signOut } from 'next-auth/react';
 import { FeedbackIcon, LoginIcon, LogoutIcon, SettingsIcon, ProfileIcon, NotificationIcon } from '@/lib/SvgIcons';
 import { Usernotifications } from '@/lib/AnilistUser';
 import { motion, useScroll, useMotionValueEvent } from 'framer-motion';
-
+import Feedbackform from './Feedbackform';
+import { NotificationTime } from '@/utils/TimeFunctions';
 
 function Navbarcomponent({ home = false }) {
+    const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const iconClasses = "w-5 h-5 text-xl text-default-500 pointer-events-none flex-shrink-0";
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
     const { Isopen, setIsopen, animetitle } = ContextSearch();
     const { data, status } = useSession();
-    const [notifications, setNotifications] = useState([]);
     const [hidden, setHidden] = useState(false);
     const { scrollY } = useScroll();
+    const [notifications, setNotifications] = useState([]);
+    const [todayNotifications, setTodayNotifications] = useState([]);
+    const [selectedTimeframe, setSelectedTimeframe] = useState('Today');
 
-    useMotionValueEvent(scrollY, "change", (latest)=>{
+    const handleTimeframeChange = (e) => {
+        setSelectedTimeframe(e.target.value);
+    };
+
+    useMotionValueEvent(scrollY, "change", (latest) => {
         const previous = scrollY.getPrevious();
-        if(latest > previous && latest > 150){
+        if (latest > previous && latest > 150) {
             setHidden(true);
         }
-        else{
+        else {
             setHidden(false);
             setIsScrolled(false);
         }
-        if(latest > 50){
+        if (latest > 50) {
             setIsScrolled(true)
         }
     })
@@ -47,43 +55,27 @@ function Navbarcomponent({ home = false }) {
         const fetchNotifications = async () => {
             try {
                 if (status === 'authenticated' && data?.user?.token) {
-                    const response = await Usernotifications(data.user.token);
-                    const currentTimestamp = Math.floor(Date.now() / 1000);
-
-                    const filteredNotifications = response.notifications.filter(notification => {
-                        const createdAtTimestamp = notification.createdAt;
-                        const timeDifference = currentTimestamp - createdAtTimestamp;
-                        const oneDayInSeconds = 24 * 60 * 60 * 20;
-                        return timeDifference <= oneDayInSeconds;
-                    });
-                    setNotifications(filteredNotifications);
+                    const response = await Usernotifications(data.user.token, 1);
+                    const notify = response?.notifications?.filter(item => Object.keys(item).length > 0);
+                    setNotifications(notify);
+                    const filteredNotifications = filterNotifications(notify);
+                    setTodayNotifications(filteredNotifications);
                 }
             } catch (error) {
                 console.error('Error fetching notifications:', error);
             }
-        };
+        }
         fetchNotifications();
     }, [status, data]);
 
-    function NotificationTime(createdAt) {
+    function filterNotifications(notifications) {
         const currentTimestamp = Math.floor(Date.now() / 1000);
-        const timeDifference = currentTimestamp - createdAt;
-        let formattedRelativeTime = '';
-
-        if (timeDifference < 60) {
-            formattedRelativeTime = `${timeDifference} sec ago`;
-        } else if (timeDifference < 60 * 60) {
-            const minutes = Math.floor(timeDifference / 60);
-            formattedRelativeTime = `${minutes} min${minutes > 1 ? 's' : ''} ago`;
-        } else if (timeDifference < 24 * 60 * 60) {
-            const hours = Math.floor(timeDifference / (60 * 60));
-            formattedRelativeTime = `${hours} hr${hours > 1 ? 's' : ''} ago`;
-        } else {
-            const days = Math.floor(timeDifference / (60 * 60 * 24));
-            formattedRelativeTime = `${days} day${days > 1 ? 's' : ''} ago`;
-        }
-
-        return formattedRelativeTime;
+        const oneDayInSeconds = 24 * 60 * 60;
+        return notifications.filter(notification => {
+            const createdAtTimestamp = notification.createdAt;
+            const timeDifference = currentTimestamp - createdAtTimestamp;
+            return timeDifference <= oneDayInSeconds;
+        });
     }
 
     useEffect(() => {
@@ -93,44 +85,24 @@ function Navbarcomponent({ home = false }) {
                 setIsopen((prev) => !prev);
             }
         };
-
         window.addEventListener('keydown', handleKeyDown);
-
         return () => {
             window.removeEventListener('keydown', handleKeyDown);
         };
     }, [setIsopen]);
 
-    // useEffect(() => {
-    //     const handleScroll = () => {
-    //         if (window.scrollY > 0) {
-    //             setIsScrolled(true);
-    //         } else {
-    //             setIsScrolled(false);
-    //         }
-    //     };
-
-    //     window.addEventListener('scroll', handleScroll);
-
-    //     return () => {
-    //         window.removeEventListener('scroll', handleScroll);
-    //     };
-    // }, []);
-
     const navbarClass = isScrolled
         ? `${home ? styles.homenavbar : styles.navbar} ${home && styles.navbarscroll}`
-        : home
-            ? styles.homenavbar
-            : styles.navbar;
+        : home ? styles.homenavbar : styles.navbar;
 
     return (
         <motion.nav className={navbarClass}
-        variants={{
-            visible:{ y: 0 },
-            hidden:{ y: "-100%"},
-        }}
-        animate={hidden ? 'hidden' : 'visible'}
-        transition={{duration: 0.3, ease: "easeInOut"}}
+            variants={{
+                visible: { y: 0 },
+                hidden: { y: "-100%" },
+            }}
+            animate={hidden ? 'hidden' : 'visible'}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
         >
             <div className={styles.navleft}>
                 <div className={styles.logoContainer}>
@@ -167,10 +139,13 @@ function Navbarcomponent({ home = false }) {
                 </button>
                 <div>
                     {isLoggedIn && (
-                        <Dropdown placement="bottom-end" >
+                        <Dropdown placement="bottom-end" classNames={{
+                            base: "before:bg-default-200",
+                            content: "py-1 px-1 border border-default-200 bg-gradient-to-br from-white to-default-200 dark:from-default-50 dark:to-black",
+                        }}>
                             <DropdownTrigger>
                                 <div className='w-[26px] h-[26px] mr-2 mt-[2px] cursor-pointer'>
-                                    <Badge color="danger" content={notifications?.length} shape="circle" showOutline={false} size="sm">
+                                    <Badge color="danger" content={todayNotifications?.length} shape="circle" showOutline={false} size="sm">
                                         <NotificationIcon className="fill-current " />
                                     </Badge>
                                 </div>
@@ -179,40 +154,128 @@ function Navbarcomponent({ home = false }) {
                                 aria-label="Avatar Actions"
                                 emptyContent="No New Notifications"
                             >
-                                <DropdownSection title="Notifications" className='w-full'>
-                                    {notifications?.length > 0 ? notifications?.slice(0, 3).map((item) => {
-                                        const { contexts, media, episode, createdAt } = item;
-                                        return (
-                                            <DropdownItem
-                                                key={item.id}
-                                                showFullDescription
-                                                description={`${contexts?.[0]} ${episode} ${contexts?.[1]} ${media?.title?.[animetitle] || media?.title?.romaji} ${contexts?.[contexts?.length - 1]}`}
-                                                className='py-3 w-full'
+                                <DropdownSection title="Notifications">
+                                    <DropdownItem
+                                        isReadOnly
+                                        classNames={{
+                                            base: 'py-0 !hover:bg-none'
+                                        }}
+                                        key="theme"
+                                        className="cursor-default"
+                                        endContent={
+                                            <select
+                                                className="z-10 outline-none cursor-pointer w-[72px] py-0.5 rounded-md text-tiny group-data-[hover=true]:border-default-500 border-small border-default-300 dark:border-default-200 bg-transparent text-default-500"
+                                                id="theme"
+                                                name="theme"
+                                                value={selectedTimeframe}
+                                                onChange={handleTimeframeChange}
                                             >
-                                                <div className='flex flex-row items-center justify-between w-[290px]'>
-                                                    <p className='font-semibold text-[16px] w-full'>
-                                                        {((media?.title?.[animetitle] || media?.title?.romaji) || '').slice(0, 24)}
-                                                        {((media?.title?.[animetitle] || media?.title?.romaji) || '').length > 24 && '...'}
-                                                    </p>
-                                                    <span className='text-[#f1f1f1b2] text-[10px]'>{NotificationTime(createdAt)}</span>
-                                                </div>
+                                                <option>Today</option>
+                                                <option>Recent</option>
+                                            </select>
+                                            // <div className='flex flex-row gap-3'>
+                                            //     <button className='bg-[#18181b] px-3 py-1'>Today</button>
+                                            //     <button>Recent</button>
+                                            // </div>
+                                        }
+                                    >
+                                        Select Timeframe
+                                    </DropdownItem>
+                                </DropdownSection>
+                                <DropdownSection className='w-full'>
+                                    {selectedTimeframe === 'Today' ? (
+                                        todayNotifications?.length > 0 ? todayNotifications?.slice(0, 3).map((item) => {
+                                            const { contexts, media, episode, createdAt } = item;
+                                            return (
+                                                <DropdownItem
+                                                    key={item.id}
+                                                    showFullDescription
+                                                    description={`${contexts?.[0]} ${episode} ${contexts?.[1]} ${media?.title?.[animetitle] || media?.title?.romaji} ${contexts?.[contexts?.length - 1]}`}
+                                                    className='py-2 w-full'
+                                                    classNames={{
+                                                        description: 'text-[11px] text-[#A1A1AA]',
+                                                    }}
+                                                >
+                                                    <div className='flex flex-row items-center justify-between w-[290px]'>
+                                                        <p className='font-semibold text-[14px] w-full'>
+                                                            {((media?.title?.[animetitle] || media?.title?.romaji) || '').slice(0, 24)}
+                                                            {((media?.title?.[animetitle] || media?.title?.romaji) || '').length > 24 && '...'}
+                                                        </p>
+                                                        <span className='text-[#f1f1f1b2] text-[10px]'>{NotificationTime(createdAt)}</span>
+                                                    </div>
+                                                </DropdownItem>
+                                            );
+                                        }) : (
+                                            <DropdownItem
+                                                key={"Lol"}
+                                                showFullDescription
+                                                className='py-3 w-full text-center'
+                                            >
+                                                No New Notifications
                                             </DropdownItem>
                                         )
-                                    }) : (
-                                        <DropdownItem
-                                        key={"Lol"}
-                                        showFullDescription
-                                        className='py-3 w-full text-center'
-                                    >
-                                        No New Notifications
-                                    </DropdownItem>
+                                    ) : (
+                                        notifications?.length > 0 ? notifications?.slice(0, 3).map((item) => {
+                                            const { contexts, media, episode, createdAt } = item;
+                                            return (
+                                                <DropdownItem
+                                                    key={item.id}
+                                                    showFullDescription
+                                                    description={`${contexts?.[0]} ${episode} ${contexts?.[1]} ${media?.title?.[animetitle] || media?.title?.romaji} ${contexts?.[contexts?.length - 1]}`}
+                                                    className='py-2 w-full'
+                                                    classNames={{
+                                                        description: 'text-[11px] text-[#A1A1AA]',
+                                                    }}
+                                                >
+                                                    <div className='flex flex-row items-center justify-between w-[290px]'>
+                                                        <p className='font-semibold text-[14px] w-full'>
+                                                            {((media?.title?.[animetitle] || media?.title?.romaji) || '').slice(0, 24)}
+                                                            {((media?.title?.[animetitle] || media?.title?.romaji) || '').length > 24 && '...'}
+                                                        </p>
+                                                        <span className='text-[#f1f1f1b2] text-[10px]'>{NotificationTime(createdAt)}</span>
+                                                    </div>
+                                                </DropdownItem>
+                                            );
+                                        }) : (
+                                            <DropdownItem
+                                                key={"Lol"}
+                                                showFullDescription
+                                                className='py-3 w-full text-center'
+                                            >
+                                                No Notifications!
+                                            </DropdownItem>
+                                        )
                                     )}
+                                    {selectedTimeframe === 'Today' && todayNotifications?.length > 0 &&
+                                        <DropdownItem
+                                            key={"delete"}
+                                            showFullDescription
+                                            className='py-2 w-full text-xl text-default-500 flex-shrink-0'
+                                            color="danger"
+                                        >
+                                            <Link href={`/user/notifications`} className='w-full h-full block '>Show all</Link>
+                                        </DropdownItem>
+                                    }
+                                    {selectedTimeframe !== 'Today' && notifications?.length > 0 &&
+                                        <DropdownItem
+                                            key={"delete"}
+                                            showFullDescription
+                                            className='py-2 w-full text-xl text-default-500 flex-shrink-0'
+                                            color="danger"
+                                        >
+                                            <Link href={`/user/notifications`} className='w-full h-full block '>Show all</Link>
+                                        </DropdownItem>
+                                    }
                                 </DropdownSection>
+
                             </DropdownMenu>
                         </Dropdown>
                     )}
                 </div>
-                <Dropdown placement="bottom-end">
+                <Dropdown placement="bottom-end" classNames={{
+                    base: "before:bg-default-200",
+                    content: "py-1 px-1 border border-default-200 bg-gradient-to-br from-white to-default-200 dark:from-default-50 dark:to-black",
+                }}>
                     <DropdownTrigger>
                         <Avatar
                             isBordered
@@ -232,9 +295,9 @@ function Navbarcomponent({ home = false }) {
                                 <p className="font-semibold">{data?.user?.name}</p>
                             </DropdownItem>
                             <DropdownItem key="profile" startContent={<ProfileIcon className={iconClasses} />}>Profile</DropdownItem>
-                            <DropdownItem key="help_and_feedback" startContent={<FeedbackIcon className={iconClasses} />}>Help & Feedback</DropdownItem>
+                            <DropdownItem key="help_and_feedback" onPress={onOpen} startContent={<FeedbackIcon className={iconClasses} />}>Help & Feedback</DropdownItem>
                             <DropdownItem key="settings" startContent={<SettingsIcon className={iconClasses} />}>
-                                <Link href={`/anime/settings`} className='w-full h-full block '>Settings</Link>
+                                <Link href={`/settings`} className='w-full h-full block '>Settings</Link>
                             </DropdownItem>
                             <DropdownItem key="logout" color="danger" startContent={<LogoutIcon className={iconClasses} />}>
                                 <button className="font-semibold outline-none border-none w-full h-full block text-left" onClick={() => signOut('AniListProvider')}>Log Out</button>
@@ -245,13 +308,14 @@ function Navbarcomponent({ home = false }) {
                             <DropdownItem key="notlogprofile" startContent={<LoginIcon className={iconClasses} />}>
                                 <button className="font-semibold outline-none border-none w-full h-full block text-left" onClick={() => signIn('AniListProvider')}>Login With Anilist</button>
                             </DropdownItem>
-                            <DropdownItem key="notloghelp_and_feedback" startContent={<FeedbackIcon className={iconClasses} />}>Help & Feedback</DropdownItem>
+                            <DropdownItem key="notloghelp_and_feedback" onPress={onOpen} startContent={<FeedbackIcon className={iconClasses} />}>Help & Feedback</DropdownItem>
                             <DropdownItem key="settings" startContent={<SettingsIcon className={iconClasses} />}>
-                                <Link href={`/anime/settings`} className='w-full h-full block '>Settings</Link>
+                                <Link href={`/settings`} className='w-full h-full block '>Settings</Link>
                             </DropdownItem>
                         </DropdownMenu>
                     )}
                 </Dropdown>
+                <Feedbackform isOpen={isOpen} onOpen={onOpen} onOpenChange={onOpenChange} />
             </div>
         </motion.nav>
     )

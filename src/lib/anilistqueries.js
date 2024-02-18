@@ -1,4 +1,4 @@
-export const trending =  `
+export const trending = `
 query($perPage: Int, $page: Int) {
     Page(page: $page, perPage: $perPage) {
         pageInfo {
@@ -55,7 +55,7 @@ query($perPage: Int, $page: Int) {
     }
 }`
 
-export const top100anime =  `
+export const top100anime = `
 query($perPage: Int, $page: Int) {
     Page(page: $page, perPage: $perPage) {
         pageInfo {
@@ -105,7 +105,7 @@ query($perPage: Int, $page: Int) {
     }
 }`
 
-export const seasonal =  `
+export const seasonal = `
 query($perPage: Int, $page: Int) {
     Page(page: $page, perPage: $perPage) {
         pageInfo {
@@ -155,7 +155,7 @@ query($perPage: Int, $page: Int) {
     }
 }`
 
-export const animeinfo =  `
+export const animeinfo = `
 query ($id: Int) {
     Media (id: $id) {
       id

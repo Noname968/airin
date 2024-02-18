@@ -7,11 +7,14 @@ import { useDraggable } from 'react-use-draggable-scroll';
 import { Popover, PopoverTrigger, PopoverContent } from "@nextui-org/react";
 import { useRouter } from 'next-nprogress-bar';
 import { toast } from 'sonner'
+import Skeleton from "react-loading-skeleton";
 
-function ContinueWatching({session}) {
+
+function ContinueWatching({ session }) {
     const containerRef = useRef();
     const { events } = useDraggable(containerRef);
     const [storedData, setStoredData] = useState([]);
+    const [loading, setloading] = useState(true);
     const router = useRouter();
 
     function filterHistory(history) {
@@ -23,47 +26,48 @@ function ContinueWatching({session}) {
             return acc;
         }, []);
         return filteredHistory;
-    }  
-    
+    }
+
     function removeFromLocalStorage(id) {
         const history = JSON.parse(localStorage.getItem('vidstack_settings')) || {};
         if (history[id]) {
-          delete history[id];
-          localStorage.setItem('vidstack_settings', JSON.stringify(history));
+            delete history[id];
+            localStorage.setItem('vidstack_settings', JSON.stringify(history));
         }
-      }
+    }
 
 
     useEffect(() => {
         const fetchData = async () => {
-          if (typeof window !== 'undefined') {
-            if(session?.user?.name){
-                const response = await fetch(`/api/watchhistory`, {
-                    method: "GET",
-                  });
-                  const history = await response.json();
-                  console.log(history);
-                if (history?.length > 0) {
-                  const data = filterHistory(history);
-                  setStoredData(data);
-                } 
+            if (typeof window !== 'undefined') {
+                if (session?.user?.name) {
+                    const response = await fetch(`/api/watchhistory`, {
+                        method: "GET",
+                    });
+                    const history = await response.json();
+                    if (history?.length > 0) {
+                        const data = filterHistory(history);
+                        setStoredData(data);
+                    }
+                    setloading(false);
+                }
+                else {
+                    const data = JSON.parse(localStorage.getItem('vidstack_settings'));
+                    if (data) {
+                        const mappedValues = Object.keys(data).map((key) => data[key]);
+                        const sortedData = mappedValues.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+                        setStoredData(sortedData);
+                    }
+                    setloading(false)
+                }
             }
-            else {
-              const data = JSON.parse(localStorage.getItem('vidstack_settings'));
-              if (data) {
-                const mappedValues = Object.keys(data).map((key) => data[key]);
-                const sortedData = mappedValues.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-                setStoredData(sortedData);
-              }
-            }
-          }
         };
-      
-        fetchData();
-      }, [setStoredData]);
-      
 
-      async function RemovefromHistory(id, aniTitle){
+        fetchData();
+    }, [setStoredData]);
+
+
+    async function RemovefromHistory(id, aniTitle) {
         try {
             if (session?.user?.name) {
                 const response = await fetch(`/api/watchhistory`, {
@@ -103,7 +107,7 @@ function ContinueWatching({session}) {
             toast.error('Failed to remove anime from history');
         }
     };
-    
+
 
     function formatTime(totalSeconds) {
         const minutes = Math.floor(totalSeconds / 60);
@@ -127,11 +131,11 @@ function ContinueWatching({session}) {
                 <h1 className={styles.headtitle}>Continue Watching</h1>
             </div>
             <div className={styles.bottomsection} {...events} ref={containerRef}>
-                {storedData?.map((anime) => (
-                    <div key={anime?.aniId || anime?.id} className={`${styles.animeitem} group`}>
+                {!loading && storedData?.map((anime, index) => (
+                    <div key={anime?.aniId || anime?.id} className={`${styles.animeitem} group transition-transform duration-300 ease-in-out transform ${index > 0 ? 'mt-4' : ''}`}>
                         <Popover placement="bottom-end" offset={10} radius={"sm"}>
                             <PopoverTrigger>
-                                <button className='absolute z-[8] py-[4px] bg-white rounded-[6px] px-[1px] top-2 right-2 shadow-md shadow-black/50 transition-all duration-200 ease-out opacity-0 xl:group-hover:opacity-100 scale-90 group-hover:scale-100 outline-none border-none'>
+                                <button className='absolute z-[8] py-[4px] bg-white rounded-[6px] top-2 right-2 shadow-md shadow-black/50 transition-all duration-200 ease-out opacity-0 xl:group-hover:opacity-100 scale-90 group-hover:scale-100 outline-none border-none'>
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="black" className="w-[17px] h-[17px]">
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 12.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 18.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5Z" />
                                     </svg>
@@ -141,20 +145,20 @@ function ContinueWatching({session}) {
                                 {(titleProps) => (
                                     <div className="flex flex-col w-full">
                                         <span className='w-full hover:bg-[#403c44] rounded-md text-sm'>
-                                        <button className='py-2 px-2 w-full text-left outline-none border-none' onClick={()=>RemovefromHistory(anime.aniId || anime.id, anime.aniTitle)}>Remove Tracking</button>
+                                            <button className='py-2 px-2 w-full text-left outline-none border-none' onClick={() => RemovefromHistory(anime.aniId || anime.id, anime.aniTitle)}>Remove Tracking</button>
                                         </span>
-                                        {anime?.nextepId && 
-                                        <span className='hover:bg-[#403c44] rounded-md text-sm'>
-                                        <button className='px-2 py-2 w-full text-left border-none outline-none'
-                                        onClick={()=> router.push(`/anime/watch?id=${anime?.aniId || anime?.id}&host=${anime?.provider}&epid=${anime?.nextepId || anime?.epid}&ep=${anime?.nextepNum || anime?.epnum}&type=${anime.subtype}`)}
-                                        >Play Next Episode</button>
-                                        </span>
+                                        {anime?.nextepId &&
+                                            <span className='hover:bg-[#403c44] rounded-md text-sm'>
+                                                <button className='px-2 py-2 w-full text-left border-none outline-none'
+                                                    onClick={() => router.push(`/anime/watch?id=${anime?.aniId || anime?.id}&host=${anime?.provider}&epid=${anime?.nextepId || anime?.epid}&ep=${anime?.nextepNum || anime?.epnum}&type=${anime.subtype}`)}
+                                                >Play Next Episode</button>
+                                            </span>
                                         }
                                     </div>
                                 )}
                             </PopoverContent>
                         </Popover>
-                        <Link href={`/anime/watch?id=${anime?.aniId || anime?.id}&host=${anime?.provider}&epid=${anime?.epId || anime?.epid}&ep=${anime?.epNum || anime?.epnum}&type=${anime.subtype}`}>
+                        <Link href={`/anime/watch?id=${anime?.aniId || anime?.id}&host=${anime?.provider}&epid=${anime?.epId || anime?.epid}&ep=${anime?.epNum || anime?.epnum}&type=${anime.subtype}`} className='overflow-hidden'>
                             <div className={styles.animeimg}>
                                 <Image src={anime?.image} alt={anime?.aniTitle} width={155} height={230} placeholder="blur" blurDataURL={anime?.image} className={`${styles.imgcover} `} />
                             </div>
@@ -169,11 +173,25 @@ function ContinueWatching({session}) {
                                 </div>
                             </div>
                             <span className={`absolute bottom-0 left-2 right-2 h-[2px] rounded-lg bg-red-600 z-[9]`}
-                                style={{ width: `${(anime.timeWatched / anime.duration) * 100}%` }}
+                                style={{ width: `${(anime.timeWatched / anime.duration) * 95}%` }}
                             />
                         </Link>
                     </div>
                 ))}
+                {loading && (
+                    <>
+                        {[1, 2].map((item) => (
+                            <div
+                                key={item}
+                                className={`${styles.animeitem} ${styles.animeimg} transition-opacity duration-300 ease-in-out`}
+                            >
+                                <div className="w-full">
+                                    <Skeleton className="w-fit aspect-video" />
+                                </div>
+                            </div>
+                        ))}
+                    </>
+                )}
             </div>
         </div>
     )

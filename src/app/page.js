@@ -19,7 +19,6 @@ async function Home() {
   const seasonaldata = await SeasonalAnilist();
   // const history = await getWatchHistory();
 
-
   return (
     <div>
       <Navbarcomponent home={true} />

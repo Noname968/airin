@@ -1,7 +1,5 @@
 import { trending, animeinfo, advancedsearch, top100anime, seasonal } from "./anilistqueries";
 
-export const revalidate = 3600
-
 export const TrendingAnilist = async () => {
     try {
         const response = await fetch('https://graphql.anilist.co', {
@@ -89,7 +87,7 @@ export const AnimeInfoAnilist = async (animeid) => {
                     id: animeid,
                 },
             }),
-        }, { next: { revalidate: 3600 } });
+        }, { cache: "no-store" });
 
         const data = await response.json();
         return data.data.Media;
