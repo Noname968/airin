@@ -124,7 +124,7 @@ function Player({ dataInfo, id, groupedEp, sources, session, savedep,  subtitles
                 aniId: String(dataInfo?.id) || String(id),
                 aniTitle: dataInfo?.title?.[animetitle] || dataInfo?.title?.romaji,
                 epTitle: currentep?.title || `EP ${epNum}`,
-                image: currentep?.image || currentep?.img ||
+                image: currentep?.img || currentep?.image ||
                        dataInfo?.bannerImage || dataInfo?.coverImage?.extraLarge || '',
                 epId: epId,
                 epNum: Number(epNum) || Number(currentep?.number),
@@ -142,7 +142,7 @@ function Player({ dataInfo, id, groupedEp, sources, session, savedep,  subtitles
           aniId: String(dataInfo?.id) || String(id),
           aniTitle: dataInfo?.title?.[animetitle] || dataInfo?.title?.romaji,
           epTitle: currentep?.title || `EP ${epNum}`,
-          image: currentep?.image || currentep?.img ||
+          image: currentep?.img || currentep?.image ||
                  dataInfo?.bannerImage || dataInfo?.coverImage?.extraLarge || '',
           epId: epId,
           epNum: Number(epNum) || Number(currentep?.number),
