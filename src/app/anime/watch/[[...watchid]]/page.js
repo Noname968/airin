@@ -8,11 +8,40 @@ import Animecards from "@/components/CardComponent/Animecards";
 import { createWatchEp, getEpisode } from "@/lib/EpHistoryfunctions";
 import { WatchPageInfo } from "@/lib/AnilistUser";
 import { getAuthSession } from "../../../api/auth/[...nextauth]/route";
+import { redis } from '@/lib/rediscache'
+
+async function getInfo(token,id) {
+  try {
+    let cachedData;
+    if (redis) {
+      cachedData = await redis.get(`info:${id}`); 
+    }
+    if (cachedData) {
+      // console.log("using cached info")
+      return JSON.parse(cachedData);
+    } else {
+      const data = await WatchPageInfo(null,id);
+      const cacheTime = data?.nextAiringEpisode?.episode ? 60 * 60 * 2 : 60 * 60 * 24 * 45;
+      if (redis) {
+        await redis.set(
+          `info:${id}`,
+          JSON.stringify(data),
+          "EX",
+          cacheTime
+        );
+        // console.log("cached info")
+      }
+      return data;
+    }
+  } catch (error) {
+    console.error("Error fetching info: ", error);
+  } 
+}
 
 export async function generateMetadata({ params, searchParams }) {
   const session = await getAuthSession();
   const id =  searchParams.id;
-  const data = await WatchPageInfo(session?.user?.token, id);
+  const data = await getInfo(session?.user?.token, id);
   const epnum =  searchParams.ep;
   
   return {
@@ -48,7 +77,7 @@ async function AnimeWatch({ params, searchParams }) {
   const epNum = searchParams.ep;
   const epId = searchParams.epid;
   const subdub = searchParams.type;
-  const data = await WatchPageInfo(session?.user?.token, id);
+  const data = await getInfo(session?.user?.token, id);
   await createWatch(session, epId);
   const savedep = await getEpisode(epId);
   // console.log(epnum)
