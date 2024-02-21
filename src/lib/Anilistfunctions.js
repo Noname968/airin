@@ -1,3 +1,4 @@
+"use server"
 import { trending, animeinfo, advancedsearch, top100anime, seasonal } from "./anilistqueries";
 
 export const TrendingAnilist = async () => {
@@ -15,8 +16,8 @@ export const TrendingAnilist = async () => {
                     perPage: 15,
                 },
             }),
-        }, { cache: "no-store" });
-    // }, { next: { revalidate: 3600 } });
+        // }, { cache: "no-store" });
+    }, { next: { revalidate: 3600 } });
 
         const data = await response.json();
         return data.data.Page.media;
@@ -87,7 +88,8 @@ export const AnimeInfoAnilist = async (animeid) => {
                     id: animeid,
                 },
             }),
-        }, { cache: "no-store" });
+        // }, { cache: "no-store" });
+    }, { next: { revalidate: 3600 } });
 
         const data = await response.json();
         return data.data.Media;

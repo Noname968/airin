@@ -7,37 +7,38 @@ import Navbarcomponent from '@/components/navbar/Navbar'
 import Animecards from '@/components/CardComponent/Animecards'
 import { redis } from '@/lib/rediscache'
 
-async function getInfo(id) {
-  try {
-    let cachedData;
-    if (redis) {
-      cachedData = await redis.get(`info:${id}`); 
-    }
-    if (cachedData) {
-      // console.log("using cached info")
-      return JSON.parse(cachedData);
-    } else {
-      const data = await AnimeInfoAnilist(id);
-      const cacheTime = data?.nextAiringEpisode?.episode ? 60 * 60 * 2 : 60 * 60 * 24 * 45;
-      if (redis) {
-        await redis.set(
-          `info:${id}`,
-          JSON.stringify(data),
-          "EX",
-          cacheTime
-        );
-        // console.log("cached info")
-      }
-      return data;
-    }
-  } catch (error) {
-    console.error("Error fetching info: ", error);
-  } 
-}
+// async function getInfo(id) {
+//   try {
+//     let cachedData;
+//     if (redis) {
+//       cachedData = await redis.get(`info:${id}`); 
+//     }
+//     if (cachedData) {
+//       // console.log("using cached info")
+//       return JSON.parse(cachedData);
+//     } else {
+//       const data = await AnimeInfoAnilist(id);
+//       const cacheTime = data?.nextAiringEpisode?.episode ? 60 * 60 * 2 : 60 * 60 * 24 * 45;
+//       if (redis) {
+//         await redis.set(
+//           `info:${id}`,
+//           JSON.stringify(data),
+//           "EX",
+//           cacheTime
+//         );
+//         // console.log("cached info")
+//       }
+//       return data;
+//     }
+//   } catch (error) {
+//     console.error("Error fetching info: ", error);
+//   } 
+// }
 
 export async function generateMetadata({ params }) {
   const id = params.infoid[0];
-  const data = await getInfo(id);
+  // const data = await getInfo(id);
+  const data = await AnimeInfoAnilist(id);
 
   return {
     title: data?.title?.english || data?.title?.romaji || 'Loading...',
@@ -57,7 +58,8 @@ export async function generateMetadata({ params }) {
 
 async function AnimeDetails({ params }) {
   const id = params.infoid[0];
-  const data = await getInfo(id);
+  // const data = await getInfo(id);
+  const data = await AnimeInfoAnilist(id);
 
   return (
     <div className="">

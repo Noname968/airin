@@ -51,7 +51,7 @@ function AnimeDetailsTop({ data }) {
       </>
       <div className={styles.detailsinfo}>
         <div className={styles.detailsimgcon}>
-          <Image src={data.coverImage.extraLarge} alt='Image' width={200} height={200} className={styles.detailsimage} />
+          <Image src={data?.coverImage?.extraLarge} alt='Image' width={200} height={200} className={styles.detailsimage} />
         </div>
         <div className={styles.detailstitle}>
           <h1 className={`${styles.title} text-[1.7rem] font-[500]`}>
