@@ -45,7 +45,7 @@ function Episodesection({ data, id }) {
   useEffect(() => {
     const fetchepisodes = async () => {
       try {
-        const response = await getEpisodes(id, data.status === "RELEASING", false);
+        const response = await getEpisodes(id, data?.status === "RELEASING", false);
         setepisodeData(response);
         setloading(false)
       } catch (error) {
@@ -53,7 +53,7 @@ function Episodesection({ data, id }) {
         setloading(false)
       }
     }
-    if (data.type !== 'MANGA' && data.status !== 'NOT_YET_RELEASED') {
+    if (data?.type !== 'MANGA' && data?.status !== 'NOT_YET_RELEASED') {
       fetchepisodes();
     }
   }, [data?.id])
