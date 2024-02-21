@@ -1,11 +1,11 @@
 import { NextResponse } from "next/server";
-import { getAuthSession } from "../auth/[...nextauth]/route";
+import { getAuthSession } from "../../auth/[...nextauth]/route";
 import { connectMongo } from "@/mongodb/db";
 import Watch from "@/mongodb/models/watch";
 
-export const GET = async (req) => {
-  const url = new URL(req.url);
-  const epId = url.searchParams.get('epId');
+export const GET = async (req, {params}) => {
+  // const url = new URL(req.url);
+  const epId = params.historyid?.[0];
     try {
         await connectMongo();
         const session = await getAuthSession();

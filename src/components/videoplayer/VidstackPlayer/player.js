@@ -15,7 +15,7 @@ import VideoProgressSave from '../../../utils/VideoProgressSave';
 import { VideoLayout } from "./components/layouts/video-layout";
 import { ContextSearch } from "../../../context/DataContext";
 
-function Player({ dataInfo, groupedEp, sources, session, savedep,  subtitles, thumbnails, skiptimes}) {
+function Player({ dataInfo, id, groupedEp, sources, session, savedep,  subtitles, thumbnails, skiptimes}) {
   const { animetitle, nowPlaying, settings} = ContextSearch();
   const { epId, provider, epNum, subtype } = nowPlaying;
   const { previousep, currentep, nextep } = groupedEp;
@@ -121,7 +121,7 @@ function Player({ dataInfo, groupedEp, sources, session, savedep,  subtitles, th
             },
               body: JSON.stringify({
                 userName: session?.user?.name,
-                aniId: String(dataInfo?.id),
+                aniId: String(dataInfo?.id) || String(id),
                 aniTitle: dataInfo?.title?.[animetitle] || dataInfo?.title?.romaji,
                 epTitle: currentep?.title || `EP ${epNum}`,
                 image: currentep?.image || currentep?.img ||
@@ -138,9 +138,9 @@ function Player({ dataInfo, groupedEp, sources, session, savedep,  subtitles, th
             });
           }
 
-        UpdateVideoProgress(dataInfo?.id, {
-          aniId: String(dataInfo?.id),
-          aniTitle: dataInfo?.title?.[animetitle] || dataInfo.title?.romaji,
+        UpdateVideoProgress(dataInfo?.id || id, {
+          aniId: String(dataInfo?.id) || String(id),
+          aniTitle: dataInfo?.title?.[animetitle] || dataInfo?.title?.romaji,
           epTitle: currentep?.title || `EP ${epNum}`,
           image: currentep?.image || currentep?.img ||
                  dataInfo?.bannerImage || dataInfo?.coverImage?.extraLarge || '',
