@@ -1,9 +1,9 @@
 <div align="center">
   <a href="https://aniplaynow.live" target="_blank">
-    <img src="https://github.com/Luckyhv/aniplay/blob/c39875dc6e1bc2db9d8371574a9ab3ed95ff3b93/public/icon-512x512.png" alt="Logo" width="80" height="80">
+    <img src="https://github.com/Luckyhv/aniplay/blob/c39875dc6e1bc2db9d8371574a9ab3ed95ff3b93/public/icon-512x512.png" alt="Logo" width="140" height="140">
   </a>
 
-  <h3 align="center">Aniplay</h3>
+  <h2 align="center">Aniplay</h3>
 
   <p align="center">
     An open-source Anime streaming site built with Nextjs 14
@@ -33,15 +33,15 @@ Enjoy ad-free streaming and seamless progress tracking with AniList integration,
 <!-- ROADMAP -->
 ## Roadmap
 
-- [] Add Changelog
-- [] Download episodes
-- [] Add Comment section from Disqus
-- [] Create separate page for anilist users
+- [ ] Add Changelog
+- [ ] Download episodes
+- [ ] Add Comment section from Disqus
+- [ ] Create separate page for anilist users
     - [ ] To view their progress
     - [ ] Check all their details imported from anilist
-- [] Add Scene Search in catalog page
+- [ ] Add Scene Search in catalog page
 - [ ] Add Anilist episode tracking
-- [] Complete Watch Page
+- [ ] Complete Watch Page
 - [ ] Add Profile page.
 - [ ] Add Manga Reading Support
     - [ ] Comick
