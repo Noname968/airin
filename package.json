@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@auth/mongodb-adapter": "^2.2.0",
+    "@auth/mongodb-adapter": "^2.4.0",
     "@ducanh2912/next-pwa": "^10.2.2",
     "@headlessui/react": "^1.7.17",
     "@heroicons/react": "^2.1.1",
@@ -25,7 +25,7 @@
     "mongodb": "^6.3.0",
     "mongoose": "^8.1.1",
     "next": "^14.1.0",
-    "next-auth": "^4.24.5",
+    "next-auth": "^4.24.6",
     "next-nprogress-bar": "^2.1.2",
     "nextjs-toploader": "^1.6.4",
     "react": "^18",

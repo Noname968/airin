@@ -28,7 +28,8 @@ export function VideoLayout({ groupedEp, thumbnails, subtitles }: VideoLayoutPro
       >
         <Controls.Group className="flex justify-between items-center w-full px-1 pt-1">
           <div className='flex sm:hidden items-center justify-between w-full'>
-          <Buttons.ChromeCast tooltipPlacement='top'/>
+          {/* <Buttons.ChromeCast tooltipPlacement='top'/> */}
+          <div className='flex-1'></div>
           <div className="flex sm:hidden items-center">
             {subtitles?.length>0 && (
               <Buttons.Caption tooltipPlacement="top" />
@@ -106,8 +107,7 @@ export function VideoLayout({ groupedEp, thumbnails, subtitles }: VideoLayoutPro
           <Buttons.Caption tooltipPlacement="top"/>
           {/* <Buttons.Download tooltipPlacement='top'/> */}
           <Menus.Settings placement="top end" tooltipPlacement="top end" subtitles={subtitles}/>
-          <Buttons.ChromeCast tooltipPlacement='top'/>
-          <Buttons.AirPlay tooltipPlacement='top'/>
+          {/* <Buttons.ChromeCast tooltipPlacement='top'/> */}
           <Buttons.PIP tooltipPlacement="top" />
           <Buttons.Fullscreen tooltipPlacement="top end" />
         </Controls.Group>
