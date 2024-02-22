@@ -13,7 +13,10 @@ import {
 import { useRouter } from "next/navigation";
 import VideoProgressSave from '../../../utils/VideoProgressSave';
 import { VideoLayout } from "./components/layouts/video-layout";
+// import '@vidstack/react/styles/default/keyboard.css';
+import { DefaultVideoKeyboardActionDisplay } from '@vidstack/react/player/layouts/default';
 import { ContextSearch } from "../../../context/DataContext";
+import '@vidstack/react/player/styles/default/theme.css';
 
 function Player({ dataInfo, id, groupedEp, sources, session, savedep,  subtitles, thumbnails, skiptimes}) {
   const { animetitle, nowPlaying, settings} = ContextSearch();
@@ -244,6 +247,21 @@ function Player({ dataInfo, id, groupedEp, sources, session, savedep,  subtitles
       thumbnails={thumbnails ? process.env.NEXT_PUBLIC_PROXY_URI + thumbnails[0]?.url : ""}
       groupedEp={groupedEp}
     />
+    <DefaultVideoKeyboardActionDisplay 
+  icons={{
+    Play: null,
+    Pause: null,
+    Mute: null,
+    VolumeUp: null,
+    VolumeDown: null,
+    EnterFullscreen: null,
+    ExitFullscreen: null,
+    EnterPiP: null,
+    ExitPiP: null,
+    CaptionsOn: null,
+    CaptionsOff: null,
+  }} 
+/>
     </MediaPlayer>
   )
 }

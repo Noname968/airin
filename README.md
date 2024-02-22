@@ -1,36 +1,130 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<div align="center">
+  <a href="https://aniplaynow.live" target="_blank">
+    <img src="https://github.com/Luckyhv/aniplay/blob/c39875dc6e1bc2db9d8371574a9ab3ed95ff3b93/public/icon-512x512.png" alt="Logo" width="80" height="80">
+  </a>
 
-## Getting Started
+  <h3 align="center">Aniplay</h3>
 
-First, run the development server:
+  <p align="center">
+    An open-source Anime streaming site built with Nextjs 14
+  </p>
+</div>
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
+# About the Project
+
+Enjoy ad-free streaming and seamless progress tracking with AniList integration, powered by Consumet API and Anify. Built with Next.js 14, Nextui, MongoDB, and Redis, our platform offers a smooth experience. Look out for hidden features - every clickable item may hold a different surprise.
+
+
+## Features
+
+- No ads
+- Fast page load
+- PWA supported
+- Responsive on all devices
+- Multi provider support
+- Recommendations
+- Player Features
+  - Autoplay next episode
+  - Skip op/ed button
+  - Autoplay Video
+
+
+<!-- ROADMAP -->
+## Roadmap
+
+- [] Add Changelog
+- [] Download episodes
+- [] Add Comment section from Disqus
+- [] Create separate page for anilist users
+    - [ ] To view their progress
+    - [ ] Check all their details imported from anilist
+- [] Add Scene Search in catalog page
+- [ ] Add Anilist episode tracking
+- [] Complete Watch Page
+- [ ] Add Profile page.
+- [ ] Add Manga Reading Support
+    - [ ] Comick
+    - [ ] Mangadex
+    - [ ] And some more
+
+See the [open issues](https://github.com/Luckyhv/aniplay/issues) for a full list of proposed features (and known issues).
+
+
+## Environment Variables
+
+To run this project, you will need to add the following environment variables to your .env file
+
+```
+## Redis
+# If you don't want to use redis leave it empty or comment it.
+REDIS_URL="get redis from upstash, litegix or aiven. They offer free tier."
+
+## AniList
+GRAPHQL_ENDPOINT=https://graphql.anilist.co
+ANILIST_CLIENT_ID="get your id from here https://anilist.co/settings/developer"
+ANILIST_CLIENT_SECRET="get your secret from here https://anilist.co/settings/developer"
+
+## NextAuth Details
+NEXTAUTH_SECRET='run this command in your terminal (openssl rand -base64 32)'
+NEXTAUTH_URL="for development use http://localhost:3000/ and for production use your domain url"
+
+## NextJS
+NEXT_PUBLIC_PROXY_URI="Use a proxy if u wish, not mandatory"
+CONSUMET_URI="host your own API from this repo https://github.com/consumet/api.consumet.org. Don't put / at the end of the url."
+
+## MongoDB
+MONGODB_URI="Your Mongodb connection String"
+ANALYZE=true
+
+## In AniList Developer console add redirect url :
+# https://{your-domain}/api/auth/callback/AniListProvider
+
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## Run Locally
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Clone the project
+```bash
+  git clone https://github.com/Luckyhv/aniplay.git
+```
 
-## Learn More
+Go to the project directory
+```bash
+  cd aniplay
+```
 
-To learn more about Next.js, take a look at the following resources:
+Install dependencies
+```bash
+  npm install
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Start the server
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+```bash
+  npm run dev
+```
 
-## Deploy on Vercel
+<!-- CONTRIBUTING -->
+## Contributing
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
+Don't forget to give the project a star! Thanks again!
+
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+<!-- CONTACT -->
+## Contact
+
+Project Link: [https://github.com/Luckyhv/aniplay](https://github.com/Luckyhv/aniplay)
+
+Discord Server: [https://discord.gg/aW5P4W94ZS](https://discord.gg/aW5P4W94ZS)
+
+For any queries you can DM me on Discord `harsha9680`.

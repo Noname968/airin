@@ -133,7 +133,7 @@ function PlayerComponent({ id, epId, provider, epNum, subdub, data, session, sav
                             <Player dataInfo={data} id={id} groupedEp={groupedEp} session={session} savedep={savedep} sources={sources} subtitles={subtitles} thumbnails={thumbnails} skiptimes={skiptimes} />
                         </div>
                     ) : (
-                        <div className="h-full w-full rounded-[8px] relative flex items-center text-xl justify-center aspect-video">
+                        <div className="h-full w-full rounded-[8px] relative flex items-center text-xl justify-center aspect-video border border-solid border-white border-opacity-10">
                             <div className="pointer-events-none absolute inset-0 z-50 flex h-full w-full items-center justify-center">
                                 <Spinner.Root className="text-white animate-spin opacity-100" size={84}>
                                     <Spinner.Track className="opacity-25" width={8} />

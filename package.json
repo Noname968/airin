@@ -18,7 +18,7 @@
     "@vidstack/react": "^1.10.9",
     "axios": "^1.6.5",
     "framer-motion": "^10.17.9",
-    "hls.js": "^1.5.4",
+    "hls.js": "^1.5.6",
     "ioredis": "^5.3.2",
     "lodash": "^4.17.21",
     "media-icons": "^0.10.0",

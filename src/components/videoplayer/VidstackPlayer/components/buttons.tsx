@@ -36,7 +36,6 @@ import {
   SeekBackward10Icon,
   ChromecastIcon,
   AirPlayIcon,
-  DownloadIcon
 } from "@vidstack/react/icons";
 import { useRouter } from 'next-nprogress-bar';
 

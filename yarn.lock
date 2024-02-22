@@ -4686,7 +4686,7 @@ hasown@^2.0.0, hasown@^2.0.1:
   dependencies:
     function-bind "^1.1.2"
 
-hls.js@^1.5.4:
+hls.js@^1.5.6:
   version "1.5.6"
   resolved "https://registry.npmjs.org/hls.js/-/hls.js-1.5.6.tgz"
   integrity sha512-rmlaIEfLuSwqRtYLeTk30ebYli5qNK2urdkEcqYoBezRpV+MFHhZnMX77lHWW+EMjNlwr2sx2apfqq54E3yXnA==
