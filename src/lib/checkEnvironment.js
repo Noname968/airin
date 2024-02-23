@@ -1,9 +1,9 @@
 export const checkEnvironment = () => {
     let base_url =
       process.env.NODE_ENV === "development"
-        ? "http://localhost:3000"
-        // ? 'https://aniplaynow.live'
-        : "https://aniplaynow.live";
+        ? process.env.NEXT_PUBLIC_DEV_URL
+        : process.env.NEXT_PUBLIC_PRODUCTION_URL
+        ;
   
     return base_url;
   };
