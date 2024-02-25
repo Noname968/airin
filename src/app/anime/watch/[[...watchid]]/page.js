@@ -8,7 +8,9 @@ import Animecards from "@/components/CardComponent/Animecards";
 import { createWatchEp, getEpisode } from "@/lib/EpHistoryfunctions";
 import { WatchPageInfo } from "@/lib/AnilistUser";
 import { getAuthSession } from "../../../api/auth/[...nextauth]/route";
-import { redis } from '@/lib/rediscache'
+import { redis } from '@/lib/rediscache';
+
+export const revalidate = 60;
 
 async function getInfo(token,id) {
   try {
@@ -60,13 +62,17 @@ export async function generateMetadata({ params, searchParams }) {
   }
 }
 
-export async function createWatch(session, epId){
+export async function Ephistory(session, epId, aniId){
   try {
+    let savedep;
     if (session) {
-      await createWatchEp(session.user.name, epId);
+      await createWatchEp(epId, aniId);
+      savedep = await getEpisode(epId);
     }
+    return savedep;
   } catch (error) {
     console.error(error);
+    return null;
   }
 };
 
@@ -78,9 +84,8 @@ async function AnimeWatch({ params, searchParams }) {
   const epId = searchParams.epid;
   const subdub = searchParams.type;
   const data = await getInfo(session?.user?.token, id);
-  await createWatch(session, epId);
-  const savedep = await getEpisode(epId);
-  // console.log(epnum)
+  const savedep = await Ephistory(session, epId, id);
+  // console.log(savedep)
   // console.log(data)
 
   return (

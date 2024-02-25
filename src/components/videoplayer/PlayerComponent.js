@@ -4,7 +4,8 @@ import { getSources } from '@/lib/getData';
 import PlayerEpisodeList from './PlayerEpisodeList';
 import { ContextSearch } from '@/context/DataContext';
 import Player from './VidstackPlayer/player';
-import { Spinner } from '@vidstack/react'
+import { Spinner } from '@vidstack/react';
+import { toast } from 'sonner';
 
 function PlayerComponent({ id, epId, provider, epNum, subdub, data, session, savedep }) {
     const { animetitle, setNowPlaying, setDataInfo } = ContextSearch();
@@ -15,6 +16,7 @@ function PlayerComponent({ id, epId, provider, epNum, subdub, data, session, sav
     const [subtitles, setSubtitles] = useState(null);
     const [thumbnails, setThumbnails] = useState(null);
     const [skiptimes, setSkipTimes] = useState(null);
+    const [error, setError] = useState(false);
 
     useEffect(() => {
         setDataInfo(data);
@@ -23,14 +25,14 @@ function PlayerComponent({ id, epId, provider, epNum, subdub, data, session, sav
             try {
                 const response = await getSources(id, provider, epId, epNum, subdub);
 
-                console.log(response)
-                // if (!response?.sources?.length > 0) {
-                //     router.push('/');
-                // }
+                // console.log(response)
+                if (!response?.sources?.length > 0) {
+                    toast.error("Failed to load episode. Please try again later.");
+                    setError(true);
+                }
                 setSources(response?.sources);
                 const download = response?.download
 
-                console.log(response)
                 const reFormSubtitles = response?.subtitles?.map((i) => ({
                     src: process.env.NEXT_PUBLIC_PROXY_URI + i.url,
                     label: i.lang,
@@ -84,10 +86,11 @@ function PlayerComponent({ id, epId, provider, epNum, subdub, data, session, sav
 
                 setNowPlaying(episode);
                 setSkipTimes(skiptime);
-                console.log(skipData);
+                // console.log(skipData);
                 setLoading(false);
             } catch (error) {
                 console.error('Error fetching data:', error);
+                toast.error("Failed to load episode. Please try again later.");
                 const episode = {
                     download: null,
                     skiptimes: [],
@@ -128,18 +131,25 @@ function PlayerComponent({ id, epId, provider, epNum, subdub, data, session, sav
         <div className='xl:w-[99%]'>
             <div>
                 <div className='mb-2'>
-                    {!loading ? (
+                    {!loading && !error ? (
                         <div className='h-full w-full aspect-video overflow-hidden'>
                             <Player dataInfo={data} id={id} groupedEp={groupedEp} session={session} savedep={savedep} sources={sources} subtitles={subtitles} thumbnails={thumbnails} skiptimes={skiptimes} />
                         </div>
                     ) : (
                         <div className="h-full w-full rounded-[8px] relative flex items-center text-xl justify-center aspect-video border border-solid border-white border-opacity-10">
-                            <div className="pointer-events-none absolute inset-0 z-50 flex h-full w-full items-center justify-center">
-                                <Spinner.Root className="text-white animate-spin opacity-100" size={84}>
-                                    <Spinner.Track className="opacity-25" width={8} />
-                                    <Spinner.TrackFill className="opacity-75" width={8} />
-                                </Spinner.Root>
-                            </div>
+                            {!loading && error ? (
+                                <div className='text-sm sm:text-base px-2 flex flex-col items-center text-center'>
+                                    <p className='mb-2 text-xl'>(╯°□°)╯︵ ɹoɹɹƎ</p>
+                                    <p>Failed to load episode. Please try again later.</p>
+                                    <p>If the problem persists, consider changing servers.</p>
+                                </div>) : (
+                                <div className="pointer-events-none absolute inset-0 z-50 flex h-full w-full items-center justify-center">
+                                    <Spinner.Root className="text-white animate-spin opacity-100" size={84}>
+                                        <Spinner.Track className="opacity-25" width={8} />
+                                        <Spinner.TrackFill className="opacity-75" width={8} />
+                                    </Spinner.Root>
+                                </div>
+                            )}
                         </div>
                     )}
                 </div>

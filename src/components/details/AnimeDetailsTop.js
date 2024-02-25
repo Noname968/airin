@@ -19,7 +19,7 @@ function AnimeDetailsTop({ data }) {
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
-  return (
+  return ( 
     <div className={styles.detailsbanner}>
       <div
         className={styles.detailsbgimage}

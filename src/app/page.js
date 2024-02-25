@@ -18,6 +18,7 @@ async function Home() {
   const top100data = await Top100Anilist();
   const seasonaldata = await SeasonalAnilist();
   // const history = await getWatchHistory();
+  // console.log(history)
 
   return (
     <div>

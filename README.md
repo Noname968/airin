@@ -33,7 +33,7 @@ Enjoy ad-free streaming and seamless progress tracking with AniList integration,
 <!-- ROADMAP -->
 ## Roadmap
 
-- [ ] Add Changelog
+- [X] Add Changelog
 - [ ] Download episodes
 - [ ] Add Comment section from Disqus
 - [ ] Create separate page for anilist users

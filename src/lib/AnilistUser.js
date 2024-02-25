@@ -1,8 +1,4 @@
-'use server'
-
 import { notifications, playeranimeinfo } from "./anilistqueries";
-import { revalidatePath } from 'next/cache'
-
 
 export const Usernotifications = async (token, currentPage) => {
     try {
@@ -21,7 +17,6 @@ export const Usernotifications = async (token, currentPage) => {
                 },
             }),
         }, );
-        revalidatePath('/');
         const data = await response.json();
         // console.log(data)
         return data.data.Page;

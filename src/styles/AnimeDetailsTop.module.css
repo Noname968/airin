@@ -18,8 +18,7 @@
     left: 0;
     width: 100%;
     height: 101%;
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.01), rgba(0, 0, 0, 1));
-}
+background: linear-gradient(180deg, rgba(255, 255, 255, 0) 25%, #000000 100%);}
 
 .detailstrailer{
     position: absolute;

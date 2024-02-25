@@ -17,6 +17,7 @@ import { VideoLayout } from "./components/layouts/video-layout";
 import { DefaultVideoKeyboardActionDisplay } from '@vidstack/react/player/layouts/default';
 import { ContextSearch } from "../../../context/DataContext";
 import '@vidstack/react/player/styles/default/theme.css';
+import { updateEp } from "@/lib/EpHistoryfunctions";
 
 function Player({ dataInfo, id, groupedEp, sources, session, savedep,  subtitles, thumbnails, skiptimes}) {
   const { animetitle, nowPlaying, settings} = ContextSearch();
@@ -115,14 +116,7 @@ function Player({ dataInfo, id, groupedEp, sources, session, savedep,  subtitles
           ? Math.round(playerRef.current?.currentTime)
           : 0;
 
-          if (session) {
-            await fetch(`/api/watchhistory`, {
-              method: "PUT",
-              headers: {
-                'Content-Type': 'application/json',
-                Accept: 'application/json',
-            },
-              body: JSON.stringify({
+          await updateEp({
                 userName: session?.user?.name,
                 aniId: String(dataInfo?.id) || String(id),
                 aniTitle: dataInfo?.title?.[animetitle] || dataInfo?.title?.romaji,
@@ -138,8 +132,6 @@ function Player({ dataInfo, id, groupedEp, sources, session, savedep,  subtitles
                 nextepNum: nextep?.number || null,
                 subtype: subtype
               })
-            });
-          }
 
         UpdateVideoProgress(dataInfo?.id || id, {
           aniId: String(dataInfo?.id) || String(id),
@@ -180,7 +172,7 @@ function Player({ dataInfo, id, groupedEp, sources, session, savedep,  subtitles
       const seekTime = seek?.timeWatched;
       const percentage = duration !== 0 ? seekTime / Math.round(duration) : 0;
 
-      if (percentage >= 0.9) {
+      if (percentage >= 0.95) {
         remote.seek(0);
       }else {
         remote.seek(seekTime - 3);

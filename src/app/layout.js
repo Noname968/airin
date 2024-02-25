@@ -9,6 +9,7 @@ import Footer from '@/components/Footer';
 import Script from "next/script";
 import { getAuthSession } from './api/auth/[...nextauth]/route';
 import { Toaster } from 'sonner'
+import Changelogs from '../components/Changelogs';
 
 const inter = Inter({ subsets: ['latin'] })
 const myfont = localFont({ src: "../static-fonts/28 Days Later.ttf" })
@@ -96,6 +97,7 @@ export default async function RootLayout({ children }) {
         <Toaster richColors={true} closeButton={true} theme="dark" />
           {/* <NextTopLoader color="#CA1313" className="z-[99999]" /> */}
           <Search />
+          <Changelogs/>
           {children}
           <GoToTop />
           <Footer />

@@ -1,60 +1,167 @@
-import { checkEnvironment } from "./checkEnvironment";
-import { headers } from "next/headers"
+'use server'
+import { getAuthSession } from "@/app/api/auth/[...nextauth]/route";
+import { connectMongo } from "@/mongodb/db";
+import Watch from "@/mongodb/models/watch";
+import { revalidatePath } from "next/cache";
+
 
 export const getWatchHistory = async () => {
   try {
-    const response = await fetch(
-      `${checkEnvironment()}/api/watchhistory`, {
-      method: "GET",
-      headers: new Headers(headers()),
-      cache: "no-store"
-    },
-    );
-    if (!response.ok) {
-      throw new Error('Failed to fetch recent history')
+    await connectMongo();
+    const session = await getAuthSession();
+    if (!session) {
+      return;
     }
-    const data = await response.json();
-    return data;
+    const history = await Watch.find({ userName: session.user.name });
+
+    if (!history) {
+      return [];
+    }
+    return JSON.parse(JSON.stringify(history));
   } catch (error) {
     console.error("Error fetching watch history", error);
   }
-}
+  revalidatePath("/");
+};
 
-export const createWatchEp = async (name, epId) => {
+export const createWatchEp = async (epId, aniId) => {
   try {
-    const response = await fetch(
-      `${checkEnvironment()}/api/watchhistory`, {
-      method: "POST",
-      body: JSON.stringify({
-        name,
-        epId
-      }),
-      headers: new Headers(headers()),
+    await connectMongo();
+    const session = await getAuthSession();
+
+    if (!session) {
+      return;
     }
-    );
-    if (!response.ok) {
-      throw new Error('Failed to create episode history')
+
+    // Check if a record with the same name and epId already exists
+    const existingWatch = await Watch.findOne({
+      userName: session?.user.name,
+      epId: epId,
+    });
+
+    if (existingWatch) {
+      return null;
     }
+
+    // If no existing record found, create a new one
+    const newwatch = await Watch.create({
+      userName: session?.user.name,
+      epId: epId,
+      aniId: aniId
+    });
+
+  } catch (error) {
+    console.error("Oops! Something went wrong while creating the episode tracking:", error);
+    return;
   }
-  catch (error) {
-    console.error("Error creating episode tracking", error);
-  }
-}
+};
+
 
 export const getEpisode = async (epId) => {
   try {
-    const response = await fetch(
-      `${checkEnvironment()}/api/watchhistory/${epId}`, {
-      method: "GET",
-      headers: new Headers(headers()),
+    await connectMongo();
+    const session = await getAuthSession();
+    if (!session) {
+      return;
     }
-    );
-    if (!response.ok) {
-      throw new Error('Failed to get Episode')
+
+    if (epId) {
+      const episode = await Watch.find({
+        userName: session.user.name,
+        epId: epId,
+      });
+      if (episode && episode.length > 0) {
+        return JSON.parse(JSON.stringify(episode));
+      }
     }
-    const data = await response.json();
-    return data;
   } catch (error) {
-    console.error("Error fetching episode history by epid", error);
+    console.error("Error:", error);
+    return;
+  }
+};
+
+export const updateEp = async ({aniId, aniTitle, epTitle, image, epId, epNum, timeWatched, duration, provider, nextepId, nextepNum, subtype}) => {
+  try {
+    await connectMongo();
+    const session = await getAuthSession();
+
+    if (!session) {
+      return;
+    }
+
+    const updatedWatch = await Watch.findOneAndUpdate(
+      {
+        userName: session?.user.name,
+        epId: epId
+      },
+      {
+        $set: {
+          aniId: aniId || null,
+          aniTitle: aniTitle || null,
+          epTitle: epTitle || null,
+          image: image || null,
+          epId: epId || null,
+          epNum: epNum || null,
+          timeWatched: timeWatched || null,
+          duration: duration || null,
+          provider: provider || null,
+          nextepId: nextepId || null,
+          nextepNum: nextepNum || null,
+          subtype: subtype || "sub",
+        },
+      },
+      { new: true } // Return the updated document
+    );
+
+    if (!updatedWatch) {
+      return;
+    }
+
+    return;
+  } catch (error) {
+    console.log('Error updating episode:', error);
+    return;
+  }
+}
+
+export const deleteEpisodes = async (data) => {
+  try {
+    await connectMongo();
+    const session = await getAuthSession();
+
+    if (!session) {
+      return;
+    }
+
+    let deletedData;
+
+    if (data.epId) {
+      // Delete a specific document based on watchId
+      deletedData = await Watch.findOneAndDelete({
+        userName: session?.user.name,
+        epId: data.epId
+      });
+    } else if (data.aniId) {
+      // Delete all documents with a specific aniId
+      deletedData = await Watch.deleteMany({
+        userName: session?.user.name,
+        aniId: data.aniId,
+      });
+    } else {
+      return { message: "Invalid request, provide watchId or aniId" };
+    }
+
+    if (!deletedData) {
+      return { message: "Data not found for deletion" };
+    }
+
+    // Fetch remaining data after deletion
+    // const data = await Watch.find({ userName: session?.user.name });
+    const remainingData = JSON.parse(JSON.stringify(await Watch.find({ userName: session?.user.name })))
+
+    return { message: `Removed anime from history`, remainingData, deletedData }
+  } catch (error) {
+    console.log(error);
+    return;
   }
 }

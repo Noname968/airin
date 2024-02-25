@@ -8,6 +8,7 @@ import { ContextSearch } from "@/context/DataContext";
 import EpImageList from "./Episodelists/EpImageList";
 import EpNumList from "./Episodelists/EpNumList";
 import EpImgContent from "./Episodelists/EpImgContent";
+import { toast } from "sonner";
 
 function Episodesection({ data, id }) {
   const { setdfprovider, setdfepisodes, setdftype, subtype, setSubtype } = ContextSearch();
@@ -24,7 +25,7 @@ function Episodesection({ data, id }) {
   const [eplisttype, setEplistType] = useState(2);
   const [showSelect, setShowSelect] = useState(false);
 
-  const [currentEpisodes, setCurrentEpisodes] = useState([]);
+  const [currentEpisodes, setCurrentEpisodes] = useState(null);
   const [defaultProvider, setdefaultProvider] = useState("");
   const [subProviders, setSubProviders] = useState(null);
   const [dubProviders, setDubProviders] = useState(null);
@@ -47,7 +48,7 @@ function Episodesection({ data, id }) {
       try {
         const response = await getEpisodes(id, data?.status === "RELEASING", false);
         setepisodeData(response);
-        setloading(false)
+        setloading(false);
       } catch (error) {
         console.log(error)
         setloading(false)
@@ -137,8 +138,10 @@ function Episodesection({ data, id }) {
       setDubProviders(dubProviders);
       setRefreshLoading(false);
       setDataRefreshed(true);
+      toast.success("Episodes refreshed successfully!");
     } catch (error) {
       console.error("Error refreshing episodes:", error);
+      toast.error("Oops! Something went wrong. If episodes don't appear, please refresh the page.");
       setRefreshLoading(false);
     }
   };
@@ -151,18 +154,18 @@ function Episodesection({ data, id }) {
             <span className={styles.bar}></span>
             <h1 className={styles.headtitle}>Episodes</h1>
           </div>
-          {data?.status !== 'NOT_YET_RELEASED' && data?.type !== 'MANGA' && 
-          <Tooltip content="Refresh Episodes">
-            <button className={styles.refresh} onClick={refreshEpisodes}>
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className={`w-[22px] h-[22px] ${refreshloading ? "animate-spin" : ""}`}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
-              </svg>
-            </button>
-          </Tooltip>
+          {data?.status !== 'NOT_YET_RELEASED' && data?.type !== 'MANGA' &&
+            <Tooltip content="Refresh Episodes">
+              <button className={styles.refresh} onClick={refreshEpisodes}>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className={`w-[22px] h-[22px] ${refreshloading ? "animate-spin" : ""}`}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
+                </svg>
+              </button>
+            </Tooltip>
           }
         </div>
         {!loading && <>
-          {!refreshloading && <>
+          {!refreshloading && currentEpisodes?.length > 0 && <>
             <div className={styles.epright}>
               <div className={styles.selects}>
                 <div className="flex w-[75px] flex-col gap-2 mr-2">
@@ -377,22 +380,37 @@ function Episodesection({ data, id }) {
       {loading && (
         <>
           {data?.type === 'MANGA' ? (
-              <div className="text-[17px] font-semibold">
+            <div className="text-[17px] font-semibold">
               <p className="text-center mt-4">Coming Soon! </p>
               <p className="text-center mb-4 ">Cannot Fetch Manga, Feature Coming Soon.</p>
-            </div> 
+            </div>
           ) : data?.status === 'NOT_YET_RELEASED' ? (
             <div className="text-[17px] font-semibold">
-            <p className="text-center mt-4">Coming Soon! </p>
-            <p className="text-center mb-4">Anime not found. Stay tuned for updates!</p>
-          </div>          
+              <p className="text-center mt-4">Coming Soon! </p>
+              <p className="text-center mb-4">Sorry, this anime isn't out yet. Keep an eye out for updates!</p>
+            </div>
+
           ) : (
-            <p className="text-center my-4 text-[17px] font-semibold">Loading Episode Data</p>
+            <div className="text-[17px] font-semibold">
+              <p className="text-center mt-4 mb-1">Please Wait... </p>
+              <p className="text-center mb-4">Loading Episode Data</p>
+            </div>
           )}
         </>
       )}
 
-      {refreshloading && <p className="text-center my-4">Refreshing Episode Data</p>}
+      {refreshloading &&
+        <div className="text-[17px] font-semibold">
+          <p className="text-center mt-4 mb-1">Please Wait... </p>
+          <p className="text-center mb-4">Refreshing Episode Data</p>
+        </div>
+      }
+      {!loading && !refreshloading && !filteredEpisodes && (
+        <div className="text-[17px] font-semibold">
+          <p className="text-center mt-4">Oh no! </p>
+          <p className="text-center mb-4">This anime is currently unavailable. Check back later for updates!</p>
+        </div>
+      )}
       {!loading && !refreshloading && (
         <>
           {eplisttype === 3 && (

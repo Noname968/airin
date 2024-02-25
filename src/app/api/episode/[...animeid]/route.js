@@ -3,16 +3,12 @@ import { redis } from '@/lib/rediscache';
 import { NextResponse } from "next/server"
 import { CombineEpisodeMeta } from '@/utils/EpisodeFunctions';
 
-axios.interceptors.request.use(config =>{
-  // config.timeout = 8000;
-  return config;
-})
 
 async function fetchConsumetEpisodes(id) {
   try {
     async function fetchData(dub) {
       const { data } = await axios.get(
-        `${process.env.CONSUMET_URI}/meta/anilist/episodes/${id}${dub ? "?dub=true" : ""}`
+        `${process.env.CONSUMET_URI}/meta/anilist/episodes/${id}${dub ? "?dub=true" : ""}`,{ timeout: 15000 }
       );
       if (data?.message === "Anime not found" && data?.length < 1) {
         return [];
@@ -47,7 +43,7 @@ async function fetchConsumetEpisodes(id) {
 
 async function fetchAnifyEpisodes(id) {
   try {
-    const { data } = await axios.get(`https://api.anify.tv/info/${id}?fields=[episodes]`);
+    const { data } = await axios.get(`https://api.anify.tv/info/${id}?fields=[episodes]`,{ timeout: 6000 });
 
     const epdata = data.episodes.data
     if (!data) {
@@ -68,7 +64,7 @@ async function fetchEpisodeImages(id, available = false) {
       return null;
     }
     const { data } = await axios.get(
-      `https://api.anify.tv/content-metadata/${id}`
+      `https://api.anify.tv/content-metadata/${id}`,{ timeout: 6000 }
     );
 
     if (!data) {
@@ -84,11 +80,11 @@ async function fetchEpisodeImages(id, available = false) {
   }
 }
 
-const fetchAndCacheData = async (id, meta, redis, cacheTime) => {
+const fetchAndCacheData = async (id, meta, redis, cacheTime, refresh) => {
   const [consumet, anify, cover] = await Promise.all([
     fetchConsumetEpisodes(id),
     fetchAnifyEpisodes(id),
-    fetchEpisodeImages(id, meta)
+    fetchEpisodeImages(id, refresh)
   ]);
 
   // Check if redis is available
@@ -100,16 +96,21 @@ const fetchAndCacheData = async (id, meta, redis, cacheTime) => {
     const combinedData = [...consumet, ...anify];
     let data = combinedData;
 
-    if (meta) {
-      data = await CombineEpisodeMeta(combinedData, JSON.parse(meta));
-    } else if (cover && cover?.length > 0) {
-      try {
-        await redis.setex(`meta:${id}`, cacheTime, JSON.stringify(cover));
-        data = await CombineEpisodeMeta(combinedData, cover);
-      } catch (error) {
-        console.error("Error serializing cover:", error.message);
+    if(refresh){
+      if (cover && cover?.length > 0) {
+        try {
+          await redis.setex(`meta:${id}`, cacheTime, JSON.stringify(cover));
+          data = await CombineEpisodeMeta(combinedData, cover);
+        } catch (error) {
+          console.error("Error serializing cover:", error.message);
+        }
       }
-    }
+      else if(meta){
+        data = await CombineEpisodeMeta(combinedData, JSON.parse(meta));
+      }
+    } else if (meta) {
+      data = await CombineEpisodeMeta(combinedData, JSON.parse(meta));
+    } 
 
     return data;
   } else {
@@ -157,7 +158,7 @@ export const GET = async (req, { params }) => {
       }
       let data;
       if (refresh) {
-        data = await fetchAndCacheData(id, meta, redis, cacheTime);
+        data = await fetchAndCacheData(id, meta, redis, cacheTime, refresh);
       }
       if(data?.length > 0){
         console.log("deleted cache");
@@ -181,7 +182,7 @@ export const GET = async (req, { params }) => {
       console.error("Error parsing cached data:", error.message);
     }
   } else {
-    const fetchdata = await fetchAndCacheData(id, meta, redis, cacheTime);
+    const fetchdata = await fetchAndCacheData(id, meta, redis, cacheTime, refresh);
     return NextResponse.json(fetchdata);
   }
 };
