@@ -77,6 +77,10 @@ CONSUMET_URI="host your own API from this repo https://github.com/consumet/api.c
 MONGODB_URI="Your Mongodb connection String"
 ANALYZE=true
 
+## Deployment URLs
+NEXT_PUBLIC_DEV_URL=http://localhost:3000  # This is the URL for your current local development environment.
+NEXT_PUBLIC_PRODUCTION_URL="Your deployement URL. Don't put / at the end of the url"
+
 ## In AniList Developer console add redirect url :
 # https://{your-domain}/api/auth/callback/AniListProvider
 
