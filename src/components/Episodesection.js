@@ -10,8 +10,8 @@ import EpNumList from "./Episodelists/EpNumList";
 import EpImgContent from "./Episodelists/EpImgContent";
 import { toast } from "sonner";
 
-function Episodesection({ data, id }) {
-  const { setdfprovider, setdfepisodes, setdftype, subtype, setSubtype } = ContextSearch();
+function Episodesection({ data, id, progress, setUrl }) {
+  const { subtype, setSubtype } = ContextSearch();
   const subdub = ["sub", "dub"];
 
   const [loading, setloading] = useState(true);
@@ -75,9 +75,6 @@ function Episodesection({ data, id }) {
       : dubProviders?.find((provider) => provider.providerId === defaultProvider);
 
   useEffect(() => {
-    setdfprovider(selectedProvider?.providerId);
-    setdftype(subtype);
-
     const episodes = selectedProvider?.episodes || [];
     const filteredEp =
       selectedProvider?.consumet === true
@@ -87,7 +84,6 @@ function Episodesection({ data, id }) {
           : episodes.slice(0) || [];
 
     setCurrentEpisodes(filteredEp);
-    setdfepisodes(filteredEp);
   }, [selectedProvider, subtype, dataRefreshed]);
 
   const totalEpisodes = currentEpisodes?.length || 0;
@@ -132,7 +128,7 @@ function Episodesection({ data, id }) {
   const refreshEpisodes = async () => {
     setRefreshLoading(true);
     try {
-      const response = await getEpisodes(id, data.status === "RELEASING", true);
+      const response = await getEpisodes(id, data?.status === "RELEASING", true);
       const { subProviders, dubProviders } = ProvidersMap(response, defaultProvider, setdefaultProvider);
       setSubProviders(subProviders);
       setDubProviders(dubProviders);
@@ -145,6 +141,18 @@ function Episodesection({ data, id }) {
       setRefreshLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (currentEpisodes) {
+      const episode = data?.nextAiringEpisode ? currentEpisodes?.find((i) => i.number === progress + 1) : currentEpisodes[0]
+      if (episode) {
+        const watchurl = `/anime/watch?id=${data?.id}&host=${defaultProvider}&epid=${encodeURIComponent(episode?.id)}&ep=${episode?.number}&type=${subtype}`
+        setUrl(watchurl);
+      } else {
+        setUrl(null);
+      }
+    }
+  }, [currentEpisodes, progress])
 
   return (
     <div className={styles.episodesection}>
@@ -405,7 +413,7 @@ function Episodesection({ data, id }) {
           <p className="text-center mb-4">Refreshing Episode Data</p>
         </div>
       }
-      {!loading && !refreshloading && !filteredEpisodes && (
+      {!loading && !refreshloading && filteredEpisodes?.length < 1 && (
         <div className="text-[17px] font-semibold">
           <p className="text-center mt-4">Oh no! </p>
           <p className="text-center mb-4">This anime is currently unavailable. Check back later for updates!</p>

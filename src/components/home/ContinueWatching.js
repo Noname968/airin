@@ -19,7 +19,7 @@ function ContinueWatching({ session }) {
     function filterHistory(history) {
         const sortedData = history.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
         const filteredHistory = sortedData.reduce((acc, curr) => {
-            if (curr.aniId !== null && !acc.find(item => item.aniId === curr.aniId)) {
+            if (curr.epId !== null && !acc.find(item => item.aniId === curr.aniId)) {
                 acc.push(curr);
             }
             return acc;
@@ -156,7 +156,7 @@ function ContinueWatching({ session }) {
                         <Link className="relative w-60 sm:w-64 md:w-80 aspect-video group"
                             href={`/anime/watch?id=${anime?.aniId || anime?.id}&host=${anime?.provider}&epid=${anime?.epId || anime?.epid}&ep=${anime?.epNum || anime?.epnum}&type=${anime.subtype}`}>
                             <div className="overflow-hidden w-full aspect-video rounded-lg">
-                                <Image src={anime?.image} alt={anime?.aniTitle} width={155} height={230} className="w-full object-cover rounded-lg group-hover/item:scale-[1.03] duration-300 ease-out" />
+                                <Image src={anime?.image || ''} alt={anime?.aniTitle} width={155} height={230} className="w-full aspect-video object-cover rounded-lg group-hover/item:scale-[1.03] duration-300 ease-out" />
                             </div>
                             <div className="top-0 w-full h-full bg-gradient-to-t from-black/80 from-25% to-transparent to-60% transition-all duration-300 ease-out absolute z-10" />
                             <div className="absolute bottom-0 left-0 px-3 py-2 text-white flex gap-2 items-center z-20">

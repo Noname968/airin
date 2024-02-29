@@ -11,7 +11,7 @@ import { getAuthSession } from "../../../api/auth/[...nextauth]/route";
 import { redis } from '@/lib/rediscache';
 
 export const revalidate = 60;
-
+ 
 async function getInfo(token,id) {
   try {
     let cachedData;
@@ -62,12 +62,12 @@ export async function generateMetadata({ params, searchParams }) {
   }
 }
 
-export async function Ephistory(session, epId, aniId){
+export async function Ephistory(session, aniId, epNum){
   try {
     let savedep;
-    if (session) {
-      await createWatchEp(epId, aniId);
-      savedep = await getEpisode(epId);
+    if (session && aniId && epNum) {
+      await createWatchEp(aniId, epNum);
+      savedep = await getEpisode(aniId, epNum);
     }
     return savedep;
   } catch (error) {
@@ -84,7 +84,7 @@ async function AnimeWatch({ params, searchParams }) {
   const epId = searchParams.epid;
   const subdub = searchParams.type;
   const data = await getInfo(session?.user?.token, id);
-  const savedep = await Ephistory(session, epId, id);
+  const savedep = await Ephistory(session, id, epNum);
   // console.log(savedep)
   // console.log(data)
 

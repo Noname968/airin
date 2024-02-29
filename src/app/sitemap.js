@@ -1,4 +1,30 @@
-export default function sitemap() {
+import { TrendingAnilist, Top100Anilist, SeasonalAnilist } from '@/lib/Anilistfunctions';
+export default async function sitemap() {
+  const data = await TrendingAnilist();
+  const data2 = await Top100Anilist();
+  const data3 = await SeasonalAnilist();
+
+  const trending = data.map((anime)=>{
+    return {
+      url: `https://aniplaynow.live/anime/info/${anime.id}`,
+      lastModified: new Date(),
+    }
+  })
+
+  const top100 = data2.map((anime)=>{
+    return {
+      url: `https://aniplaynow.live/anime/info/${anime.id}`,
+      lastModified: new Date(),
+    }
+  })
+
+  const seasonal = data3.map((anime)=>{
+    return {
+      url: `https://aniplaynow.live/anime/info/${anime.id}`,
+      lastModified: new Date(),
+    }
+  })
+
     return [
       {
         url: 'https://aniplaynow.live',
@@ -6,35 +32,8 @@ export default function sitemap() {
         changeFrequency: 'yearly',
         priority: 1,
       },
-      {
-        url: 'https://aniplaynow.live/anime/catalog',
-        lastModified: new Date(),
-        changeFrequency: 'monthly',
-        priority: 0.8,
-      },
-      {
-        url: 'https://aniplaynow.live/anime/catalog?sortby=TRENDING_DESC',
-        lastModified: new Date(),
-        changeFrequency: 'weekly',
-        priority: 0.5,
-      },
-      {
-        url: 'https://aniplaynow.live/anime/catalog?format=MOVIE',
-        lastModified: new Date(),
-        changeFrequency: 'weekly',
-        priority: 0.5,
-      },
-      {
-        url: 'https://aniplaynow.live/anime/catalog?season=WINTER&year=2024',
-        lastModified: new Date(),
-        changeFrequency: 'weekly',
-        priority: 0.5,
-      },
-       {
-        url: 'https://aniplaynow.live/anime/catalog?season=SUMMER&year=2024',
-        lastModified: new Date(),
-        changeFrequency: 'weekly',
-        priority: 0.5,
-      },
+      ...trending,
+      ...top100,
+      ...seasonal
     ]
   }

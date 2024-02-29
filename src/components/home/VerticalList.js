@@ -70,7 +70,7 @@ const VerticalList = ({ data, id, mobiledata }) => {
           <div className={styles.vcardcontent}>
             <div className={styles.vcardleft}>
               <img
-                src={anime.coverImage.large}
+                src={anime?.coverImage?.large}
                 alt=""
                 className={styles.vcardimg}
               />

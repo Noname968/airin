@@ -24,7 +24,7 @@ export const getWatchHistory = async () => {
   revalidatePath("/");
 };
 
-export const createWatchEp = async (epId, aniId) => {
+export const createWatchEp = async (aniId, epNum) => {
   try {
     await connectMongo();
     const session = await getAuthSession();
@@ -36,7 +36,8 @@ export const createWatchEp = async (epId, aniId) => {
     // Check if a record with the same name and epId already exists
     const existingWatch = await Watch.findOne({
       userName: session?.user.name,
-      epId: epId,
+      aniId: aniId,
+      epNum: epNum,
     });
 
     if (existingWatch) {
@@ -46,8 +47,8 @@ export const createWatchEp = async (epId, aniId) => {
     // If no existing record found, create a new one
     const newwatch = await Watch.create({
       userName: session?.user.name,
-      epId: epId,
-      aniId: aniId
+      aniId: aniId,
+      epNum: epNum,
     });
 
   } catch (error) {
@@ -57,7 +58,7 @@ export const createWatchEp = async (epId, aniId) => {
 };
 
 
-export const getEpisode = async (epId) => {
+export const getEpisode = async (aniId, epNum) => {
   try {
     await connectMongo();
     const session = await getAuthSession();
@@ -65,10 +66,11 @@ export const getEpisode = async (epId) => {
       return;
     }
 
-    if (epId) {
+    if (aniId && epNum) {
       const episode = await Watch.find({
         userName: session.user.name,
-        epId: epId,
+        aniId: aniId,
+        epNum: epNum,
       });
       if (episode && episode.length > 0) {
         return JSON.parse(JSON.stringify(episode));
@@ -92,7 +94,8 @@ export const updateEp = async ({aniId, aniTitle, epTitle, image, epId, epNum, ti
     const updatedWatch = await Watch.findOneAndUpdate(
       {
         userName: session?.user.name,
-        epId: epId
+        aniId: aniId,
+        epNum: epNum,
       },
       {
         $set: {

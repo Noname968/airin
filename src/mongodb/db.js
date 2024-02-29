@@ -8,14 +8,14 @@ const options = {}
 let client
 let clientPromise
 
-if (!process.env.MONGODB_URI) {
-  console.log("Please add your MongoDB URI to .env.local")
+if (!uri) {
+  console.log("Please add your MongoDB URI to .env")
 }
 
 if (process.env.NODE_ENV === "development") {
   // In development mode, use a global variable so that the value
   // is preserved across module reloads caused by HMR (Hot Module Replacement).
-  if (!global._mongoClientPromise) {
+  if (!global._mongoClientPromise && uri) {
     client = new MongoClient(uri, options)
     global._mongoClientPromise = client.connect()
   }

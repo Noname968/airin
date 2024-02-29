@@ -7,7 +7,7 @@ const WatchSchema = new Schema({
   },
   aniId: {
     type: String,
-    default: null,
+    required: true,
   },
   aniTitle: {
     type: String,
@@ -23,11 +23,11 @@ const WatchSchema = new Schema({
   },
   epId: {
     type: String,
-    required: true,
+    default: null,
   },
   epNum: {
     type: Number,
-    default: null,
+    required: true,
   },
   timeWatched: {
     type: Number,

@@ -40,7 +40,7 @@ Enjoy ad-free streaming and seamless progress tracking with AniList integration,
     - [ ] To view their progress
     - [ ] Check all their details imported from anilist
 - [ ] Add Scene Search in catalog page
-- [ ] Add Anilist episode tracking
+- [X] Add Anilist episode tracking
 - [ ] Complete Watch Page
 - [ ] Add Profile page.
 - [ ] Add Manga Reading Support
@@ -75,7 +75,6 @@ CONSUMET_URI="host your own API from this repo https://github.com/consumet/api.c
 
 ## MongoDB
 MONGODB_URI="Your Mongodb connection String"
-ANALYZE=true
 
 ## Deployment URLs
 NEXT_PUBLIC_DEV_URL=http://localhost:3000  # This is the URL for your current local development environment.

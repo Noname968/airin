@@ -36,7 +36,8 @@ export interface SettingsProps {
 }
 
 export const menuClass =
-  'animate-out fade-out slide-out-to-bottom-2 data-[open]:animate-in data-[open]:fade-in data-[open]:slide-in-from-bottom-4 flex h-[var(--menu-height)] max-h-[400px] min-w-[260px] flex-col overflow-y-auto overscroll-y-contain rounded-md border border-white/10 bg-black/95 p-2.5 font-sans text-[15px] font-medium outline-none backdrop-blur-sm transition-[height] duration-300 will-change-[height] data-[resizing]:overflow-hidden';
+'z-30 flex cust-scroll h-[var(--menu-height)] max-h-[180px] lg:max-h-[400px] min-w-[260px] flex-col overflow-y-auto overscroll-y-contain rounded-md border border-white/10 bg-black p-1 font-sans text-[15px] font-medium outline-none backdrop-blur-sm transition-[height] duration-300 will-change-[height] data-[resizing]:overflow-hidden';
+// 'animate-out fade-out slide-out-to-bottom-2 data-[open]:animate-in data-[open]:fade-in data-[open]:slide-in-from-bottom-4 flex h-[var(--menu-height)] max-h-[400px] min-w-[260px] flex-col overflow-y-auto overscroll-y-contain rounded-md border border-white/10 bg-black/95 p-2.5 font-sans text-[15px] font-medium outline-none backdrop-blur-sm transition-[height] duration-300 will-change-[height] data-[resizing]:overflow-hidden';
 
 export function Settings({ placement, tooltipPlacement, subtitles }: SettingsProps) {
 
@@ -56,7 +57,7 @@ export function Settings({ placement, tooltipPlacement, subtitles }: SettingsPro
         Settings
       </Tooltip.Content>
     </Tooltip.Root>
-      <Menu.Portal disabled="fullscreen" >
+      {/* <Menu.Portal disabled="fullscreen" > */}
       <Menu.Content className={menuClass} placement={placement}>
       <AutoPlay />
         <AutoNext />
@@ -65,7 +66,7 @@ export function Settings({ placement, tooltipPlacement, subtitles }: SettingsPro
         {  subtitles?.length > 0 && <CaptionSubmenu/>}
         <QualitySubmenu />
         </Menu.Content>
-      </Menu.Portal>
+      {/* </Menu.Portal> */}
   </Menu.Root>
 );
 }

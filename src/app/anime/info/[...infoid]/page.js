@@ -5,7 +5,9 @@ import AnimeDetailsTop from '@/components/details/AnimeDetailsTop'
 import AnimeDetailsBottom from '@/components/details/AnimeDetailsBottom'
 import Navbarcomponent from '@/components/navbar/Navbar'
 import Animecards from '@/components/CardComponent/Animecards'
+import { getAuthSession } from '@/app/api/auth/[...nextauth]/route'
 import { redis } from '@/lib/rediscache'
+import DetailsContainer from './DetailsContainer'
 
 // async function getInfo(id) {
 //   try {
@@ -57,6 +59,7 @@ export async function generateMetadata({ params }) {
 }
 
 async function AnimeDetails({ params }) {
+  const session = await getAuthSession();
   const id = params.infoid[0];
   // const data = await getInfo(id);
   const data = await AnimeInfoAnilist(id);
@@ -64,16 +67,7 @@ async function AnimeDetails({ params }) {
   return (
     <div className="">
       <Navbarcomponent />
-      <div className='h-[500px] '>
-        <AnimeDetailsTop data={data} />
-      </div>
-      <AnimeDetailsBottom data={data} />
-      <Episodesection data={data} id={id} />
-      {data?.recommendations?.nodes?.length > 0 && (
-        <div className="recommendationglobal">
-          <Animecards data={data.recommendations.nodes} cardid={"Recommendations"} />
-        </div>
-      )}
+     <DetailsContainer data={data} id={id} session={session}/>
     </div>
   )
 }

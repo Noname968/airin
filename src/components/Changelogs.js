@@ -3,17 +3,29 @@ import React, { useEffect, useState } from "react";
 import { Modal, ModalContent, ModalBody, ModalFooter, Button, useDisclosure } from "@nextui-org/react";
 import Link from "next/link";
 
-const newVersion = "V2.0.11"
+const newVersion = "V2.0.12"
 
 const releaseLogs = [
+    // {
+    //     version: "V2.0.11",
+    //     highlights: true,
+    //     changes: [
+    //         "Added Changelog section",
+    //         "Fixed: Save progress not working properly",
+    //         "Fixed: Episode section not showing data",
+    //         "Fixed: Small bugs",
+    //     ],
+    // },
     {
-        version: "V2.0.11",
+        version: "V2.0.12",
         highlights: true,
         changes: [
-            "Added Changelog section",
-            "Fixed: Save progress not working properly",
-            "Fixed: Episode section not showing data",
-            "Fixed: Small bugs",
+            "Added Anilist Progress Tracking",
+            "New Add to list option in info page",
+            "Auto episode tracking after watching 90% of video",
+            "Fixed: Now u can change provider without losing progress",
+            "Fixed: Settings options in player for mobile devices",
+            "View Github for more information",
         ],
     },
 ];

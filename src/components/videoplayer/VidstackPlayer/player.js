@@ -13,14 +13,16 @@ import {
 import { useRouter } from "next/navigation";
 import VideoProgressSave from '../../../utils/VideoProgressSave';
 import { VideoLayout } from "./components/layouts/video-layout";
-// import '@vidstack/react/styles/default/keyboard.css';
 import { DefaultVideoKeyboardActionDisplay } from '@vidstack/react/player/layouts/default';
 import { ContextSearch } from "../../../context/DataContext";
-import '@vidstack/react/player/styles/default/theme.css';
+import '@vidstack/react/player/styles/default/keyboard.css';
 import { updateEp } from "@/lib/EpHistoryfunctions";
+import { saveProgress } from "@/lib/AnilistUser";
 
-function Player({ dataInfo, id, groupedEp, sources, session, savedep,  subtitles, thumbnails, skiptimes}) {
-  const { animetitle, nowPlaying, settings} = ContextSearch();
+import { toast } from 'sonner';
+
+function Player({ dataInfo, id, groupedEp, sources, session, savedep, subtitles, thumbnails, skiptimes }) {
+  const { animetitle, nowPlaying, settings } = ContextSearch();
   const { epId, provider, epNum, subtype } = nowPlaying;
   const { previousep, currentep, nextep } = groupedEp;
   const [getVideoProgress, UpdateVideoProgress] = VideoProgressSave();
@@ -34,6 +36,7 @@ function Player({ dataInfo, id, groupedEp, sources, session, savedep,  subtitles
   const [opbutton, setopbutton] = useState(false);
   const [edbutton, setedbutton] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [progressSaved, setprogressSaved] = useState(false);
   let interval;
 
   useEffect(() => {
@@ -93,8 +96,7 @@ function Player({ dataInfo, id, groupedEp, sources, session, savedep,  subtitles
     if (!nextep?.id) return;
     if (settings?.autonext) {
       router.push(
-        `/anime/watch?id=${dataInfo?.id}&host=${provider}&epid=${
-          nextep?.id}&ep=${nextep?.number}&type=${subtype}`
+        `/anime/watch?id=${dataInfo?.id}&host=${provider}&epid=${nextep?.id}&ep=${nextep?.number}&type=${subtype}`
       );
     }
   }
@@ -116,29 +118,29 @@ function Player({ dataInfo, id, groupedEp, sources, session, savedep,  subtitles
           ? Math.round(playerRef.current?.currentTime)
           : 0;
 
-          await updateEp({
-                userName: session?.user?.name,
-                aniId: String(dataInfo?.id) || String(id),
-                aniTitle: dataInfo?.title?.[animetitle] || dataInfo?.title?.romaji,
-                epTitle: currentep?.title || `EP ${epNum}`,
-                image: currentep?.img || currentep?.image ||
-                       dataInfo?.bannerImage || dataInfo?.coverImage?.extraLarge || '',
-                epId: epId,
-                epNum: Number(epNum) || Number(currentep?.number),
-                timeWatched: currentTime,
-                duration: duration,
-                provider: provider,
-                nextepId: nextep?.id || null,
-                nextepNum: nextep?.number || null,
-                subtype: subtype
-              })
+        await updateEp({
+          userName: session?.user?.name,
+          aniId: String(dataInfo?.id) || String(id),
+          aniTitle: dataInfo?.title?.[animetitle] || dataInfo?.title?.romaji,
+          epTitle: currentep?.title || `EP ${epNum}`,
+          image: currentep?.img || currentep?.image ||
+            dataInfo?.bannerImage || dataInfo?.coverImage?.extraLarge || '',
+          epId: epId,
+          epNum: Number(epNum) || Number(currentep?.number),
+          timeWatched: currentTime,
+          duration: duration,
+          provider: provider,
+          nextepId: nextep?.id || null,
+          nextepNum: nextep?.number || null,
+          subtype: subtype
+        })
 
         UpdateVideoProgress(dataInfo?.id || id, {
           aniId: String(dataInfo?.id) || String(id),
           aniTitle: dataInfo?.title?.[animetitle] || dataInfo?.title?.romaji,
           epTitle: currentep?.title || `EP ${epNum}`,
           image: currentep?.img || currentep?.image ||
-                 dataInfo?.bannerImage || dataInfo?.coverImage?.extraLarge || '',
+            dataInfo?.bannerImage || dataInfo?.coverImage?.extraLarge || '',
           epId: epId,
           epNum: Number(epNum) || Number(currentep?.number),
           timeWatched: currentTime,
@@ -160,33 +162,44 @@ function Player({ dataInfo, id, groupedEp, sources, session, savedep,  subtitles
   }, [isPlaying, duration]);
 
   function onLoadedMetadata() {
-    if(savedep && savedep[0]){
+    if (savedep && savedep[0]) {
       const seekTime = savedep[0]?.timeWatched;
-      if(seekTime){
-        remote.seek(seekTime-3);
-      }
-    }
-    else{
-    const seek = getVideoProgress(dataInfo?.id);
-    if (seek?.epNum === Number(epNum)) {
-      const seekTime = seek?.timeWatched;
-      const percentage = duration !== 0 ? seekTime / Math.round(duration) : 0;
-
-      if (percentage >= 0.95) {
-        remote.seek(0);
-      }else {
+      if (seekTime) {
         remote.seek(seekTime - 3);
       }
     }
+    else {
+      const seek = getVideoProgress(dataInfo?.id);
+      if (seek?.epNum === Number(epNum)) {
+        const seekTime = seek?.timeWatched;
+        const percentage = duration !== 0 ? seekTime / Math.round(duration) : 0;
+
+        if (percentage >= 0.95) {
+          remote.seek(0);
+        } else {
+          remote.seek(seekTime - 3);
+        }
+      }
     }
   }
 
   function onTimeUpdate() {
     const currentTime = playerRef.current?.currentTime;
     const timeToShowButton = duration - 8;
-  
+    const percentage = currentTime / duration;
+
+    if (session && !progressSaved && percentage >= 0.9) {
+      try {
+        setprogressSaved(true); // Mark progress as saved
+        saveProgress(session.user.token, dataInfo?.id || id, Number(epNum) || Number(currentep?.number));
+      } catch (error) {
+        console.error("Error saving progress:", error);
+        toast.error("Something went wrong!");
+      }
+    }
+
     const nextButton = document.querySelector(".nextbtn");
-  
+
     if (nextButton) {
       if (duration !== 0 && (currentTime > timeToShowButton && nextep?.id)) {
         nextButton.classList.remove("hidden");
@@ -195,7 +208,7 @@ function Player({ dataInfo, id, groupedEp, sources, session, savedep,  subtitles
       }
     }
   }
-  
+
 
   function handleop() {
     console.log("Skipping Intro");
@@ -210,9 +223,9 @@ function Player({ dataInfo, id, groupedEp, sources, session, savedep,  subtitles
 
   return (
     <MediaPlayer key={sources} ref={playerRef} playsInline aspectRatio={16 / 9} load={settings?.load || 'idle'} muted={settings?.audio || false}
-      autoFocus={true} autoPlay={settings?.autoplay || false}
-     title={currentep?.title || `EP ${epNum}` || 'Loading...'}
-    className={`${styles.player} player relative`}
+      autoPlay={settings?.autoplay || false}
+      title={currentep?.title || `EP ${epNum}` || 'Loading...'}
+      className={`${styles.player} player relative`}
       crossOrigin={"anonymous"}
       streamType="on-demand"
       onEnd={onEnd}
@@ -235,25 +248,27 @@ function Player({ dataInfo, id, groupedEp, sources, session, savedep,  subtitles
       {opbutton && <button onClick={handleop} className='absolute bottom-[70px] sm:bottom-[83px] right-4 z-[40] bg-white text-black py-2 px-3 rounded-[6px] font-medium text-[15px]'>Skip Opening</button>}
       {edbutton && <button onClick={handleed} className='absolute bottom-[70px] sm:bottom-[83px] right-4 z-[40] bg-white text-black py-2 px-3 rounded-[6px] font-medium text-[15px]'>Skip Ending</button>}
       <VideoLayout
-      subtitles={subtitles}
-      thumbnails={thumbnails ? process.env.NEXT_PUBLIC_PROXY_URI + thumbnails[0]?.url : ""}
-      groupedEp={groupedEp}
-    />
-    <DefaultVideoKeyboardActionDisplay 
-  icons={{
-    Play: null,
-    Pause: null,
-    Mute: null,
-    VolumeUp: null,
-    VolumeDown: null,
-    EnterFullscreen: null,
-    ExitFullscreen: null,
-    EnterPiP: null,
-    ExitPiP: null,
-    CaptionsOn: null,
-    CaptionsOff: null,
-  }} 
-/>
+        subtitles={subtitles}
+        thumbnails={thumbnails ? process.env.NEXT_PUBLIC_PROXY_URI + thumbnails[0]?.url : ""}
+        groupedEp={groupedEp}
+      />
+      <DefaultVideoKeyboardActionDisplay
+        icons={{
+          Play: null,
+          Pause: null,
+          Mute: null,
+          VolumeUp: null,
+          VolumeDown: null,
+          EnterFullscreen: null,
+          ExitFullscreen: null,
+          EnterPiP: null,
+          ExitPiP: null,
+          CaptionsOn: null,
+          CaptionsOff: null,
+          SeekForward: null,
+          SeekBackward: null,
+        }} 
+      />
     </MediaPlayer>
   )
 }

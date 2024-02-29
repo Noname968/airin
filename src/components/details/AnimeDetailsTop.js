@@ -2,24 +2,25 @@
 import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import styles from '../../styles/AnimeDetailsTop.module.css'
-import { Modal, ModalContent, ModalHeader, ModalBody, Button, useDisclosure } from "@nextui-org/react";
+import { Modal, ModalContent, ModalHeader, ModalFooter, ModalBody, Button, useDisclosure } from "@nextui-org/react";
 import Link from 'next/link'
 import { ContextSearch } from '@/context/DataContext';
+import Addtolist from './Addtolist';
+import { signIn } from 'next-auth/react';
 
-function AnimeDetailsTop({ data }) {
-  const { dfprovider, dfepisodes, dftype, animetitle } = ContextSearch();
-  const [subtype, setSubtype] = useState('sub');
+function AnimeDetailsTop({ data, list, session, setList, url }) {
+  const { animetitle } = ContextSearch();
+  const [openlist, setOpenlist] = useState(false);
 
-  useEffect(() => {
-    const storedType = localStorage.getItem('selectedType');
-    if (storedType) {
-      setSubtype(storedType);
-    }
-  }, []);
+  const isAnime = data?.type === 'ANIME' || true;
+
+  function Handlelist() {
+    setOpenlist(!openlist);
+  }
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
-  return ( 
+  return (
     <div className={styles.detailsbanner}>
       <div
         className={styles.detailsbgimage}
@@ -28,7 +29,7 @@ function AnimeDetailsTop({ data }) {
       <div className={styles.gradientOverlay}></div>
       <>
         <Button className={styles.detailstrailer} onPress={onOpen}>Watch Trailer</Button>
-        <Modal backdrop='blur' isOpen={isOpen} onOpenChange={onOpenChange} size={"2xl"}>
+        <Modal backdrop='blur' isOpen={isOpen} onOpenChange={onOpenChange} size={"2xl"} placement="center">
           <ModalContent>
             {(onClose) => (
               <>
@@ -66,21 +67,73 @@ function AnimeDetailsTop({ data }) {
             </svg>
             {data?.averageScore / 10} | <span className={`${data?.status === 'RELEASING' ? styles.activestatus : styles.notactive}`}> {data?.status}</span>
           </p>
-         <div className='flex'>
-         {dfepisodes && dfprovider && dfepisodes.length > 0 ?
-            <Link href={`/anime/watch?id=${data?.id}&host=${dfprovider}&epid=${encodeURIComponent(dfepisodes[0]?.id)}&ep=${dfepisodes[0]?.number}&type=${dftype || subtype}`}>
-              <button className={styles.detailswatch}><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" className="w-5 h-5"><path fillRule="evenodd" d="M4.5 5.653c0-1.426 1.529-2.33 2.779-1.643l11.54 6.348c1.295.712 1.295 2.573 0 3.285L7.28 19.991c-1.25.687-2.779-.217-2.779-1.643V5.653z" clipRule="evenodd"></path></svg>
-                Watch Now
+          <div className='flex'>
+            {isAnime ? (
+              <Link className={`${styles.detailswatch} ${!url && 'opacity-50 bg-black pointer-events-none'} hover:opacity-80 transition-all`} href={url ?? ''}>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" className="w-5 h-5 mr-1"><path fillRule="evenodd" d="M4.5 5.653c0-1.426 1.529-2.33 2.779-1.643l11.54 6.348c1.295.712 1.295 2.573 0 3.285L7.28 19.991c-1.25.687-2.779-.217-2.779-1.643V5.653z" clipRule="evenodd"></path></svg>
+                {list !== null && list?.status === 'COMPLETED' ? 'Rewatch' : list !== null && list?.progress > 0 ? `Watch Ep ${list?.progress+1}` : `Play Now`}
+              </Link>
+            ) : (
+              <button className={`${styles.detailswatch} opacity-40 bg-black`} disabled>
+                Read Now
               </button>
-            </Link> :
-            <button className={`${styles.detailswatch} opacity-40 bg-black`} disabled><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" className="w-5 h-5"><path fillRule="evenodd" d="M4.5 5.653c0-1.426 1.529-2.33 2.779-1.643l11.54 6.348c1.295.712 1.295 2.573 0 3.285L7.28 19.991c-1.25.687-2.779-.217-2.779-1.643V5.653z" clipRule="evenodd"></path></svg>
-              Watch Now
-            </button>
-          }
-              <button className={styles.detailsaddlist}>
-                Add to list
-              </button>
-         </div>
+            )}
+            <Button className={styles.detailsaddlist} onClick={Handlelist}>{
+              list && list?.status !== null
+                ? 'Edit List'
+                : 'Add to List'
+            }</Button>
+            {session?.user ? (
+              <Modal isOpen={openlist} onOpenChange={Handlelist} size={"3xl"} backdrop="opaque" hideCloseButton={true} placement="center" radius="sm" scrollBehavior="outside"
+                classNames={{
+                  body: "p-0",
+                }}>
+                <ModalContent>
+                  {(onClose) => (
+                    <>
+                      <ModalBody className=''>
+                        <div className='relative'>
+                          <div
+                            className="w-full !h-40 brightness-50 rounded-t-md"
+                            style={{ backgroundImage: `url(${data?.bannerImage || data?.coverImage.extraLarge || null})`, backgroundPosition: "center", backgroundSize: "cover", height: "100%", }}
+                          ></div>
+                          <div className='absolute z-10 bottom-1 sm:bottom-0 sm:top-[65%] left-0 sm:left-3 md:left-10 flex flex-row items-center'>
+                            <Image src={data?.coverImage?.extraLarge} alt='Image' width={120} height={120} className="hidden sm:flex rounded-md" />
+                            <div className='px-2 sm:px-4 mb-4 font-medium !text-xl text-white max-w-full line-clamp-2'>{data?.title?.[animetitle] || data?.title?.romaji}</div>
+                          </div>
+                        </div>
+                        <div className='mt-2 sm:mt-20 md:px-[5%] px-[2%] mb-2'>
+                          <Addtolist session={session} setList={setList} list={list}
+                            id={data?.id} eplength={data?.episodes || data?.nextAiringEpisode?.episode - 1 || 24} Handlelist={Handlelist} />
+                        </div>
+                      </ModalBody>
+                    </>
+                  )}
+                </ModalContent>
+              </Modal>
+            ) : (
+              <Modal isOpen={openlist} onOpenChange={Handlelist} size={"xs"} backdrop="opaque" hideCloseButton={true} placement="center" radius="sm"
+                classNames={{
+                  body: "py-6 px-3",
+                }}
+              >
+                <ModalContent>
+                  {(onClose) => (
+                    <>
+                      <ModalBody className=''>
+                        <div className="text-center flex flex-col justify-center items-center">
+                          <p className="text-lg mb-3">Login to edit your list.</p>
+                          <button className="font-semibold outline-none border-none py-2 px-4 bg-[#4d148c] rounded-md flex items-center" onClick={() => signIn('AniListProvider')}>
+                            <Image alt="anilist-icon" loading="lazy" width="25" height="25" src="/anilist.svg" className='mr-2' />
+                            Login With Anilist</button>
+                        </div>
+                      </ModalBody>
+                    </>
+                  )}
+                </ModalContent>
+              </Modal>
+            )}
+          </div>
         </div>
       </div>
     </div>

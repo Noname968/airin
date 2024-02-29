@@ -34,7 +34,7 @@ function PlayerComponent({ id, epId, provider, epNum, subdub, data, session, sav
                 const download = response?.download
 
                 const reFormSubtitles = response?.subtitles?.map((i) => ({
-                    src: process.env.NEXT_PUBLIC_PROXY_URI + i.url,
+                    src: process.env.NEXT_PUBLIC_PROXY_URI+i.url,
                     label: i.lang,
                     kind: i.lang === "Thumbnails" ? "thumbnails" : "subtitles",
                     ...(i.lang === "English" && { default: true }),

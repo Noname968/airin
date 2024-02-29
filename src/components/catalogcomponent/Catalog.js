@@ -19,7 +19,7 @@ function Catalog({searchParams}) {
     const [searchvalue, setSearchvalue] = useState(search || "");
     const [showTopBottom, setShowTopBottom] = useState(true);
 
-    console.log(sortbyvalue)
+    // console.log(sortbyvalue)
 
     const handleResize = () => {
         if (window.innerWidth <= 1024) {

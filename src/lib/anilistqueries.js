@@ -115,7 +115,7 @@ query($perPage: Int, $page: Int) {
             lastPage
             hasNextPage
         }
-        media (season: FALL, seasonYear: 2023,sort :POPULARITY_DESC, type : ANIME){
+        media (season: WINTER, seasonYear: 2024,sort :POPULARITY_DESC, type : ANIME){
             id
             idMal
             title {
@@ -446,8 +446,6 @@ export const playeranimeinfo = `query ($id: Int) {
     mediaListEntry {
       progress
       status
-      customLists
-      repeat
     }
     id
     idMal
@@ -491,6 +489,75 @@ export const playeranimeinfo = `query ($id: Int) {
         }
       }
     }
+  }
+}
+`
+
+export const userlists = `
+query ($id: Int) {
+  Media(id: $id) {
+    mediaListEntry {
+      id
+      status
+      score
+      progress
+      repeat
+      notes
+      startedAt{
+        year 
+        month
+        day
+      }
+      completedAt{
+        year 
+        month
+        day
+      }
+    }
+  }
+}
+`;
+
+export const updatelist = `
+mutation (
+  $id: Int,
+  $mediaId: Int!,
+  $progress: Int,
+  $status: MediaListStatus,
+  $score: Float,
+  $notes: String,
+  $startedAt: FuzzyDateInput,
+  $completedAt: FuzzyDateInput,
+  $repeat: Int
+) {
+  SaveMediaListEntry (
+    id: $id,
+    mediaId: $mediaId,
+    status: $status,
+    score: $score,
+    progress: $progress,
+    notes: $notes,
+    startedAt: $startedAt,
+    completedAt: $completedAt,
+    repeat: $repeat
+  ) {
+    id
+    mediaId
+    status
+    score
+    notes
+    startedAt {
+      year
+      month
+      day
+    }
+    completedAt {
+      year
+      month
+      day
+    }
+    progress
+    repeat
   }
 }
 `

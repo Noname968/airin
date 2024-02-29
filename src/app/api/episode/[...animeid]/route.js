@@ -43,7 +43,7 @@ async function fetchConsumetEpisodes(id) {
 
 async function fetchAnifyEpisodes(id) {
   try {
-    const { data } = await axios.get(`https://api.anify.tv/info/${id}?fields=[episodes]`,{ timeout: 6000 });
+    const { data } = await axios.get(`https://api.anify.tv/info/${id}?fields=[episodes]`,{ timeout: 10000 });
 
     const epdata = data.episodes.data
     if (!data) {
@@ -64,7 +64,7 @@ async function fetchEpisodeImages(id, available = false) {
       return null;
     }
     const { data } = await axios.get(
-      `https://api.anify.tv/content-metadata/${id}`,{ timeout: 6000 }
+      `https://api.anify.tv/content-metadata/${id}`,{ timeout: 10000 }
     );
 
     if (!data) {
@@ -84,7 +84,7 @@ const fetchAndCacheData = async (id, meta, redis, cacheTime, refresh) => {
   const [consumet, anify, cover] = await Promise.all([
     fetchConsumetEpisodes(id),
     fetchAnifyEpisodes(id),
-    fetchEpisodeImages(id, refresh)
+    fetchEpisodeImages(id, !refresh)
   ]);
 
   // Check if redis is available
@@ -182,7 +182,7 @@ export const GET = async (req, { params }) => {
       console.error("Error parsing cached data:", error.message);
     }
   } else {
-    const fetchdata = await fetchAndCacheData(id, meta, redis, cacheTime, refresh);
+    const fetchdata = await fetchAndCacheData(id, meta, redis, cacheTime, !refresh);
     return NextResponse.json(fetchdata);
   }
 };
