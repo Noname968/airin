@@ -18,6 +18,7 @@ import { ContextSearch } from "../../../context/DataContext";
 import '@vidstack/react/player/styles/default/keyboard.css';
 import { updateEp } from "@/lib/EpHistoryfunctions";
 import { saveProgress } from "@/lib/AnilistUser";
+import { FastForwardIcon, FastBackwardIcon } from '@vidstack/react/icons';
 
 import { toast } from 'sonner';
 
@@ -265,8 +266,8 @@ function Player({ dataInfo, id, groupedEp, sources, session, savedep, subtitles,
           ExitPiP: null,
           CaptionsOn: null,
           CaptionsOff: null,
-          SeekForward: null,
-          SeekBackward: null,
+          SeekForward: FastForwardIcon,
+          SeekBackward: FastBackwardIcon,
         }} 
       />
     </MediaPlayer>
