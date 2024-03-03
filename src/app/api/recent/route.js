@@ -3,7 +3,7 @@ import { redis } from "@/lib/rediscache";
 import { NextResponse } from "next/server";
 
 axios.interceptors.request.use(config =>{
-    config.timeout = 8000;
+    config.timeout = 9000;
     return config;
   })
 

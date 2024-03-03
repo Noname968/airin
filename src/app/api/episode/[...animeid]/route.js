@@ -3,12 +3,16 @@ import { redis } from '@/lib/rediscache';
 import { NextResponse } from "next/server"
 import { CombineEpisodeMeta } from '@/utils/EpisodeFunctions';
 
+axios.interceptors.request.use(config =>{
+  config.timeout = 9000;
+  return config;
+})
 
 async function fetchConsumetEpisodes(id) {
   try {
     async function fetchData(dub) {
       const { data } = await axios.get(
-        `${process.env.CONSUMET_URI}/meta/anilist/episodes/${id}${dub ? "?dub=true" : ""}`,{ timeout: 15000 }
+        `${process.env.CONSUMET_URI}/meta/anilist/episodes/${id}${dub ? "?dub=true" : ""}`
       );
       if (data?.message === "Anime not found" && data?.length < 1) {
         return [];
@@ -43,7 +47,7 @@ async function fetchConsumetEpisodes(id) {
 
 async function fetchAnifyEpisodes(id) {
   try {
-    const { data } = await axios.get(`https://api.anify.tv/info/${id}?fields=[episodes]`,{ timeout: 10000 });
+    const { data } = await axios.get(`https://api.anify.tv/info/${id}?fields=[episodes]`);
 
     const epdata = data.episodes.data
     if (!data) {
@@ -64,7 +68,7 @@ async function fetchEpisodeImages(id, available = false) {
       return null;
     }
     const { data } = await axios.get(
-      `https://api.anify.tv/content-metadata/${id}`,{ timeout: 10000 }
+      `https://api.anify.tv/content-metadata/${id}`
     );
 
     if (!data) {
