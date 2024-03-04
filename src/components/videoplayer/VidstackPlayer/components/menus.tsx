@@ -27,7 +27,8 @@ import {
 import buttonStyles from '../styles/button.module.css';
 import styles from '../styles/menu.module.css';
 import tooltipStyles from '../styles/tooltip.module.css';
-import { ContextSearch } from "@/context/DataContext";
+import { useSettings } from '@/lib/store';
+import { useStore } from 'zustand';
 
 export interface SettingsProps {
   placement: MenuPlacement;
@@ -141,7 +142,7 @@ function AutoPlay() {
     },
   ]);
 
-  const { settings, setSettings } = ContextSearch();
+  const settings = useStore(useSettings, (state) => state.settings);
 
   return (
     <Menu.Root>
@@ -167,7 +168,7 @@ function AutoPlay() {
                   : { ...option, selected: false }
               )
             );
-            setSettings({ ...settings, autoplay: boolValue }); // Assign boolean value
+            useSettings.setState({ settings: { ...useSettings.getState().settings, autoplay: boolValue } })
           }}
         >
           {options.map((option) => (
@@ -196,7 +197,7 @@ function AutoNext() {
     },
   ]);
 
-  const { settings, setSettings } = ContextSearch();
+  const settings = useStore(useSettings, (state) => state.settings);
 
   return (
     <Menu.Root>
@@ -222,7 +223,7 @@ function AutoNext() {
                   : { ...option, selected: false }
               )
             );
-            setSettings({ ...settings, autonext: boolValue }); // Assign boolean value
+            useSettings.setState({ settings: { ...useSettings.getState().settings, autonext: boolValue } })
           }}
         >
           {options.map((option) => (
@@ -250,7 +251,7 @@ function AutoSkip() {
     },
   ]);
 
-  const { settings, setSettings } = ContextSearch();
+  const settings = useStore(useSettings, (state) => state.settings);
 
   return (
     <Menu.Root>
@@ -276,7 +277,7 @@ function AutoSkip() {
                   : { ...option, selected: false }
               )
             );
-            setSettings({ ...settings, autoskip: boolValue }); // Assign boolean value
+            useSettings.setState({ settings: { ...useSettings.getState().settings, autoskip: boolValue } })
           }}
         >
           {options.map((option) => (

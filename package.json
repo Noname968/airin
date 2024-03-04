@@ -32,7 +32,8 @@
     "react-loading-skeleton": "^3.4.0",
     "react-use-draggable-scroll": "^0.4.7",
     "sonner": "^1.4.0",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "zustand": "^4.5.2"
   },
   "devDependencies": {
     "@types/node": "^20.11.16",

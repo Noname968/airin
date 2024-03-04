@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from 'react';
 import { DropdownItem, DropdownTrigger, Dropdown, DropdownMenu, DropdownSection, Avatar, Badge, useDisclosure } from "@nextui-org/react";
 import Link from "next/link"
-import { ContextSearch } from '@/context/DataContext';
 import styles from '../../styles/Navbar.module.css'
 import { useSession, signIn, signOut } from 'next-auth/react';
 import { FeedbackIcon, LoginIcon, LogoutIcon, SettingsIcon, ProfileIcon, NotificationIcon } from '@/lib/SvgIcons';
@@ -10,13 +9,16 @@ import { Usernotifications } from '@/lib/AnilistUser';
 import { motion, useScroll, useMotionValueEvent } from 'framer-motion';
 import Feedbackform from './Feedbackform';
 import { NotificationTime } from '@/utils/TimeFunctions';
+import { useTitle, useSearchbar } from '@/lib/store';
+import { useStore } from 'zustand';
 
 function Navbarcomponent({ home = false }) {
+    const animetitle = useStore(useTitle, (state) => state.animetitle);
+    const Isopen = useStore(useSearchbar, (state) => state.Isopen);
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const iconClasses = "w-5 h-5 text-xl text-default-500 pointer-events-none flex-shrink-0";
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
-    const { Isopen, setIsopen, animetitle } = ContextSearch();
     const { data, status } = useSession();
     const [hidden, setHidden] = useState(false);
     const { scrollY } = useScroll();
@@ -82,14 +84,14 @@ function Navbarcomponent({ home = false }) {
         const handleKeyDown = (e) => {
             if (e.code === 'KeyS' && e.ctrlKey) {
                 e.preventDefault();
-                setIsopen((prev) => !prev);
+                useSearchbar.setState({ Isopen: !useSearchbar.getState().Isopen });
             }
         };
         window.addEventListener('keydown', handleKeyDown);
         return () => {
             window.removeEventListener('keydown', handleKeyDown);
         };
-    }, [setIsopen]);
+    }, [Isopen]);
 
     const navbarClass = isScrolled
         ? `${home ? styles.homenavbar : styles.navbar} ${home && styles.navbarscroll}`
@@ -120,7 +122,7 @@ function Navbarcomponent({ home = false }) {
                 <button
                     type="button"
                     title="Search"
-                    onClick={() => setIsopen(true)}
+                    onClick={() => useSearchbar.setState({ Isopen: true }) } 
                     className="w-[26px] h-[26px] outline-none"
                 >
                     <svg

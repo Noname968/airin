@@ -4,12 +4,13 @@ import Image from 'next/image'
 import styles from '../../styles/AnimeDetailsTop.module.css'
 import { Modal, ModalContent, ModalHeader, ModalFooter, ModalBody, Button, useDisclosure } from "@nextui-org/react";
 import Link from 'next/link'
-import { ContextSearch } from '@/context/DataContext';
 import Addtolist from './Addtolist';
 import { signIn } from 'next-auth/react';
+import { useTitle } from '@/lib/store';
+import { useStore } from 'zustand';
 
 function AnimeDetailsTop({ data, list, session, setList, url }) {
-  const { animetitle } = ContextSearch();
+  const animetitle = useStore(useTitle, (state) => state.animetitle);
   const [openlist, setOpenlist] = useState(false);
 
   const isAnime = data?.type === 'ANIME' || true;

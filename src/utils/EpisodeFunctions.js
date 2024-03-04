@@ -24,14 +24,16 @@ export async function CombineEpisodeMeta(episodeData, imageData) {
 }
 
 export function ProvidersMap(episodeData, defaultProvider, setdefaultProvider) {
-  const getConsumet = episodeData?.find((i) => i?.consumet === true);
-  let subProviders = episodeData;
+  let subProviders;
 
-  if (getConsumet) {
-    subProviders = episodeData?.filter((i) => {
-      if (i?.providerId === "gogoanime" && i?.consumet !== true) {
-        return null;
+  if (episodeData) {
+    subProviders = episodeData?.map((i) => {
+      if (i?.providerId === "gogoanime" && i?.consumet !== true){
+       return {
+        episodes: i.episodes,
+        providerId: "gogobackup",
       }
+    };
       return i;
     });
   }
@@ -52,4 +54,3 @@ export function ProvidersMap(episodeData, defaultProvider, setdefaultProvider) {
 
   return { subProviders, dubProviders };
 }
-

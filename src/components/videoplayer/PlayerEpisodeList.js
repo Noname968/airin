@@ -8,16 +8,12 @@ import EpImgContent from "../Episodelists/EpImgContent";
 import EpNumList from "../Episodelists/EpNumList";
 import { Select, SelectItem, Tooltip } from "@nextui-org/react";
 import Skeleton from "react-loading-skeleton";
+import { useSubtype } from '@/lib/store';
+import { useStore } from 'zustand';
 
 function PlayerEpisodeList({ id, data, onprovider, setwatchepdata, epnum }) {
-  const [subtype, setSubtype] = useState('sub');
+  const subtype = useStore(useSubtype, (state) => state.subtype);
   const router = useRouter();
-  useEffect(() => {
-    const storedType = localStorage.getItem('selectedType');
-    if (storedType) {
-      setSubtype(storedType);
-    }
-  }, []);
 
   const [episodeData, setepisodeData] = useState(null);
   const [loading, setloading] = useState(true);
@@ -68,7 +64,12 @@ function PlayerEpisodeList({ id, data, onprovider, setwatchepdata, epnum }) {
     const fetchepisodes = async () => {
       try {
         const response = await getEpisodes(id, data.status === "RELEASING", false);
-        setepisodeData(response);
+        if(response){
+          const { subProviders, dubProviders } = ProvidersMap(response, defaultProvider, setdefaultProvider);
+          setSubProviders(subProviders);
+          setDubProviders(dubProviders);
+        }
+        console.log(subProviders)
         setloading(false)
       } catch (error) {
         console.log(error)
@@ -76,12 +77,11 @@ function PlayerEpisodeList({ id, data, onprovider, setwatchepdata, epnum }) {
       }
     }
     fetchepisodes();
-  }, [data?.id])
+  }, [id])
 
   const handleProviderChange = (provider, subvalue = "sub") => {
     setdefaultProvider(provider);
-    setSubtype(subvalue);
-    localStorage.setItem("selectedType", subvalue);
+    useSubtype.setState({ subtype: subvalue });
     setProviderChanged(true);
   };
 
@@ -90,19 +90,12 @@ function PlayerEpisodeList({ id, data, onprovider, setwatchepdata, epnum }) {
     setProviderChanged(true)
   }, [])
 
-  useEffect(() => {
-    const { subProviders, dubProviders } = ProvidersMap(episodeData, defaultProvider, setdefaultProvider);
-    setSubProviders(subProviders);
-    setDubProviders(dubProviders);
-  }, [episodeData]);
-
   const selectedProvider =
     subtype === 'sub'
       ? subProviders?.find((provider) => provider.providerId === defaultProvider)
       : dubProviders?.find((provider) => provider.providerId === defaultProvider);
 
   useEffect(() => {
-
     const episodes = selectedProvider?.episodes || [];
     const filteredEp =
       selectedProvider?.consumet === true
@@ -121,7 +114,7 @@ function PlayerEpisodeList({ id, data, onprovider, setwatchepdata, epnum }) {
     if (!providerChanged && currentEpisodes[epnum - 1]?.id) {
       // Use  setTimeout to wait for the component to re-render
       setTimeout(() => {
-        router.push(`/anime/watch?id=${id}&host=${defaultProvider}&epid=${encodeURIComponent(currentEpisodes[epnum - 1]?.id)}&ep=${epnum}&type=${subtype}`);
+        router.push(`/anime/watch?id=${id}&host=${defaultProvider === 'gogobackup' ? 'gogoanime' : defaultProvider}&epid=${encodeURIComponent(currentEpisodes[epnum - 1]?.id)}&ep=${epnum}&type=${subtype}`);
       }, 0);
     }
   }, [providerChanged]);

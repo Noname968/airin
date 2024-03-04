@@ -3,8 +3,6 @@ import chapterTitleStyles from '../../styles/chapter-title.module.css';
 import styles from '../../styles/video-layout.module.css';
 
 import { Captions, ChapterTitle, Controls, Gesture, Spinner } from '@vidstack/react';
-import { ContextSearch } from '@/context/DataContext';
-
 import * as Buttons from '../buttons';
 import * as Menus from '../menus';
 import * as Sliders from '../sliders';
@@ -18,7 +16,6 @@ export interface VideoLayoutProps {
 }
 
 export function VideoLayout({ groupedEp, thumbnails, subtitles }: VideoLayoutProps) {
-  const { nowPlaying } = ContextSearch();
   return (
     <>
       <Gestures />

@@ -1,16 +1,20 @@
 "use client"
 import React from 'react'
 import Link from 'next/link'
-import { ContextSearch } from '@/context/DataContext';
-
+import { useTitle } from '@/lib/store';
+import { useStore } from 'zustand';
 
 function Footer() {
-    const { animetitle, l, setl } = ContextSearch();
+    const animetitle = useStore(useTitle, (state) => state.animetitle);
     const year = new Date().getFullYear();
     const month = new Date().getMonth();
 
     const handleToggle = () => {
-        setl(prev => !prev);
+        if (animetitle === 'english') {
+            useTitle.setState({ animetitle: 'romaji' })
+        } else {
+            useTitle.setState({ animetitle: 'english' })
+        }
     };
 
     function getSeason(month) {
@@ -103,7 +107,7 @@ function Footer() {
                                     <input
                                         type="checkbox"
                                         className="sr-only peer"
-                                        checked={l}
+                                        checked={animetitle === 'english'}
                                         onChange={handleToggle}
                                     />
                                 )}

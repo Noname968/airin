@@ -2,7 +2,6 @@
 
 import React from "react";
 import { NextUIProvider } from "@nextui-org/react";
-import { DataProvider } from "@/context/DataContext";
 import { SessionProvider } from "next-auth/react";
 import { MotionDiv } from "@/utils/MotionDiv";
 import { usePathname } from "next/navigation";
@@ -33,7 +32,6 @@ export function Providers({ children, session }) {
     <NextUIProvider>
       <SessionProvider session={session}>
         <SkeletonTheme baseColor="#18181b" highlightColor="#1e1e24" borderRadius={"0.5rem"}>
-          <DataProvider>
             <MotionDiv
               key={pathname}
               initial={{ x: 0, opacity: 0 }}
@@ -48,7 +46,6 @@ export function Providers({ children, session }) {
               />
               {children}
             </MotionDiv>
-          </DataProvider>
         </SkeletonTheme>
       </SessionProvider>
     </NextUIProvider>

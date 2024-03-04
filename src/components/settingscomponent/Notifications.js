@@ -2,18 +2,19 @@
 import React, { useState, useEffect } from 'react';
 import { Usernotifications } from '@/lib/AnilistUser';
 import Image from 'next/image';
-import { ContextSearch } from '@/context/DataContext';
 import { NotificationTime } from '@/utils/TimeFunctions';
 import Skeleton from "react-loading-skeleton";
 import Link from "next/link";
 import { signIn } from 'next-auth/react';
+import { useTitle } from '@/lib/store';
+import { useStore } from 'zustand';
 
 function Notifications({ session }) {
     const [notifications, setNotifications] = useState([]);
     const [page, setPage] = useState(1);
     const [loading, setLoading] = useState(false);
     const [hasNextPage, sethasNextPage] = useState(false);
-    const { animetitle } = ContextSearch();
+    const animetitle = useStore(useTitle, (state) => state.animetitle);
 
     useEffect(() => {
         const fetchData = async () => {

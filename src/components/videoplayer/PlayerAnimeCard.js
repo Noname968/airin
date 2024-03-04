@@ -5,10 +5,11 @@ import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import styles from '../../styles/PlayAnimeCard.module.css';
 import Link from 'next/link';
-import { ContextSearch } from '@/context/DataContext';
+import { useTitle } from '../../lib/store';
+import { useStore } from "zustand";
 
 function PlayerAnimeCard({ data, id }) {
-  const { animetitle } = ContextSearch();
+  const animetitle = useStore(useTitle, (state) => state.animetitle);
   const [visibleItems, setVisibleItems] = useState(4);
   const episodesIcon = <i className="fas fa-closed-captioning mr-1" aria-hidden="true"></i>;
 

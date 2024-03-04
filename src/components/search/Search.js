@@ -2,15 +2,17 @@
 import { Fragment, useEffect, useRef, useState } from "react";
 import { Combobox, Dialog, Transition } from "@headlessui/react";
 import axios from "axios";
-import { ContextSearch } from "@/context/DataContext";
 import Link from 'next/link'
 import UseDebounce from "@/utils/UseDebounce";
 import { AdvancedSearch } from "@/lib/Anilistfunctions";
-import { useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation';
+import { useTitle, useSearchbar } from '@/lib/store';
+import { useStore } from 'zustand';
 
 function Search() {
-    const router = useRouter()
-    const { Isopen, setIsopen, animetitle } = ContextSearch();
+    const router = useRouter();
+    const animetitle = useStore(useTitle, (state) => state.animetitle);
+    const Isopen = useStore(useSearchbar, (state) => state.Isopen);
     const [query, setQuery] = useState("");
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(false);
@@ -40,7 +42,7 @@ function Search() {
     }, [debouncedSearch]);
 
     function closeModal() {
-        setIsopen(false);
+        useSearchbar.setState({ Isopen: false });
     }
 
     return (
@@ -79,7 +81,7 @@ function Search() {
                                     as="div"
                                     className="max-w-[600px] mx-auto rounded-lg shadow-2xl relative flex flex-col"
                                     onChange={(e) => {
-                                        setIsopen(false);
+                                        useSearchbar.setState({ Isopen: false });
                                         setData(null);
                                         setQuery("");
                                     }}
@@ -101,7 +103,7 @@ function Search() {
                                             onChange={(event) => setQuery(event.target.value)}
                                             onKeyDown={(event) => {
                                                 if (event.key === "Enter") {
-                                                    setIsopen(false);
+                                                    useSearchbar.setState({ Isopen: false });
                                                     router.push(`/anime/catalog?search=${encodeURIComponent(event.target.value)}`);
                                                     setData(null);
                                                     setQuery("");
@@ -125,7 +127,7 @@ function Search() {
                                                                 `flex items-center gap-3 py-[8px] px-5 border-b border-solid border-gray-800  ${active ? "bg-black/20 cursor-pointer" : ""
                                                                 }`
                                                             }>
-                                                            <Link href={`/anime/info/${item.id}`} onClick={() => { setIsopen(false) }}>
+                                                            <Link href={`/anime/info/${item.id}`} onClick={() => { useSearchbar.setState({ Isopen: false }) }}>
                                                                 <div className="shrink-0">
                                                                     <img
                                                                         src={item.image || item.coverImage.large}
@@ -136,7 +138,7 @@ function Search() {
                                                                     />
                                                                 </div>
                                                             </Link>
-                                                            <Link href={`/anime/info/${item.id}`} onClick={() => { setIsopen(false) }}>
+                                                            <Link href={`/anime/info/${item.id}`} onClick={() => { useSearchbar.setState({ Isopen: false }) }}>
                                                                 <div className="flex flex-col overflow-hidden">
                                                                     <p className="line-clamp-2 text-base">
                                                                         {item.title[animetitle] || item.title.romaji}
@@ -166,7 +168,7 @@ function Search() {
                                                         <button
                                                             type="button"
                                                             onClick={() => {
-                                                                setIsopen(false);
+                                                                useSearchbar.setState({ Isopen: false });
                                                                 setQuery("");
                                                             }}
                                                             className="flex w-full items-center justify-center gap-2 py-4 transition duration-300 ease-in-out cursor-pointer border-none bg-[#4d148c] text-white text-base z-[5]">
