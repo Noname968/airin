@@ -84,24 +84,30 @@ function RecentEpisodes({ cardid }) {
                             (x) => x.number === item.currentEpisode
                         );
                         return (
-                            <Link href={`/anime/watch?id=${anime.id}&host=gogoanime&epid=${encodeURIComponent(currentEpisode?.id)}&ep=${item?.currentEpisode}&type=sub`} key={anime.id}>
-                                <ItemContent anime={anime} cardid={cardid} />
-                            </Link>
+                            currentEpisode?.id ? (
+                                <Link href={`/anime/watch?id=${anime.id}&host=gogoanime&epid=${encodeURIComponent(currentEpisode?.id)}&ep=${item?.currentEpisode}&type=sub`} key={anime.id}>
+                                    <ItemContent anime={anime} cardid={cardid} />
+                                </Link>
+                            ) : (
+                                <Link href={`/anime/info/${anime.id}`} key={anime.id}>
+                                    <ItemContent anime={anime} cardid={cardid} />
+                                </Link>
+                            )
                         );
                     })}
-                {!data?.length && (
-                    Array.from({ length: 15 }, (_, index) => (
-                        <div key={index} className={`${styles.carditem} ${styles.loading}`}>
-                            <div
-                                className={`${styles.cardimgcontainer} ${styles.pulse} h-full`}
-                                style={{ animationDelay: `${(index + 2) * 0.3}s` }}
-                            ></div>
-                            <div className={`${styles.pulse} bg-[#1e1e24] mt-2 rounded-md h-5 lg:h-7 w-[98%] mx-auto`}
-                            style={{ animationDelay: `${(index + 2) * 0.3}s` }}
-                            ></div>
-                        </div>
-                    ))
-                )}
+                    {!data?.length && (
+                        Array.from({ length: 15 }, (_, index) => (
+                            <div key={index} className={`${styles.carditem} ${styles.loading}`}>
+                                <div
+                                    className={`${styles.cardimgcontainer} ${styles.pulse} h-full`}
+                                    style={{ animationDelay: `${(index + 2) * 0.3}s` }}
+                                ></div>
+                                <div className={`${styles.pulse} bg-[#1e1e24] mt-2 rounded-md h-5 lg:h-7 w-[98%] mx-auto`}
+                                    style={{ animationDelay: `${(index + 2) * 0.3}s` }}
+                                ></div>
+                            </div>
+                        ))
+                    )}
                 </div>
             </div>
         </div>

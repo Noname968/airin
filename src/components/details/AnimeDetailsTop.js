@@ -4,12 +4,13 @@ import Image from 'next/image'
 import styles from '../../styles/AnimeDetailsTop.module.css'
 import { Modal, ModalContent, ModalHeader, ModalFooter, ModalBody, Button, useDisclosure } from "@nextui-org/react";
 import Link from 'next/link'
-import { ContextSearch } from '@/context/DataContext';
 import Addtolist from './Addtolist';
 import { signIn } from 'next-auth/react';
+import { useTitle } from '@/lib/store';
+import { useStore } from 'zustand';
 
 function AnimeDetailsTop({ data, list, session, setList, url }) {
-  const { animetitle } = ContextSearch();
+  const animetitle = useStore(useTitle, (state) => state.animetitle);
   const [openlist, setOpenlist] = useState(false);
 
   const isAnime = data?.type === 'ANIME' || true;
@@ -39,7 +40,7 @@ function AnimeDetailsTop({ data, list, session, setList, url }) {
                     <iframe
                       title="Trailer"
                       className='w-[620px] h-[350px] mb-4'
-                      src={`https://www.youtube.com/embed/${data?.trailer?.id}`}
+                      src={`https://m3u8proxy-m3u8proxy.owiwfk.easypanel.host/youtube/${data?.trailer?.id}`}
                       frameBorder="0"
                       allowFullScreen
                     ></iframe>

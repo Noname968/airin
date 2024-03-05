@@ -6,10 +6,11 @@ import React, { useEffect, useState } from 'react';
 import { Pagination } from "@nextui-org/react";
 import styles from '../../styles/Catalog.module.css'
 import UseDebounce from '@/utils/UseDebounce';
-import { ContextSearch } from '@/context/DataContext';
+import { useTitle } from '@/lib/store';
+import { useStore } from 'zustand';
 
 function Searchcard({ searchvalue, selectedYear, seasonvalue, formatvalue, genrevalue, sortbyvalue, airingvalue }) {
-    const { animetitle } = ContextSearch();
+    const animetitle = useStore(useTitle, (state) => state.animetitle);
     const [currentPage, setCurrentPage] = useState(1);
     const [searchdata, setsearchdata] = useState(null);
     const [lastpage, setlastpage] = useState();

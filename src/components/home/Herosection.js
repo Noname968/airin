@@ -1,24 +1,17 @@
 "use client"
-
 import React, { useEffect, useState } from 'react';
 import styles from '../../styles/Herosection.module.css';
-import { ContextSearch } from '@/context/DataContext';
-import Link from 'next/link'
-import Image from 'next/image'
+import Link from 'next/link';
+import Image from 'next/image';
+import { useSettings, useTitle } from '@/lib/store';
+import { useStore } from 'zustand';
 
 function Herosection({ data }) {
+  const settings = useStore(useSettings, (state) => state.settings);
   const [trailer, setTrailer] = useState(null);
   const [populardata, setpopulardata] = useState(null);
   const [videoEnded, setVideoEnded] = useState(false);
-  const [settings, setSettings] = useState({});
-  const { animetitle } = ContextSearch();
-
-  useEffect(() => {
-    const localStorageValue = localStorage.getItem('settings');
-    if (localStorageValue) {
-      setSettings(JSON.parse(localStorageValue));
-    }
-  }, [])
+  const animetitle = useStore(useTitle, (state) => state.animetitle)
 
   useEffect(() => {
     const getPopular = () => {
@@ -77,7 +70,7 @@ function Herosection({ data }) {
             onEnded={handleVideoEnded}
             onError={handleVideoError}
           ></video>
-          {/* <video src="https://m3u8proxy-m3u8proxy.owiwfk.easypanel.host/youtube/Z11Ozjk0ufY" preload="auto" autoplay="" className={styles.herovideo}></video> */}
+          {/* <video src="/youtube/Z11Ozjk0ufY" preload="auto" autoplay="" className={styles.herovideo}></video> */}
         </span>
       ) : (
         <span className={styles.heroimgcon}>

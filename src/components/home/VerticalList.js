@@ -2,11 +2,12 @@
 import React, { useState, useEffect } from 'react';
 import styles from '../../styles/VerticalList.module.css';
 import Link from 'next/link';
-import { ContextSearch } from '@/context/DataContext';
 import Image from 'next/image'
+import { useTitle } from '@/lib/store';
+import { useStore } from 'zustand';
 
 const VerticalList = ({ data, id, mobiledata }) => {
-  const { animetitle } = ContextSearch();
+  const animetitle = useStore(useTitle, (state) => state.animetitle);
   const [maxWidth, setMaxWidth] = useState(0);
   const [isSeasonal, setIsSeasonal] = useState(true);
 

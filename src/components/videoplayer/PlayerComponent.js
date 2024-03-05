@@ -2,13 +2,14 @@
 import React, { useEffect, useState } from 'react'
 import { getSources } from '@/lib/getData';
 import PlayerEpisodeList from './PlayerEpisodeList';
-import { ContextSearch } from '@/context/DataContext';
 import Player from './VidstackPlayer/player';
 import { Spinner } from '@vidstack/react';
 import { toast } from 'sonner';
+import { useTitle, useNowPlaying, useDataInfo } from '../../lib/store';
+import { useStore } from "zustand";
 
 function PlayerComponent({ id, epId, provider, epNum, subdub, data, session, savedep }) {
-    const { animetitle, setNowPlaying, setDataInfo } = ContextSearch();
+    const animetitle = useStore(useTitle, (state) => state.animetitle);
     const [episodeData, setepisodeData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [groupedEp, setGroupedEp] = useState(null);
@@ -19,8 +20,9 @@ function PlayerComponent({ id, epId, provider, epNum, subdub, data, session, sav
     const [error, setError] = useState(false);
 
     useEffect(() => {
-        setDataInfo(data);
+        useDataInfo.setState({ dataInfo: data });
         const fetchSources = async () => {
+            setError(false);
             setLoading(true);
             try {
                 const response = await getSources(id, provider, epId, epNum, subdub);
@@ -84,7 +86,7 @@ function PlayerComponent({ id, epId, provider, epNum, subdub, data, session, sav
                     subtype: subdub || null,
                 };
 
-                setNowPlaying(episode);
+                useNowPlaying.setState({ nowPlaying: episode });
                 setSkipTimes(skiptime);
                 // console.log(skipData);
                 setLoading(false);
@@ -100,7 +102,7 @@ function PlayerComponent({ id, epId, provider, epNum, subdub, data, session, sav
                     subtype: subdub || null,
                 };
 
-                setNowPlaying(episode);
+                useNowPlaying.setState({ nowPlaying: episode });
                 setLoading(false);
             }
         };

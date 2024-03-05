@@ -47,4 +47,4 @@ function EpImgContent({ data, epdata, defaultProvider, subtype, epnum }) {
   )
 }
 
-export default EpImgContent
+export default EpImgContent;

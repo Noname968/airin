@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Modal, ModalContent, ModalBody, ModalFooter, Button, useDisclosure } from "@nextui-org/react";
 import Link from "next/link";
 
-const newVersion = "V2.0.12"
+const newVersion = "V2.1.1"
 
 const releaseLogs = [
     // {
@@ -16,15 +16,26 @@ const releaseLogs = [
     //         "Fixed: Small bugs",
     //     ],
     // },
+    // {
+    //     version: "V2.0.12",
+    //     highlights: true,
+    //     changes: [
+    //         "Added Anilist Progress Tracking",
+    //         "New Add to list option in info page",
+    //         "Auto episode tracking after watching 90% of video",
+    //         "Fixed: Now u can change provider without losing progress",
+    //         "Fixed: Settings options in player for mobile devices",
+    //         "View Github for more information",
+    //     ],
+    // },
     {
-        version: "V2.0.12",
+        version: "V2.1.1",
         highlights: true,
         changes: [
-            "Added Anilist Progress Tracking",
-            "New Add to list option in info page",
-            "Auto episode tracking after watching 90% of video",
-            "Fixed: Now u can change provider without losing progress",
-            "Fixed: Settings options in player for mobile devices",
+            "Added new provider gogobackup",
+            "Major Performance Improvement",
+            "Fixed: episode section and gogoanime Provider",
+            "Fixed: Autoskip feature",
             "View Github for more information",
         ],
     },

@@ -1,6 +1,8 @@
 "use client"
 import React, { useState, useEffect } from 'react'
 import { Switch, cn } from "@nextui-org/react";
+import { useSettings } from '../../lib/store';
+import { useStore } from "zustand";
 
 const SwitchSetting = ({ value, onValueChange }) => {
     return (
@@ -27,36 +29,8 @@ const SwitchSetting = ({ value, onValueChange }) => {
 
 
 function SettingsPage() {
-    const defaultSettings = {
-        autoplay: false,
-        autoskip: false,
-        autonext: false,
-        load: 'idle',
-        audio: false,
-        herotrailer: true,
-    };
-
-    const [settings, setSettings] = useState({});
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        setLoading(true);
-        const storedSettings = JSON.parse(localStorage.getItem('settings'));
-
-        if (storedSettings && Object.keys(storedSettings).length > 0) {
-            setSettings(storedSettings);
-        } else {
-            setSettings(defaultSettings);
-        }
-
-        setLoading(false);
-    }, []);
-
-    useEffect(() => {
-        if (settings && Object.keys(settings).length > 0) {
-            localStorage.setItem('settings', JSON.stringify(settings));
-        }
-    }, [settings]);
+    const settings = useStore(useSettings, (state) => state.settings);
+    const [loading, setLoading] = useState(false);
 
     return (
         <div>
@@ -82,7 +56,7 @@ function SettingsPage() {
                             </div>
                             <SwitchSetting
                                 value={settings.herotrailer}
-                                onValueChange={(value) => setSettings({ ...settings, herotrailer: value })}
+                                onValueChange={(value) => useSettings.setState({ settings: { ...useSettings.getState().settings, herotrailer: value } })}
                             />
                         </div>
                         <div className='flex items-center w-[100%] justify-between'>
@@ -92,8 +66,8 @@ function SettingsPage() {
                             </div>
                             <SwitchSetting
                                 value={settings.autoskip}
-                                onValueChange={(value) => setSettings({ ...settings, autoskip: value })}
-                            />
+                                onValueChange={(value) => useSettings.setState({ settings: { ...useSettings.getState().settings, autoskip: value } })}
+                                />
                         </div>
                         <div className='flex items-center w-[100%] justify-between'>
                             <div className='mr-4 w-full'>
@@ -102,7 +76,7 @@ function SettingsPage() {
                             </div>
                             <SwitchSetting
                                 value={settings.autoplay}
-                                onValueChange={(value) => setSettings({ ...settings, autoplay: value })}
+                                onValueChange={(value) => useSettings.setState({ settings: { ...useSettings.getState().settings, autoplay: value } })}
                             />
                         </div>
                         <div className='flex items-center w-[100%] justify-between'>
@@ -112,7 +86,7 @@ function SettingsPage() {
                             </div>
                             <SwitchSetting
                                 value={settings.autonext}
-                                onValueChange={(value) => setSettings({ ...settings, autonext: value })}
+                                onValueChange={(value) => useSettings.setState({ settings: { ...useSettings.getState().settings, autonext: value } })                            }
                             />
                         </div>
                         <div className='flex items-center w-[100%] justify-between'>
@@ -122,7 +96,7 @@ function SettingsPage() {
                             </div>
                             <SwitchSetting
                                 value={settings.audio}
-                                onValueChange={(value) => setSettings({ ...settings, audio: value })}
+                                onValueChange={(value) => useSettings.setState({ settings: { ...useSettings.getState().settings, audio: value } })                            }
                             />
                         </div>
                         <div className='flex flex-col w-[100%]'>
@@ -136,7 +110,7 @@ function SettingsPage() {
                                 </div>
                                 <SwitchSetting
                                     value={settings.load === 'idle'}
-                                    onValueChange={(value) => setSettings({ ...settings, load: value ? 'idle' : settings.load })}
+                                    onValueChange={(value) => useSettings.setState({ settings: { ...useSettings.getState().settings,  load: value ? 'idle' : settings.load } })                            }
                                 />
                             </div>
                             <div className='flex items-center w-[100%] justify-between mb-3'>
@@ -148,7 +122,7 @@ function SettingsPage() {
                                 </div>
                                 <SwitchSetting
                                     value={settings.load === 'visible'}
-                                    onValueChange={(value) => setSettings({ ...settings, load: value ? 'visible' : settings.load })}
+                                    onValueChange={(value) => useSettings.setState({ settings: { ...useSettings.getState().settings,  load: value ? 'visible' : settings.load } })                            }
                                 />
                             </div>
                             <div className='flex items-center w-[100%] justify-between'>
@@ -160,7 +134,7 @@ function SettingsPage() {
                                 </div>
                                 <SwitchSetting
                                     value={settings.load === 'eager'}
-                                    onValueChange={(value) => setSettings({ ...settings, load: value ? 'eager' : settings.load })}
+                                    onValueChange={(value) => useSettings.setState({ settings: { ...useSettings.getState().settings,  load: value ? 'eager' : settings.load } })                            }
                                 />
                             </div>
                         </div>

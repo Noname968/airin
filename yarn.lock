@@ -4732,7 +4732,7 @@ __metadata:
     mongoose: "npm:^8.1.1"
     next: "npm:^14.1.0"
     next-auth: "npm:^4.24.6"
-    next-nprogress-bar: "npm:^2.1.2"
+    next-nprogress-bar: "npm:^2.3.2"
     nextjs-toploader: "npm:^1.6.4"
     postcss: "npm:^8"
     react: "npm:^18"
@@ -4745,6 +4745,7 @@ __metadata:
     tailwindcss-animate: "npm:^1.0.7"
     typescript: "npm:^5.3.3"
     webpack: "npm:^5.89.0"
+    zustand: "npm:^4.5.2"
   languageName: unknown
   linkType: soft
 
@@ -7986,12 +7987,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"next-nprogress-bar@npm:^2.1.2":
-  version: 2.1.2
-  resolution: "next-nprogress-bar@npm:2.1.2"
+"next-nprogress-bar@npm:^2.3.2":
+  version: 2.3.2
+  resolution: "next-nprogress-bar@npm:2.3.2"
   dependencies:
     nprogress: "npm:^0.2.0"
-  checksum: 10c0/8680f3062478e3f7b9fbbc0489d76dc7f76ea989c6119c9887af3fcf0190cd7b53b9c49907452d37ca9a29a50b4a0fa1b42f4aedf634d2a9386b02f2cf82bf9b
+  checksum: 10c0/2596d4494d0e8e904b5c44495433f60f950364dc729873fb3d5f9afc7f3f5b70a8c3bbac60dc2be39bc6c00438fc26ef9d6d3ec01d98e7bc463d36463c01ce90
   languageName: node
   linkType: hard
 
@@ -10054,6 +10055,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"use-sync-external-store@npm:1.2.0":
+  version: 1.2.0
+  resolution: "use-sync-external-store@npm:1.2.0"
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+  checksum: 10c0/ac4814e5592524f242921157e791b022efe36e451fe0d4fd4d204322d5433a4fc300d63b0ade5185f8e0735ded044c70bcf6d2352db0f74d097a238cebd2da02
+  languageName: node
+  linkType: hard
+
 "util-deprecate@npm:^1.0.2":
   version: 1.0.2
   resolution: "util-deprecate@npm:1.0.2"
@@ -10546,5 +10556,25 @@ __metadata:
   version: 0.1.0
   resolution: "yocto-queue@npm:0.1.0"
   checksum: 10c0/dceb44c28578b31641e13695d200d34ec4ab3966a5729814d5445b194933c096b7ced71494ce53a0e8820685d1d010df8b2422e5bf2cdea7e469d97ffbea306f
+  languageName: node
+  linkType: hard
+
+"zustand@npm:^4.5.2":
+  version: 4.5.2
+  resolution: "zustand@npm:4.5.2"
+  dependencies:
+    use-sync-external-store: "npm:1.2.0"
+  peerDependencies:
+    "@types/react": ">=16.8"
+    immer: ">=9.0.6"
+    react: ">=16.8"
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+    immer:
+      optional: true
+    react:
+      optional: true
+  checksum: 10c0/aee26f11facebb39b016e89539f72a72c2c00151208907fc909c3cedd455728240e09e01d98ebd3b63a2a3518a5917eac5de6c853743ca55a1655296d750bb48
   languageName: node
   linkType: hard

@@ -17,22 +17,19 @@ async function getInfo(token,id) {
     let cachedData;
     if (redis) {
       cachedData = await redis.get(`info:${id}`); 
+      if (!JSON.parse(cachedData)) {
+        await redis.del(`info:${id}`);
+        cachedData = null;
+      }
     }
     if (cachedData) {
-      // console.log("using cached info")
       return JSON.parse(cachedData);
     } else {
       const data = await WatchPageInfo(null,id);
       const cacheTime = data?.nextAiringEpisode?.episode ? 60 * 60 * 2 : 60 * 60 * 24 * 45;
-      if (redis) {
-        await redis.set(
-          `info:${id}`,
-          JSON.stringify(data),
-          "EX",
-          cacheTime
-        );
-        // console.log("cached info")
-      }
+      if (redis && data !== null && data) {
+        await redis.set(`info:${id}`, JSON.stringify(data), "EX", cacheTime);
+      }      
       return data;
     }
   } catch (error) {

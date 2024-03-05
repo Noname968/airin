@@ -1,6 +1,7 @@
-import buttonStyles from '../styles/button.module.css';
-import tooltipStyles from '../styles/tooltip.module.css';
-import { ContextSearch } from '@/context/DataContext';
+import buttonStyles from "../styles/button.module.css";
+import tooltipStyles from "../styles/tooltip.module.css";
+import { useNowPlaying, useDataInfo } from "@/lib/store";
+import { useStore } from "zustand";
 import {
   CaptionButton,
   FullscreenButton,
@@ -15,7 +16,7 @@ import {
   useMediaStore,
   SeekButton,
   GoogleCastButton,
-  AirPlayButton
+  AirPlayButton,
 } from "@vidstack/react";
 import {
   ClosedCaptionsIcon,
@@ -37,7 +38,7 @@ import {
   ChromecastIcon,
   AirPlayIcon,
 } from "@vidstack/react/icons";
-import { useRouter } from 'next-nprogress-bar';
+import { useRouter } from "next-nprogress-bar";
 
 export interface MediaButtonProps {
   tooltipPlacement: TooltipPlacement;
@@ -45,7 +46,6 @@ export interface MediaButtonProps {
   groupedEp?: any;
   host?: boolean;
 }
-
 
 export function Play({ tooltipPlacement, offset }: MediaButtonProps) {
   const isPaused = useMediaState("paused"),
@@ -58,7 +58,11 @@ export function Play({ tooltipPlacement, offset }: MediaButtonProps) {
           <Icon className="w-8 h-8" />
         </PlayButton>
       </Tooltip.Trigger>
-      <Tooltip.Content className={`${tooltipStyles.tooltip} parent-data-[open]:hidden`} placement={tooltipPlacement} offset={offset}>
+      <Tooltip.Content
+        className={`${tooltipStyles.tooltip} parent-data-[open]:hidden`}
+        placement={tooltipPlacement}
+        offset={offset}
+      >
         {isPaused ? "Play" : "Pause"}
       </Tooltip.Content>
     </Tooltip.Root>
@@ -67,12 +71,15 @@ export function Play({ tooltipPlacement, offset }: MediaButtonProps) {
 
 export function SeekForwardButton({
   tooltipPlacement,
-  offset
+  offset,
 }: MediaButtonProps) {
   return (
     <Tooltip.Root>
       <Tooltip.Trigger asChild>
-        <SeekButton seconds={10} className={`play-button ${buttonStyles.button}`}>
+        <SeekButton
+          seconds={10}
+          className={`play-button ${buttonStyles.button}`}
+        >
           <SeekForward10Icon className="w-8 h-8" />
         </SeekButton>
       </Tooltip.Trigger>
@@ -89,12 +96,15 @@ export function SeekForwardButton({
 
 export function SeekBackwardButton({
   tooltipPlacement,
-  offset
+  offset,
 }: MediaButtonProps) {
   return (
     <Tooltip.Root>
       <Tooltip.Trigger asChild>
-        <SeekButton seconds={-10} className={`play-button ${buttonStyles.button}`}>
+        <SeekButton
+          seconds={-10}
+          className={`play-button ${buttonStyles.button}`}
+        >
           <SeekBackward10Icon className="w-8 h-8" />
         </SeekButton>
       </Tooltip.Trigger>
@@ -112,14 +122,14 @@ export function SeekBackwardButton({
 export function NextEpisode({
   tooltipPlacement,
   offset,
-  groupedEp
+  groupedEp,
 }: MediaButtonProps) {
   const router = useRouter();
-  const { dataInfo, nowPlaying } = ContextSearch();
+  const nowPlaying = useStore(useNowPlaying, (state) => state.nowPlaying);
+  const dataInfo = useStore(useDataInfo, (state) => state.dataInfo);
   function handleNext() {
     router.push(
-      `/anime/watch?id=${dataInfo?.id}&host=${nowPlaying?.provider}&epid=${
-        groupedEp?.nextep?.id}&ep=${groupedEp?.nextep?.number}&type=${nowPlaying?.subtype}`
+      `/anime/watch?id=${dataInfo?.id}&host=${nowPlaying?.provider}&epid=${groupedEp?.nextep?.id}&ep=${groupedEp?.nextep?.number}&type=${nowPlaying?.subtype}`
     );
   }
 
@@ -150,14 +160,14 @@ export function NextEpisode({
 export function PreviousEpisode({
   tooltipPlacement,
   offset,
-  groupedEp
+  groupedEp,
 }: MediaButtonProps) {
   const router = useRouter();
-  const { dataInfo, nowPlaying } = ContextSearch();
+  const nowPlaying = useStore(useNowPlaying, (state) => state.nowPlaying);
+  const dataInfo = useStore(useDataInfo, (state) => state.dataInfo);
   function handlePrev() {
     router.push(
-      `/anime/watch?id=${dataInfo?.id}&host=${nowPlaying?.provider}&epid=${
-        groupedEp?.previousep?.id}&ep=${groupedEp?.previousep?.number}&type=${nowPlaying?.subtype}`
+      `/anime/watch?id=${dataInfo?.id}&host=${nowPlaying?.provider}&epid=${groupedEp?.previousep?.id}&ep=${groupedEp?.previousep?.number}&type=${nowPlaying?.subtype}`
     );
   }
 
@@ -196,7 +206,6 @@ export function DesktopPlayButton({ tooltipPlacement }: MediaButtonProps) {
     </PlayButton>
   );
 }
-
 
 export function MobilePlayButton({ tooltipPlacement }: MediaButtonProps) {
   const isPaused = useMediaState("paused"),
@@ -263,7 +272,6 @@ export function Caption({ tooltipPlacement, offset }: MediaButtonProps) {
   );
 }
 
-
 export function PIP({ tooltipPlacement, offset }: MediaButtonProps) {
   const isActive = useMediaState("pictureInPicture");
   return (
@@ -290,11 +298,12 @@ export function PIP({ tooltipPlacement, offset }: MediaButtonProps) {
 
 export function PlayNextButton({
   tooltipPlacement,
-  groupedEp
+  groupedEp,
 }: MediaButtonProps) {
   // const remote = useMediaRemote();
   const router = useRouter();
-  const { dataInfo, nowPlaying } = ContextSearch();
+  const nowPlaying = useStore(useNowPlaying, (state) => state.nowPlaying);
+  const dataInfo = useStore(useDataInfo, (state) => state.dataInfo);
   return (
     <button
       // title="Next Ep"
@@ -302,8 +311,7 @@ export function PlayNextButton({
       onClick={() => {
         if (groupedEp?.nextep) {
           router.push(
-            `/anime/watch?id=${dataInfo?.id}&host=${nowPlaying?.provider}&epid=${
-              groupedEp?.nextep?.id}&ep=${groupedEp?.nextep?.number}&type=${nowPlaying?.subtype}`
+            `/anime/watch?id=${dataInfo?.id}&host=${nowPlaying?.provider}&epid=${groupedEp?.nextep?.id}&ep=${groupedEp?.nextep?.number}&type=${nowPlaying?.subtype}`
           );
         }
       }}
@@ -313,7 +321,6 @@ export function PlayNextButton({
     </button>
   );
 }
-
 
 export function Fullscreen({ tooltipPlacement, offset }: MediaButtonProps) {
   const isActive = useMediaState("fullscreen");
@@ -355,26 +362,26 @@ export function ChromeCast({ tooltipPlacement, offset }: MediaButtonProps) {
         Chromecast
       </Tooltip.Content>
     </Tooltip.Root>
-  )
+  );
 }
 
 export function AirPlay({ tooltipPlacement, offset }: MediaButtonProps) {
   return (
     <Tooltip.Root>
-    <Tooltip.Trigger asChild>
-    <AirPlayButton className="media-button">
-      <AirPlayIcon />
-    </AirPlayButton>
-    </Tooltip.Trigger>
-    <Tooltip.Content
-      offset={offset}
-      className={`${tooltipStyles.tooltip} parent-data-[open]:hidden`}
-      placement={tooltipPlacement}
-    >
-      Airplay
-    </Tooltip.Content>
-  </Tooltip.Root>
-  )
+      <Tooltip.Trigger asChild>
+        <AirPlayButton className="media-button">
+          <AirPlayIcon />
+        </AirPlayButton>
+      </Tooltip.Trigger>
+      <Tooltip.Content
+        offset={offset}
+        className={`${tooltipStyles.tooltip} parent-data-[open]:hidden`}
+        placement={tooltipPlacement}
+      >
+        Airplay
+      </Tooltip.Content>
+    </Tooltip.Root>
+  );
 }
 
 // export function Download({
@@ -383,7 +390,8 @@ export function AirPlay({ tooltipPlacement, offset }: MediaButtonProps) {
 //   groupedEp
 // }: MediaButtonProps) {
 //   const router = useRouter();
-//   const { dataInfo, nowPlaying } = ContextSearch();
+// const nowPlaying = useStore(useNowPlaying, (state) => state.nowPlaying);
+// const dataInfo = useStore(useDataInfo, (state) => state.dataInfo);
 //   function handleDownload() {
 //     router.push(
 //       `${nowPlaying.download}`

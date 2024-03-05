@@ -2,10 +2,11 @@
 import React, { useState } from 'react';
 import Image from 'next/image'
 import styles from '../../styles/Animecard.module.css'
-import { ContextSearch } from '@/context/DataContext';
+import { useTitle } from '@/lib/store';
+import { useStore } from 'zustand';
 
 function ItemContent({ anime, cardid }) {
-    const { animetitle } = ContextSearch();
+    const animetitle = useStore(useTitle, (state) => state.animetitle);
     const [imageLoaded, setImageLoaded] = useState(false);
 
     function containsEngChar(text) {
