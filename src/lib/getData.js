@@ -36,7 +36,7 @@ export const getSources = async (id, provider, epid, epnum, subdub) => {
       method: 'POST',
       body: JSON.stringify({
         source: `${provider === "gogoanime" && !id.startsWith("/") ? "consumet" : "anify"}`,
-        provider,
+        provider: `${provider === "gogobackup" ? 'gogoanime' : provider}`,
         episodeid: epid,
         episodenum: epnum,
         subtype: subdub
@@ -55,4 +55,3 @@ export const getSources = async (id, provider, epid, epnum, subdub) => {
     console.error("Error fetching Episode sources:", error);
   }
 }
-

@@ -145,13 +145,13 @@ function Episodesection({ data, id, progress, setUrl }) {
     if (currentEpisodes) {
       const episode = data?.nextAiringEpisode ? currentEpisodes?.find((i) => i.number === progress + 1) : currentEpisodes[0]
       if (episode) {
-        const watchurl = `/anime/watch?id=${data?.id}&host=${defaultProvider === 'gogobackup' ? 'gogoanime' : defaultProvider}&epid=${encodeURIComponent(episode?.id)}&ep=${episode?.number}&type=${subtype}`;
+        const watchurl = `/anime/watch?id=${data?.id}&host=${defaultProvider}&epid=${encodeURIComponent(episode?.id)}&ep=${episode?.number}&type=${subtype}`;
         setUrl(watchurl);
       } else {
         setUrl(null);
       }
     }
-  }, [currentEpisodes, progress])
+  }, [currentEpisodes, progress]);
 
   return (
     <div className={styles.episodesection}>
@@ -424,17 +424,17 @@ function Episodesection({ data, id, progress, setUrl }) {
         <>
           {eplisttype === 3 && (
             <div className={styles.epnumlist}>
-              <EpNumList data={data} epdata={reversed ? filteredEpisodes.reverse() : filteredEpisodes} defaultProvider={defaultProvider === 'gogobackup' ? 'gogoanime' : defaultProvider} subtype={subtype} />
+              <EpNumList data={data} epdata={reversed ? filteredEpisodes.reverse() : filteredEpisodes} defaultProvider={defaultProvider} subtype={subtype} />
             </div>
           )}
           {eplisttype === 2 && (
             <div className={styles.epimgconist}>
-              <EpImgContent data={data} epdata={reversed ? filteredEpisodes.reverse() : filteredEpisodes} defaultProvider={defaultProvider === 'gogobackup' ? 'gogoanime' : defaultProvider} subtype={subtype} />
+              <EpImgContent data={data} epdata={reversed ? filteredEpisodes.reverse() : filteredEpisodes} defaultProvider={defaultProvider} subtype={subtype} />
             </div>
           )}
           {eplisttype === 1 && (
             <div className={styles.epimagelist}>
-              <EpImageList data={data} epdata={reversed ? filteredEpisodes.reverse() : filteredEpisodes} defaultProvider={defaultProvider === 'gogobackup' ? 'gogoanime' : defaultProvider} subtype={subtype} />
+              <EpImageList data={data} epdata={reversed ? filteredEpisodes.reverse() : filteredEpisodes} defaultProvider={defaultProvider} subtype={subtype} />
             </div>
           )}
         </>

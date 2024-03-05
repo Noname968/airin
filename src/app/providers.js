@@ -34,17 +34,18 @@ export function Providers({ children, session }) {
         <SkeletonTheme baseColor="#18181b" highlightColor="#1e1e24" borderRadius={"0.5rem"}>
             <MotionDiv
               key={pathname}
-              initial={{ x: 0, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              transition={{ duration: 0.5 }}
+              initial={{ opacity: 0, y: 0 }}
+              animate={{ opacity: 1, y: 0 }}
+              // exit={{ opacity: 0, y: 0 }}
+              transition={{ delay: 0.25 }}
             >
+              {children}
               <ProgressBar
                 height="3px"
                 color="#CA1313"
                 options={{ showSpinner: true }}
               // shallowRouting // by enabling this progressbar does not show on query params change
               />
-              {children}
             </MotionDiv>
         </SkeletonTheme>
       </SessionProvider>

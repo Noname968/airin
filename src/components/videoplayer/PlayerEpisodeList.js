@@ -15,8 +15,8 @@ function PlayerEpisodeList({ id, data, onprovider, setwatchepdata, epnum }) {
   const subtype = useStore(useSubtype, (state) => state.subtype);
   const router = useRouter();
 
-  const [episodeData, setepisodeData] = useState(null);
   const [loading, setloading] = useState(true);
+  const [episodeData, setepisodeData] = useState(null);
   const [currentEpisodes, setCurrentEpisodes] = useState([]);
   const [defaultProvider, setdefaultProvider] = useState(null);
   const [subProviders, setSubProviders] = useState(null);
@@ -64,12 +64,7 @@ function PlayerEpisodeList({ id, data, onprovider, setwatchepdata, epnum }) {
     const fetchepisodes = async () => {
       try {
         const response = await getEpisodes(id, data.status === "RELEASING", false);
-        if(response){
-          const { subProviders, dubProviders } = ProvidersMap(response, defaultProvider, setdefaultProvider);
-          setSubProviders(subProviders);
-          setDubProviders(dubProviders);
-        }
-        console.log(subProviders)
+        setepisodeData(response);
         setloading(false)
       } catch (error) {
         console.log(error)
@@ -77,7 +72,13 @@ function PlayerEpisodeList({ id, data, onprovider, setwatchepdata, epnum }) {
       }
     }
     fetchepisodes();
-  }, [id])
+  }, [id]);
+
+  useEffect(() => {
+    const { subProviders, dubProviders } = ProvidersMap(episodeData, defaultProvider, setdefaultProvider);
+    setSubProviders(subProviders);
+    setDubProviders(dubProviders);
+  }, [episodeData]);
 
   const handleProviderChange = (provider, subvalue = "sub") => {
     setdefaultProvider(provider);
@@ -87,7 +88,8 @@ function PlayerEpisodeList({ id, data, onprovider, setwatchepdata, epnum }) {
 
   useEffect(() => {
     setdefaultProvider(onprovider);
-    setProviderChanged(true)
+    setProviderChanged(true);
+    console.log(onprovider);
   }, [])
 
   const selectedProvider =
@@ -113,8 +115,8 @@ function PlayerEpisodeList({ id, data, onprovider, setwatchepdata, epnum }) {
   useEffect(() => {
     if (!providerChanged && currentEpisodes[epnum - 1]?.id) {
       // Use  setTimeout to wait for the component to re-render
+      router.push(`/anime/watch?id=${id}&host=${defaultProvider}&epid=${encodeURIComponent(currentEpisodes[epnum - 1]?.id)}&ep=${epnum}&type=${subtype}`);
       setTimeout(() => {
-        router.push(`/anime/watch?id=${id}&host=${defaultProvider === 'gogobackup' ? 'gogoanime' : defaultProvider}&epid=${encodeURIComponent(currentEpisodes[epnum - 1]?.id)}&ep=${epnum}&type=${subtype}`);
       }, 0);
     }
   }, [providerChanged]);
@@ -123,9 +125,11 @@ function PlayerEpisodeList({ id, data, onprovider, setwatchepdata, epnum }) {
     setRefreshLoading(true);
     try {
       const response = await getEpisodes(id, data.status === "RELEASING", true);
-      const { subProviders, dubProviders } = ProvidersMap(response, defaultProvider, setdefaultProvider);
-      setSubProviders(subProviders);
-      setDubProviders(dubProviders);
+      if (response) {
+        const { subProviders, dubProviders } = ProvidersMap(response, defaultProvider, setdefaultProvider);
+        setSubProviders(subProviders);
+        setDubProviders(dubProviders);
+      }
       setRefreshLoading(false);
       setDataRefreshed(true);
     } catch (error) {
