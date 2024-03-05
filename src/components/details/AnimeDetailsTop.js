@@ -40,7 +40,7 @@ function AnimeDetailsTop({ data, list, session, setList, url }) {
                     <iframe
                       title="Trailer"
                       className='w-[620px] h-[350px] mb-4'
-                      src={`https://www.youtube.com/embed/${data?.trailer?.id}`}
+                      src={`https://m3u8proxy-m3u8proxy.owiwfk.easypanel.host/youtube/${data?.trailer?.id}`}
                       frameBorder="0"
                       allowFullScreen
                     ></iframe>

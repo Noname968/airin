@@ -70,7 +70,7 @@ function Herosection({ data }) {
             onEnded={handleVideoEnded}
             onError={handleVideoError}
           ></video>
-          {/* <video src="https://m3u8proxy-m3u8proxy.owiwfk.easypanel.host/youtube/Z11Ozjk0ufY" preload="auto" autoplay="" className={styles.herovideo}></video> */}
+          {/* <video src="/youtube/Z11Ozjk0ufY" preload="auto" autoplay="" className={styles.herovideo}></video> */}
         </span>
       ) : (
         <span className={styles.heroimgcon}>

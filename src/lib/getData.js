@@ -35,7 +35,7 @@ export const getSources = async (id, provider, epid, epnum, subdub) => {
     const response = await fetch(`${checkEnvironment()}/api/source/${id}`,{
       method: 'POST',
       body: JSON.stringify({
-        source: `${provider === "gogoanime" && !id.startsWith("/") ? "consumet" : "anify"}`,
+        source : provider === 'gogoanime' || provider === 'gogobackup' ? 'consumet' : 'anify',
         provider: `${provider === "gogobackup" ? 'gogoanime' : provider}`,
         episodeid: epid,
         episodenum: epnum,
