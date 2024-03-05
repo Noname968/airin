@@ -70,11 +70,8 @@ function Footer() {
                             </div>
                             <div>
                                 <ul className="font-semibold flex flex-col gap-2 lg:text-[0.85rem] text-[0.7rem] text-[#ffffffb2]">
-                                    <li className="">
-                                        <Link href="/" className="hover:text-white">Privacy Policy</Link>
-                                    </li>
                                     <li>
-                                        <Link href="/" className="hover:text-white"> DMCA</Link>
+                                        <Link href="/dmca" className="hover:text-white"> DMCA</Link>
                                     </li>
                                     <li>
                                         <Link href="https://ko-fi.com/luckyhv" target='_blank' className="hover:text-white !font-semibold !text-[0.8rem]">Donate</Link>
