@@ -59,17 +59,16 @@ function Player({ dataInfo, id, groupedEp, sources, session, savedep, subtitles,
         setedbutton(edButtonText === "Ending" && (currentTime > epStart && currentTime < epEnd));
 
         if (settings?.autoskip) {
-          if (currentTime > opStart && currentTime < opEnd) {
+          if (opButtonText === "Opening" && currentTime > opStart && currentTime < opEnd) {
             Object.assign(playerRef.current ?? {}, { currentTime: opEnd });
             return null;
           }
-          if (currentTime > epStart && currentTime < epEnd) {
+          if (edButtonText === "Ending" && currentTime > epStart && currentTime < epEnd) {
             Object.assign(playerRef.current ?? {}, { currentTime: epEnd });
             return null;
           }
         }
       }
-
     })
 
   }, [settings]);
