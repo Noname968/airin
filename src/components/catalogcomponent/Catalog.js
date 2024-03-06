@@ -9,16 +9,24 @@ import Searchcard from './Searchcard';
 
 function Catalog({searchParams}) {
     const { year, season, format, genre, search, sortby} = searchParams;
-    const [selectedYear, setSelectedYear] = useState(year || null);
-    const [seasonvalue, setSeasonvalue] = useState(season || null);
-    const [formatvalue, setFormatvalue] = useState(format || null);
-    const [genrevalue, setGenrevalue] = useState(genre || [])
+    const [selectedYear, setSelectedYear] = useState(null);
+    const [seasonvalue, setSeasonvalue] = useState(null);
+    const [formatvalue, setFormatvalue] = useState(null);
+    const [genrevalue, setGenrevalue] = useState([])
     const [query, setQuery] = useState('')
-    const [sortbyvalue, setSortbyvalue] = useState(sortby || null);
+    const [sortbyvalue, setSortbyvalue] = useState(null);
     // const [airingvalue, setAiringvalue] = useState(null);
-    const [searchvalue, setSearchvalue] = useState(search || "");
+    const [searchvalue, setSearchvalue] = useState("");
     const [showTopBottom, setShowTopBottom] = useState(true);
 
+    useEffect(() => {
+        setSelectedYear(year || null);
+        setSeasonvalue(season || null);
+        setFormatvalue(format || null);
+        setGenrevalue(genre || []);
+        setSortbyvalue(sortby || null);
+        setSearchvalue(search || "");
+    }, [year, season, format, genre, search, sortby]);
     // console.log(sortbyvalue)
 
     const handleResize = () => {
@@ -138,7 +146,7 @@ function Catalog({searchParams}) {
                                     leaveTo="transform scale-95 opacity-0"
                                     afterLeave={() => setQuery("")}
                                 >
-                                    <Combobox.Options className="absolute z-50 mt-1 max-h-[220px] w-full overflow-auto !rounded-lg bg-[#18181b] py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                                    <Combobox.Options className="absolute z-50 mt-1 max-h-[220px] overflow-auto !rounded-lg bg-[#18181b] py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
                                         {filteredGenre.length === 0 && filteredTags.length === 0 && query !== '' ? (
                                             <div className="relative cursor-default select-none px-4 py-2 text-white">
                                                 No Such Genre.

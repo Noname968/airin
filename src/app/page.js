@@ -8,7 +8,6 @@ import { MotionDiv } from '@/utils/MotionDiv'
 import VerticalList from '@/components/home/VerticalList'
 import ContinueWatching from '@/components/home/ContinueWatching'
 import RecentEpisodes from '@/components/home/RecentEpisodes'
-import FloatingButton from '@/components/FloatingButton'
 import { getAuthSession } from './api/auth/[...nextauth]/route'
 // import { getWatchHistory } from '@/lib/EpHistoryfunctions'
 
@@ -61,7 +60,6 @@ async function Home() {
           </div>
         </MotionDiv>
       </div>
-      <FloatingButton/>
     </div>
   )
 }
