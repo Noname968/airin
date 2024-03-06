@@ -10,6 +10,7 @@ import Script from "next/script";
 import { getAuthSession } from './api/auth/[...nextauth]/route';
 import { Toaster } from 'sonner'
 import Changelogs from '../components/Changelogs';
+import FloatingButton from '@/components/FloatingButton'
 
 const inter = Inter({ subsets: ['latin'] })
 const myfont = localFont({ src: "../static-fonts/28 Days Later.ttf" })
@@ -100,6 +101,7 @@ export default async function RootLayout({ children }) {
           <Search />
           <Changelogs/>
           {children}
+          <FloatingButton/>
           <GoToTop />
           <Footer />
         </Providers>

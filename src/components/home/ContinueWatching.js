@@ -158,8 +158,8 @@ function ContinueWatching({ session }) {
                             <div className="overflow-hidden w-full aspect-video rounded-lg">
                                 <Image src={anime?.image || ''} alt={anime?.aniTitle} width={155} height={230} className="w-full aspect-video object-cover rounded-lg group-hover/item:scale-[1.03] duration-300 ease-out" />
                             </div>
-                            <div className="top-0 w-full h-full bg-gradient-to-t from-black/80 from-25% to-transparent to-60% transition-all duration-300 ease-out absolute z-10" />
-                            <div className="absolute bottom-0 left-0 px-3 py-2 text-white flex gap-2 items-center z-20">
+                            <div className="top-0 w-full h-full bg-gradient-to-t from-black/80 from-25% to-transparent to-60% transition-all duration-300 ease-out absolute z-5" />
+                            <div className="absolute bottom-0 left-0 px-3 py-2 text-white flex gap-2 items-center z-10">
                                 <div className="flex flex-col">
                                     <span className="text-[0.8rem] sm:text-[0.9rem] font-medium line-clamp-1">{anime?.aniTitle}</span>
                                     <span className="text-[0.7rem] text-[#D1D7E0]">
@@ -169,7 +169,7 @@ function ContinueWatching({ session }) {
                                 </div>
                             </div>
                             <span
-                                className={`absolute bottom-0 left-2 right-2 h-[1px] rounded-xl bg-red-600 z-20 `}
+                                className={`absolute bottom-0 left-2 right-2 h-[1px] rounded-xl bg-red-600 z-10 `}
                                 style={{
                                     width: `${(anime.timeWatched / anime.duration) * 95}%`,
                                 }}
