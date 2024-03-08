@@ -130,7 +130,7 @@ function ContinueWatching({ session }) {
                     <div key={anime?.aniId || anime?.id} className="flex flex-col gap-2 shrink-0 cursor-pointer relative group/item">
                         <Popover placement="bottom-end" offset={10} radius={"sm"}>
                             <PopoverTrigger>
-                                <button className="absolute bg-white py-1 rounded-md flex flex-col gap-1 z-20 top-2 right-2 transition-all duration-200 ease-out opacity-0 group-hover/item:opacity-100 scale-90 group-hover/item:scale-100 group-hover/item:visible invisible  shadow-md shadow-black/50 outline-none border-none">
+                                <button className="absolute bg-white py-1 rounded-md flex flex-col gap-1 z-20 top-2 right-2 transition-all duration-200 ease-out md:opacity-0 group-hover/item:opacity-100 scale-90 group-hover/item:scale-100 group-hover/item:visible visible opacity-100 md:invisible shadow-md shadow-black/50 outline-none border-none">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="black" className="w-[17px] h-[17px]">
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 12.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 18.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5Z" />
                                     </svg>

@@ -27,3 +27,11 @@ export function NotificationTime(createdAt) {
 
     return formattedRelativeTime;
 }
+
+export function formatTimeStamp(timestamp) {
+    const milliseconds = timestamp * 1000;
+    const date = new Date(milliseconds);
+    const options = { day: 'numeric', month: 'short', year: 'numeric' };
+    const formattedDate = date.toLocaleDateString('en-us', options);
+    return formattedDate;
+}

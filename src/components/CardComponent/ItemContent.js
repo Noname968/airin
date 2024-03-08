@@ -26,13 +26,13 @@ function ItemContent({ anime, cardid }) {
             )}
             <div className={`${styles.cardimgcontainer}`}>
                 <Image
-                    src={anime.coverImage || anime.image}
-                    alt={anime.title[animetitle] || anime.title.romaji}
+                    src={anime?.coverImage || anime?.image}
+                    alt={anime?.title[animetitle] || anime?.title?.romaji}
                     width={155}
                     height={230}
                     placeholder="blur"
                     loading='eager'
-                    blurDataURL={'https://wallpapercave.com/w/wp11913677' || anime.coverImage || anime.image}
+                    blurDataURL={'https://wallpapercave.com/wp/wp11913677.jpg' || anime.coverImage || anime.image}
                     className={`${styles.cardimage} opacity-0 transition-all duration-500`}
                     onLoad={(e) => e.target.classList.remove('opacity-0')}
                     // onLoad={() => setImageLoaded(true)}

@@ -2,12 +2,13 @@
 import React, { useState, useEffect } from 'react';
 import { Usernotifications } from '@/lib/AnilistUser';
 import Image from 'next/image';
-import { NotificationTime } from '@/utils/TimeFunctions';
+import { NotificationTime, formatTimeStamp } from '@/utils/TimeFunctions';
 import Skeleton from "react-loading-skeleton";
 import Link from "next/link";
 import { signIn } from 'next-auth/react';
 import { useTitle } from '@/lib/store';
 import { useStore } from 'zustand';
+
 
 function Notifications({ session }) {
     const [notifications, setNotifications] = useState([]);
@@ -35,13 +36,7 @@ function Notifications({ session }) {
         fetchData();
     }, [page]);
 
-    function formatTimeStamp(timestamp) {
-        const milliseconds = timestamp * 1000;
-        const date = new Date(milliseconds);
-        const options = { day: 'numeric', month: 'short', year: 'numeric' };
-        const formattedDate = date.toLocaleDateString('en-us', options);
-        return formattedDate;
-    }
+
 
     if (!session || !session.user) {
         return (

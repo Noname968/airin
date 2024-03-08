@@ -297,7 +297,7 @@ function Navbarcomponent({ home = false }) {
                                 <p className="font-semibold">{data?.user?.name}</p>
                             </DropdownItem>
                             <DropdownItem key="profile" startContent={<ProfileIcon className={iconClasses} />}>
-                            <Link href={`/profile`} className='w-full h-full block '>Profile</Link>
+                            <Link href={`/user/profile`} className='w-full h-full block '>Profile</Link>
                                 </DropdownItem>
                             <DropdownItem key="help_and_feedback" onPress={onOpen} startContent={<FeedbackIcon className={iconClasses} />}>Help & Feedback</DropdownItem>
                             <DropdownItem key="settings" startContent={<SettingsIcon className={iconClasses} />}>

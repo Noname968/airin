@@ -26,6 +26,7 @@ export const metadata = {
   description: APP_DESCRIPTION,
   keywords: [
     'anime',
+    'anilist-tracker',
     'trending anime',
     'watch anime subbed',
     'watch anime dubbed',
@@ -92,16 +93,16 @@ export default async function RootLayout({ children }) {
         <meta name="google-site-verification" content="9Cj5Gd0-OuGDtGb4HpRqNfBXy3FuFCcFNWSvTPOlTzE" />
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
         <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png" />
-        <script src="https://kit.fontawesome.com/c189d5d7c5.js" crossOrigin="anonymous" async></script>
+        <Script src="https://kit.fontawesome.com/c189d5d7c5.js" crossOrigin="anonymous" async></Script>
       </head>
       <body className={inter.className}>
         <Providers session={session}>
-        <Toaster richColors={true} closeButton={true} theme="dark" />
+          <Toaster richColors={true} closeButton={true} theme="dark" />
           {/* <NextTopLoader color="#CA1313" className="z-[99999]" /> */}
           <Search />
-          <Changelogs/>
+          <Changelogs />
           {children}
-          <FloatingButton/>
+          <FloatingButton />
           <GoToTop />
           <Footer />
         </Providers>
