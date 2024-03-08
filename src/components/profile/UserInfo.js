@@ -44,7 +44,7 @@ function UserInfo({ lists, session }) {
                             duration: 0.3,
                         }}
                     >
-                        <div className="mx-3 my-5 grid grid-cols-2 xs:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7 gap-2 sm:gap-3 lg:gap-4 !gap-y-8">
+                        <div className="mx-3 my-5 grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-4 md:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7 gap-2 sm:gap-3 lg:gap-4 !gap-y-8">
                             {activeTab &&
                                 activeTab.entries
                                     .slice() // Create a copy of the array to avoid mutating the original

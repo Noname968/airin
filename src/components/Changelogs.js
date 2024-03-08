@@ -8,7 +8,6 @@ const newVersion = "V2.1.4"
 const releaseLogs = [
     // {
     //     version: "V2.0.11",
-    //     highlights: true,
     //     changes: [
     //         "Added Changelog section",
     //         "Fixed: Save progress not working properly",
@@ -18,7 +17,6 @@ const releaseLogs = [
     // },
     // {
     //     version: "V2.0.12",
-    //     highlights: true,
     //     changes: [
     //         "Added Anilist Progress Tracking",
     //         "New Add to list option in info page",
@@ -30,7 +28,6 @@ const releaseLogs = [
     // },
     // {
     //     version: "V2.1.1",
-    //     highlights: true,
     //     changes: [
     //         "Added new provider gogobackup",
     //         "Major Performance Improvement",
@@ -41,7 +38,6 @@ const releaseLogs = [
     // },
     {
         version: "V2.1.4",
-        highlights: true,
         changes: [
             "Added Profile Page",
             "Will be adding Anilist wrapped to show more info",
