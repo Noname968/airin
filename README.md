@@ -111,11 +111,6 @@ Start the server
 
 ## Run using Docker
 
-Get the Dockerfile from the repo, cd to its download path and build the image:
-```bash
-cd <path_of_Dockerfile>
-docker build -t aniplay .
-```
 Get the .env.example file from the repo, edit it and then rename it to .env
 
 Move the .env file somewhere it won't bother you (optional)
@@ -126,7 +121,20 @@ docker run -d -it \
 --name Aniplay \
 -p 3000:3000 \
 -v <path_of_env_file>/.env:/home/node/app/.env \
-aniplay
+ghcr.io/luckyhv/aniplay:latest
+```
+
+For Docker Compose:
+```yaml
+version: "3.3"
+services:
+  aniplay:
+    container_name: Aniplay
+    ports:
+      - 3000:3000
+    volumes:
+      - <path_of_env_file>/.env:/home/node/app/.env
+    image: ghcr.io/luckyhv/aniplay:latest
 ```
 
 Access Aniplay at ``http://localhost:3000``
