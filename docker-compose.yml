@@ -1,0 +1,37 @@
+version: "3.3"
+services:
+  aniplay:
+    container_name: Aniplay
+    restart: always
+    ports:
+      - 3000:3000
+    image: ghcr.io/luckyhv/aniplay:latest
+    links:
+      - redis:redis
+      - consumet:consumet
+      - db:db
+    env_file:
+      - ./.env
+  redis:
+    image: redis:7.2.4-alpine
+    restart: always
+    command: redis-server --save 20 1 --loglevel warning
+    volumes:
+      - cache:/data
+  consumet:
+    image: riimuru/consumet-api
+    restart: always
+  db:
+    image: mongo:latest
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: somePass
+    volumes:
+      - db:/data
+volumes:
+  cache:
+    driver: local
+  db:
+    driver: local
+networks: {}
