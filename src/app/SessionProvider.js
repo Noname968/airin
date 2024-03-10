@@ -7,7 +7,6 @@ import { AppProgressBar as ProgressBar } from "next-nprogress-bar";
 import "react-loading-skeleton/dist/skeleton.css";
 import { SkeletonTheme } from "react-loading-skeleton";
 import { toast } from 'sonner';
-import { AnimatePresence, motion as m } from "framer-motion";
 
 export function AuthProvider({ children, session }) {
     const pathname = usePathname();
@@ -29,7 +28,6 @@ export function AuthProvider({ children, session }) {
 
     return (
         <SessionProvider session={session}>
-            <AnimatePresence>
                 <MotionDiv
                     key={pathname}
                     initial={{ opacity: 0, y: 0 }}
@@ -47,7 +45,6 @@ export function AuthProvider({ children, session }) {
                     // shallowRouting // by enabling this progressbar does not show on query params change
                     />
                 </MotionDiv>
-            </AnimatePresence>
         </SessionProvider>
     );
 }
