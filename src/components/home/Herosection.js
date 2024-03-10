@@ -83,9 +83,11 @@ function Herosection({ data }) {
         <h3 className={styles.spotlight}>#{data?.indexOf(populardata) + 1} Trending</h3>
         <h1 className={styles.herotitle}>{populardata?.title?.[animetitle] || populardata?.title?.romaji}</h1>
         <div className={styles.herocontent}>
-          <span><i className="fas fa-play-circle mr-1" aria-hidden></i>{populardata?.format}</span>
+          <span><i className="fas fa-play-circle mr-1" aria-hidden="true"></i>{populardata?.format}</span>
           <span className={`${populardata?.status === 'RELEASING' ? styles.activestatus : styles.notactive}`}>{populardata?.status}</span>
-          <span><i className="fas fa-calendar mr-1" aria-hidden></i>{Month[populardata?.startDate?.month]} {populardata?.startDate?.day}, {populardata?.startDate?.year}</span>
+          <span className='flex '><svg className="w-5 h-5 mr-1 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 10h16M8 14h8m-4-7V4M7 7V4m10 3V4M5 20h14c.6 0 1-.4 1-1V7c0-.6-.4-1-1-1H5a1 1 0 0 0-1 1v12c0 .6.4 1 1 1Z" />
+          </svg>{Month[populardata?.startDate?.month]} {populardata?.startDate?.day}, {populardata?.startDate?.year}</span>
           <span className={styles.herosub}><i className="fas fa-closed-captioning mr-1" aria-hidden></i>{populardata?.nextAiringEpisode?.episode - 1 || populardata?.episodes}</span>
         </div>
         <p className={styles.herodescription}>{populardata?.description.replace(/<.*?>/g, '')}</p>

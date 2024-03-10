@@ -42,7 +42,7 @@ Enjoy ad-free streaming and seamless progress tracking with AniList integration,
 - [ ] Add Scene Search in catalog page
 - [X] Add Anilist episode tracking
 - [ ] Complete Watch Page
-- [ ] Add Profile page.
+- [X] Add Profile page.
 - [ ] Add Manga Reading Support
     - [ ] Comick
     - [ ] Mangadex
