@@ -10,6 +10,7 @@ import ContinueWatching from '@/components/home/ContinueWatching'
 import RecentEpisodes from '@/components/home/RecentEpisodes'
 import { getAuthSession } from './api/auth/[...nextauth]/route'
 // import { getWatchHistory } from '@/lib/EpHistoryfunctions'
+import PageWrapper from './PageWrapper'
 
 async function Home() {
   const session = await getAuthSession();
@@ -20,14 +21,14 @@ async function Home() {
   // console.log(history)
 
   return (
-    <div>
+    <PageWrapper>
       <Navbarcomponent home={true} />
       <Herosection data={herodata} />
       <div className='sm:max-w-[97%] md:max-w-[95%] lg:max-w-[90%] xl:max-w-[85%] mx-auto flex flex-col md:gap-11 sm:gap-7 gap-5 mt-8'>
         <MotionDiv
           initial={{ y: 10, opacity: 0 }}
           whileInView={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.4 }}
           viewport={{ once: true }}
         >
           <Animecard data={herodata} cardid="Trending Now" />
@@ -35,7 +36,7 @@ async function Home() {
         <MotionDiv
           initial={{ y: 10, opacity: 0 }}
           whileInView={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.4 }}
           viewport={{ once: true }}
         >
           <RecentEpisodes cardid="Recent Episodes"/>
@@ -43,7 +44,7 @@ async function Home() {
         <MotionDiv
           initial={{ y: 10, opacity: 0 }}
           whileInView={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.4 }}
           viewport={{ once: true }}
         >
           <ContinueWatching session={session}/>
@@ -51,7 +52,7 @@ async function Home() {
         <MotionDiv
           initial={{ y: 10, opacity: 0 }}
           whileInView={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.4 }}
           viewport={{ once: true }}
         >
           <div className='lg:flex lg:flex-row justify-between lg:gap-20'>
@@ -60,7 +61,7 @@ async function Home() {
           </div>
         </MotionDiv>
       </div>
-    </div>
+    </PageWrapper>
   )
 }
 

@@ -145,7 +145,10 @@ function Search() {
                                                                     </p>
                                                                     <span className="my-1 text-xs text-gray-400">Episodes - {item?.episodes || item?.nextAiringEpisode?.episode - 1 || "?"}</span>
                                                                     <div className="flex items-center text-gray-400 text-xs">
-                                                                        <span><span className="fa fa-star"></span> {item.averageScore / 10 || "0"}</span>
+                                                                        <span className="flex gap-1">
+                                                                            <svg xmlns="http://www.w3.org/2000/svg" className="w-3 h-3 mt-[1pxd]" viewBox="0 0 1664 1600"><path fill="currentColor" d="M1664 615q0 22-26 48l-363 354l86 500q1 7 1 20q0 21-10.5 35.5T1321 1587q-19 0-40-12l-449-236l-449 236q-22 12-40 12q-21 0-31.5-14.5T301 1537q0-6 2-20l86-500L25 663Q0 636 0 615q0-37 56-46l502-73L783 41q19-41 49-41t49 41l225 455l502 73q56 9 56 46" /></svg>
+                                                                            {item.averageScore / 10 || "0"}
+                                                                        </span>
                                                                         <span className='mx-1 mb-[5px]'>.</span>
                                                                         <span>{item.format || item.type || "Na"}</span>
                                                                         <span className='mx-1 mb-[5px]'>.</span>

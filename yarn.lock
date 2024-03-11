@@ -1540,15 +1540,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@heroicons/react@npm:^2.1.1":
-  version: 2.1.1
-  resolution: "@heroicons/react@npm:2.1.1"
-  peerDependencies:
-    react: ">= 16"
-  checksum: 10c0/c85f76d4ccb5bdad9e6ffaa62bfdcde1c1f9ebaf3287908a7be0994c2d0f6151b9017f6e41d0a1ec9ba1eb1c53ab88f30704b0d25c72adc59896882b0a60147e
-  languageName: node
-  linkType: hard
-
 "@humanwhocodes/config-array@npm:^0.11.13":
   version: 0.11.14
   resolution: "@humanwhocodes/config-array@npm:0.11.14"
@@ -4719,7 +4710,6 @@ __metadata:
     "@auth/mongodb-adapter": "npm:^2.4.0"
     "@ducanh2912/next-pwa": "npm:^10.2.2"
     "@headlessui/react": "npm:^1.7.17"
-    "@heroicons/react": "npm:^2.1.1"
     "@next/bundle-analyzer": "npm:^14.1.0"
     "@nextui-org/react": "npm:^2.2.10"
     "@types/node": "npm:^20.11.16"
@@ -4741,7 +4731,6 @@ __metadata:
     postcss: "npm:^8"
     react: "npm:^18"
     react-dom: "npm:^18"
-    react-icons: "npm:^4.12.0"
     react-loading-skeleton: "npm:^3.4.0"
     react-use-draggable-scroll: "npm:^0.4.7"
     sonner: "npm:^1.4.0"
@@ -8648,15 +8637,6 @@ __metadata:
   peerDependencies:
     react: ^18.2.0
   checksum: 10c0/66dfc5f93e13d0674e78ef41f92ed21dfb80f9c4ac4ac25a4b51046d41d4d2186abc915b897f69d3d0ebbffe6184e7c5876f2af26bfa956f179225d921be713a
-  languageName: node
-  linkType: hard
-
-"react-icons@npm:^4.12.0":
-  version: 4.12.0
-  resolution: "react-icons@npm:4.12.0"
-  peerDependencies:
-    react: "*"
-  checksum: 10c0/2170f43031ee7365539f72d4075cbe6c7fbf9a66d6cf4494aa9393b194272da0564f5b19d1b24dbfc567c0ac89f5fe5b8974d92dd83f61e252388dde6a226fb8
   languageName: node
   linkType: hard
 

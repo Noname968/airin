@@ -99,6 +99,8 @@
     background-color: #4d148c;
     border-radius: 30px;
     font-weight: 500;
+    display: flex;
+    align-items: center;
 }
 
 .detailsbutton {

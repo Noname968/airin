@@ -4,11 +4,10 @@ import styles from '../../styles/Catalog.module.css';
 import { Accordion, AccordionItem, Select, SelectItem, RadioGroup, Radio, Input } from "@nextui-org/react";
 import { seasonOptions, genreOptions, tagsOptions, formatOptions, yearOptions, sortbyOptions, airingOptions } from './options';
 import { Combobox, Transition } from '@headlessui/react'
-import { CheckIcon, ChevronDownIcon } from "@heroicons/react/20/solid";
 import Searchcard from './Searchcard';
 
-function Catalog({searchParams}) {
-    const { year, season, format, genre, search, sortby} = searchParams;
+function Catalog({ searchParams }) {
+    const { year, season, format, genre, search, sortby } = searchParams;
     const [selectedYear, setSelectedYear] = useState(null);
     const [seasonvalue, setSeasonvalue] = useState(null);
     const [formatvalue, setFormatvalue] = useState(null);
@@ -131,10 +130,7 @@ function Catalog({searchParams}) {
                                         autoComplete="off"
                                     />
                                     <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">
-                                        <ChevronDownIcon
-                                            className="h-5 w-5 text-gray-400"
-                                            aria-hidden="true"
-                                        />
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon" className="h-5 w-5 text-gray-400"><path fillRule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clipRule="evenodd"></path></svg>
                                     </Combobox.Button>
                                 </div>
                                 <Transition
@@ -175,7 +171,7 @@ function Catalog({searchParams}) {
                                                                         className={`absolute inset-y-0 right-4 flex items-center pl-3 ${active ? 'text-white' : ''
                                                                             }`}
                                                                     >
-                                                                        <CheckIcon className="h-5 w-5" aria-hidden="true" />
+                                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon" className="h-5 w-5"><path fillRule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clipRule="evenodd"></path></svg>
                                                                     </span>
                                                                 ) : null}
                                                             </>
@@ -204,7 +200,7 @@ function Catalog({searchParams}) {
                                                                         className={`absolute inset-y-0 right-4 flex items-center pl-3 ${active ? 'text-white' : ''
                                                                             }`}
                                                                     >
-                                                                        <CheckIcon className="h-5 w-5" aria-hidden="true" />
+                                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon" className="h-5 w-5"><path fillRule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clipRule="evenodd"></path></svg>
                                                                     </span>
                                                                 ) : null}
                                                             </>

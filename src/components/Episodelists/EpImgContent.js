@@ -32,7 +32,7 @@ function EpImgContent({ data, epdata, defaultProvider, subtype, epnum }) {
             <Image src={episode?.img || episode?.image || data?.bannerImage || data?.coverImage.extraLarge} alt={episode?.title} width={200} height={200} className={styles.epimgcon} quality={100} />
             {parseInt(epnum) === episode.number && (
                 <div className={styles.epimgplayico}>
-                  <i className={`fa-solid fa-play fa-xl play-buttonicon ${styles.play}`} style={{ color: "#ffffff" }}></i>
+                  <svg xmlns="http://www.w3.org/2000/svg" className={`play-buttonicon w-7 h-7 ${styles.play}`} viewBox="0 0 24 24"><path fill="currentColor" d="M21.409 9.353a2.998 2.998 0 0 1 0 5.294L8.597 21.614C6.534 22.737 4 21.277 4 18.968V5.033c0-2.31 2.534-3.769 4.597-2.648z"/></svg>
                 </div>
               )}
           <span className={styles.epimgnumber}>{"EP " + episode?.number}</span>
