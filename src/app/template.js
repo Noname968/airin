@@ -3,7 +3,7 @@ import React from 'react';
 import { usePathname } from 'next/navigation';
 import { motion } from "framer-motion";
 
-export default function PageWrapper({children}){
+export default function Template({children}){
     let pathname = usePathname();
 
     return(
@@ -14,7 +14,7 @@ export default function PageWrapper({children}){
                     initial={{ opacity: 0, y: 0 }}
                     animate={{ opacity: 1, y: 0 }}
                     // exit={{ opacity: 0, y: 0 }}
-                    transition={{ delay: 0.05 }}
+                    // transition={{ delay: 0.05 }}
                 >
                     {/* Completing page exit animation and load new page */}
                         {children}
