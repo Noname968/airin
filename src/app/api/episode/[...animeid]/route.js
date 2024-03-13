@@ -10,9 +10,9 @@ axios.interceptors.request.use(config => {
 
 async function MalSync(idMal) {
   try {
-    const response = await fetch(`https://api.malsync.moe/mal/anime/${idMal}`);
+    const response = await axios.get(`https://api.malsync.moe/mal/anime/${idMal}`);
 
-    const data = await response.json();
+    const data = response.data;
     const sites = Object.keys(data.Sites).map(providerId => ({ providerId: providerId.toLowerCase(), data: Object.values(data.Sites[providerId]) }));
     const newdata = sites.filter(site => site.providerId === 'gogoanime' || site.providerId === 'zoro');
     const finaldata = [];
