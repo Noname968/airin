@@ -561,3 +561,66 @@ mutation (
   }
 }
 `
+
+export const userprofile = `
+query ($username: String, $status: MediaListStatus) {
+  MediaListCollection(userName: $username, type: ANIME, status: $status, sort: SCORE_DESC) {
+    user {
+      id
+      name
+      about (asHtml: true)
+      createdAt
+      avatar {
+          large
+      }
+      statistics {
+        anime {
+            count
+            episodesWatched
+            minutesWatched
+            meanScore
+        }
+    }
+      bannerImage
+    }
+    lists {
+      status
+      name
+      entries {
+        id
+        mediaId
+        status
+      score
+      progress
+      repeat
+      notes
+      startedAt{
+        year 
+        month
+        day
+      }
+      completedAt{
+        year 
+        month
+        day
+      }
+        updatedAt
+        media {
+          id
+          status
+          format
+          title {
+            english
+            romaji
+          }
+          episodes
+          bannerImage
+          coverImage {
+            extraLarge
+          }
+        }
+      }
+    }
+  }
+}
+`

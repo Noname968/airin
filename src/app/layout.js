@@ -1,19 +1,20 @@
 import { Inter } from 'next/font/google'
 import './globals.css'
-import { Providers } from "./providers";
+import { NextUiProvider } from "./NextUiProvider";
 // import NextTopLoader from 'nextjs-toploader';
 import Search from '@/components/search/Search'
 import GoToTop from '@/components/GoToTop';
-import localFont from 'next/font/local';
+// import localFont from 'next/font/local';
 import Footer from '@/components/Footer';
 import Script from "next/script";
 import { getAuthSession } from './api/auth/[...nextauth]/route';
 import { Toaster } from 'sonner'
 import Changelogs from '../components/Changelogs';
-import FloatingButton from '@/components/FloatingButton'
+import FloatingButton from '@/components/FloatingButton';
+import { AuthProvider } from './SessionProvider';
 
 const inter = Inter({ subsets: ['latin'] })
-const myfont = localFont({ src: "../static-fonts/28 Days Later.ttf" })
+// const myfont = localFont({ src: "../static-fonts/28 Days Later.ttf" })
 
 const APP_NAME = "Aniplay";
 const APP_DEFAULT_TITLE = "Aniplay - Watch Anime Online";
@@ -26,6 +27,7 @@ export const metadata = {
   description: APP_DESCRIPTION,
   keywords: [
     'anime',
+    'anilist-tracker',
     'trending anime',
     'watch anime subbed',
     'watch anime dubbed',
@@ -75,7 +77,7 @@ export default async function RootLayout({ children }) {
   const session = await getAuthSession();
 
   return (
-    <html lang="en" className='dark text-foreground bg-background'>
+    <html lang="en" className='dark text-foreground bg-background' suppressHydrationWarning={true}>
       <Script
         src="https://www.googletagmanager.com/gtag/js?id=G-W661D2QCV3"
         strategy="afterInteractive"
@@ -92,19 +94,21 @@ export default async function RootLayout({ children }) {
         <meta name="google-site-verification" content="9Cj5Gd0-OuGDtGb4HpRqNfBXy3FuFCcFNWSvTPOlTzE" />
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
         <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png" />
-        <script src="https://kit.fontawesome.com/c189d5d7c5.js" crossOrigin="anonymous" async></script>
+        {/* <script src="https://kit.fontawesome.com/c189d5d7c5.js" crossOrigin="anonymous" async></script> */}
       </head>
       <body className={inter.className}>
-        <Providers session={session}>
+        <AuthProvider>
+          <NextUiProvider session={session}>
+            {children}
+          </NextUiProvider>
+        </AuthProvider>
+        {/* <NextTopLoader color="#CA1313" className="z-[99999]" /> */}
         <Toaster richColors={true} closeButton={true} theme="dark" />
-          {/* <NextTopLoader color="#CA1313" className="z-[99999]" /> */}
-          <Search />
-          <Changelogs/>
-          {children}
-          <FloatingButton/>
-          <GoToTop />
-          <Footer />
-        </Providers>
+        <Search />
+        <Changelogs />
+        <FloatingButton session={session} />
+        <GoToTop />
+        <Footer />
       </body>
     </html>
   )

@@ -3,12 +3,11 @@ import React, { useEffect, useState } from "react";
 import { Modal, ModalContent, ModalBody, ModalFooter, Button, useDisclosure } from "@nextui-org/react";
 import Link from "next/link";
 
-const newVersion = "V2.1.1"
+const newVersion = "V2.1.4"
 
 const releaseLogs = [
     // {
     //     version: "V2.0.11",
-    //     highlights: true,
     //     changes: [
     //         "Added Changelog section",
     //         "Fixed: Save progress not working properly",
@@ -18,7 +17,6 @@ const releaseLogs = [
     // },
     // {
     //     version: "V2.0.12",
-    //     highlights: true,
     //     changes: [
     //         "Added Anilist Progress Tracking",
     //         "New Add to list option in info page",
@@ -28,14 +26,22 @@ const releaseLogs = [
     //         "View Github for more information",
     //     ],
     // },
+    // {
+    //     version: "V2.1.1",
+    //     changes: [
+    //         "Added new provider gogobackup",
+    //         "Major Performance Improvement",
+    //         "Fixed: episode section and gogoanime Provider",
+    //         "Fixed: Autoskip feature",
+    //         "View Github for more information",
+    //     ],
+    // },
     {
-        version: "V2.1.1",
-        highlights: true,
+        version: "V2.1.4",
         changes: [
-            "Added new provider gogobackup",
-            "Major Performance Improvement",
-            "Fixed: episode section and gogoanime Provider",
-            "Fixed: Autoskip feature",
+            "Added Profile Page",
+            "Will be adding Anilist wrapped to show more info",
+            "Now Continue watching can be deleted on mobile also (for now)",
             "View Github for more information",
         ],
     },

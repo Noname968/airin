@@ -1,4 +1,4 @@
-import { notifications, playeranimeinfo, userlists } from "./anilistqueries";
+import { notifications, playeranimeinfo, userlists, userprofile } from "./anilistqueries";
 import { toast } from 'sonner';
 
 const GraphQlClient = async (token, query, variables) => {
@@ -97,4 +97,9 @@ export const saveProgress = async (token, id, progress) => {
     console.log("An error occurred while updating list");
     toast.error("An error occurred while updating list");
   }
+}
+
+export const UserProfile = async (token, username) => {
+    const res = await GraphQlClient(token, userprofile, { username });
+    return res.data.MediaListCollection;
 }

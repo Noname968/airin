@@ -42,7 +42,7 @@ Enjoy ad-free streaming and seamless progress tracking with AniList integration,
 - [ ] Add Scene Search in catalog page
 - [X] Add Anilist episode tracking
 - [ ] Complete Watch Page
-- [ ] Add Profile page.
+- [X] Add Profile page.
 - [ ] Add Manga Reading Support
     - [ ] Comick
     - [ ] Mangadex
@@ -108,6 +108,39 @@ Start the server
 ```bash
   npm run dev
 ```
+
+## Run using Docker
+
+Get the .env.example file from the repo, edit it and then rename it to .env
+
+Move the .env file somewhere it won't bother you (optional)
+
+Run the image:
+```bash
+docker run -d -it \
+--name Aniplay \
+-p 3000:3000 \
+-v <path_of_env_file>/.env:/home/node/app/.env \
+ghcr.io/luckyhv/aniplay:latest
+```
+
+For Docker Compose:
+```yaml
+version: "3.3"
+services:
+  aniplay:
+    container_name: Aniplay
+    ports:
+      - 3000:3000
+    volumes:
+      - <path_of_env_file>/.env:/home/node/app/.env
+    image: ghcr.io/luckyhv/aniplay:latest
+```
+
+For at full stack deploy (db, redis, consumet api)
+See [docker-compose.yml](https://github.com/Luckyhv/aniplay/blob/master/docker-compose.yml)
+
+Access Aniplay at ``http://localhost:3000``
 
 <!-- CONTRIBUTING -->
 ## Contributing

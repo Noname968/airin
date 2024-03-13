@@ -74,9 +74,15 @@ async function fetchEpisodeImages(id, available = false) {
     if (!data) {
       return [];
     }
-
     const metadata = data?.find((i) => i.providerId === "tvdb") || data[0];
     return metadata?.data;
+    // const data = await axios.get(`https://api.ani.zip/mappings?anilist_id=${id}`);
+    // const episodesArray = Object.values(data.data.episodes);
+
+    // if(!episodesArray){
+    //   return [];
+    // }
+    // return episodesArray
 
   } catch (error) {
     console.error("Error fetching and processing meta:", error.message);
@@ -99,7 +105,6 @@ const fetchAndCacheData = async (id, meta, redis, cacheTime, refresh) => {
 
     const combinedData = [...consumet, ...anify];
     let data = combinedData;
-
     if(refresh){
       if (cover && cover?.length > 0) {
         try {

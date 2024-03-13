@@ -19,7 +19,7 @@ function EpImageList({ data, epdata, defaultProvider, subtype }) {
             <Image src={episode?.img || episode?.image || data?.bannerImage || data?.coverImage.extraLarge} width={200} height={200} alt={episode?.title} className="bg-[#18181b] h-full w-full object-cover aspect-w-16 aspect-h-9 rounded-lg transition-all duration-300 transform group-hover:scale-105 group-hover:opacity-60" quality={100} />
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="hidden group-hover:flex items-center justify-center opacity-0 bg-white bg-opacity-40 hover:bg-[#4d148c] rounded-full shadow group-hover:opacity-90 w-12 h-12">
-                <i className="fa-solid fa-play fa-lg play-buttonicon ml-[3px] mt-[2px]" style={{ color: "#ffffff" }}></i>
+                <svg xmlns="http://www.w3.org/2000/svg" className='play-buttonicon w-5 h-5' viewBox="0 0 24 24"><path fill="currentColor" d="M21.409 9.353a2.998 2.998 0 0 1 0 5.294L8.597 21.614C6.534 22.737 4 21.277 4 18.968V5.033c0-2.31 2.534-3.769 4.597-2.648z"/></svg>
               </div>
             </div>
           </div>

@@ -4,7 +4,7 @@ export async function CombineEpisodeMeta(episodeData, imageData) {
   imageData.forEach((image) => {
     episodeImages[image.number || image.episode] = image;
   });
-
+  
   for (const providerEpisodes of episodeData) {
     const episodesArray = Array.isArray(providerEpisodes.episodes)
       ? providerEpisodes.episodes
@@ -14,7 +14,9 @@ export async function CombineEpisodeMeta(episodeData, imageData) {
       const episodeNum = episode.number;
 
       if (episodeImages[episodeNum]) {
-        const { img, title, description } = episodeImages[episodeNum];
+        const img = episodeImages[episodeNum].img || episodeImages[episodeNum].image;
+        const title = episodeImages[episodeNum]?.title?.en || episodeImages[episodeNum].title;
+        const description = episodeImages[episodeNum].description || episodeImages[episodeNum].overview || episodeImages[episodeNum].summary;
         Object.assign(episode, { img, title, description });
       }
     }

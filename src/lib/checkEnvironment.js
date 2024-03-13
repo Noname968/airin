@@ -4,6 +4,7 @@ export const checkEnvironment = () => {
         ? process.env.NEXT_PUBLIC_DEV_URL
         : process.env.NEXT_PUBLIC_PRODUCTION_URL
         ;
-  
+
+    if (!base_url) base_url = window.location.origin;
     return base_url;
   };

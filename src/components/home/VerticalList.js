@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from '../../styles/VerticalList.module.css';
 import Link from 'next/link';
-import Image from 'next/image'
+// import Image from 'next/image';
 import { useTitle } from '@/lib/store';
 import { useStore } from 'zustand';
 

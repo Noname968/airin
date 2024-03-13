@@ -3,11 +3,10 @@ import React from 'react'
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button } from "@nextui-org/react";
 import Link from 'next/link';
 import { CatalogIcon, LoginIcon, SettingsIcon, LogoutIcon } from '@/lib/SvgIcons';
-import { useSession, signIn, signOut } from 'next-auth/react';
+import { signIn, signOut } from 'next-auth/react';
 
-function FloatingButton() {
+function FloatingButton({session}) {
     const iconClasses = "w-5 h-5 text-xl text-default-500 pointer-events-none flex-shrink-0";
-    const { status } = useSession();
 
     return (
         <Dropdown backdrop="blur" placement="bottom-end" classNames={{
@@ -32,7 +31,7 @@ function FloatingButton() {
                 <DropdownItem key="settings" startContent={<SettingsIcon className={iconClasses} />}>
                     <Link href={`/settings`} className='w-full h-full block '>Settings</Link>
                 </DropdownItem>
-                {status === 'authenticated' ? (
+                {session ? (
                     <DropdownItem key="logout" color="danger" startContent={<LogoutIcon className={iconClasses} />}>
                         <button className="font-semibold outline-none border-none w-full h-full block text-left" onClick={() => signOut('AniListProvider')}>Log Out</button>
                     </DropdownItem>
