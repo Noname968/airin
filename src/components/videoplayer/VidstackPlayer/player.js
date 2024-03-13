@@ -30,7 +30,7 @@ function Player({ dataInfo, id, groupedEp, sources, session, savedep, subtitles,
   const { previousep, currentep, nextep } = groupedEp;
   const [getVideoProgress, UpdateVideoProgress] = VideoProgressSave();
   const router = useRouter();
-  const src = sources?.find(i => i.quality === "default" || i.quality === "auto")?.url || sources?.find(i => i.quality === "1080p")?.url;
+  const src = sources?.find(i => i.quality === "default" || i.quality === "auto")?.url || sources?.find(i => i.quality === "1080p")?.url || sources?.find(i => i.type === "hls")?.url;
 
   const playerRef = useRef(null);
   const { duration } = useMediaStore(playerRef);
@@ -251,7 +251,7 @@ function Player({ dataInfo, id, groupedEp, sources, session, savedep, subtitles,
       {edbutton && <button onClick={handleed} className='absolute bottom-[70px] sm:bottom-[83px] right-4 z-[40] bg-white text-black py-2 px-3 rounded-[6px] font-medium text-[15px]'>Skip Ending</button>}
       <VideoLayout
         subtitles={subtitles}
-        thumbnails={thumbnails ? process.env.NEXT_PUBLIC_PROXY_URI + thumbnails[0]?.url : ""}
+        thumbnails={thumbnails ? process.env.NEXT_PUBLIC_PROXY_URI + '/' + thumbnails[0]?.src : ""}
         groupedEp={groupedEp}
       />
       <DefaultVideoKeyboardActionDisplay

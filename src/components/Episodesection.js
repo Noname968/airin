@@ -54,7 +54,7 @@ function Episodesection({ data, id, progress, setUrl }) {
   useEffect(() => {
     const fetchepisodes = async () => {
       try {
-        const response = await getEpisodes(id, data?.status === "RELEASING", false);
+        const response = await getEpisodes(id, data?.idMal, data?.status === "RELEASING", false);
         if (response) {
           const { subProviders, dubProviders } = ProvidersMap(response, defaultProvider, setdefaultProvider);
           setSubProviders(subProviders);
@@ -125,7 +125,7 @@ function Episodesection({ data, id, progress, setUrl }) {
   const refreshEpisodes = async () => {
     setRefreshLoading(true);
     try {
-      const response = await getEpisodes(id, data?.status === "RELEASING", true);
+      const response = await getEpisodes(id, data?.idMal, data?.status === "RELEASING", true);
       if (response) {
         const { subProviders, dubProviders } = ProvidersMap(response, defaultProvider, setdefaultProvider);
         setSubProviders(subProviders);

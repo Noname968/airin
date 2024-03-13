@@ -35,15 +35,15 @@ function PlayerComponent({ id, epId, provider, epNum, subdub, data, session, sav
                 setSources(response?.sources);
                 const download = response?.download
 
-                const reFormSubtitles = response?.subtitles?.map((i) => ({
-                    src: process.env.NEXT_PUBLIC_PROXY_URI+i.url,
-                    label: i.lang,
-                    kind: i.lang === "Thumbnails" ? "thumbnails" : "subtitles",
-                    ...(i.lang === "English" && { default: true }),
+                const reFormSubtitles = response?.tracks?.map((i) => ({
+                    src: i.file,
+                    label: i.label,
+                    kind: i.kind,
+                    default: i?.default,
                 }));
 
                 setSubtitles(reFormSubtitles?.filter((s) => s.kind !== 'thumbnails'));
-                setThumbnails(response?.subtitles?.filter((s) => s.lang === 'Thumbnails'));
+                setThumbnails(reFormSubtitles?.filter((s) => s.kind === 'thumbnails'));
 
                 const skipResponse = await fetch(
                     `https://api.aniskip.com/v2/skip-times/${data?.idMal}/${parseInt(epNum)}?types[]=ed&types[]=mixed-ed&types[]=mixed-op&types[]=op&types[]=recap&episodeLength=`

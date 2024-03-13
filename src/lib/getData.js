@@ -15,10 +15,10 @@ export const getRecentEpisodes = async () => {
   }
 }
 
-export const getEpisodes = async (id, status, refresh = false) => {
+export const getEpisodes = async (id, idMal, status, refresh = false) => {
   try {
     const response = await fetch(
-      `${checkEnvironment()}/api/episode/${id}?releasing=${status === "RELEASING" ? "true" : "false"}&refresh=${refresh}`,{ next: { revalidate: status === "FINISHED" ? false : 3600 } }
+      `${checkEnvironment()}/api/episode/${id}?idMal=${idMal}&releasing=${status === "RELEASING" ? "true" : "false"}&refresh=${refresh}`,{ next: { revalidate: status === "FINISHED" ? false : 3600 } }
     );
     if (!response.ok) {
       throw new Error('Failed to fetch episodes')
@@ -35,8 +35,8 @@ export const getSources = async (id, provider, epid, epnum, subdub) => {
     const response = await fetch(`${checkEnvironment()}/api/source/${id}`,{
       method: 'POST',
       body: JSON.stringify({
-        source : provider === 'gogoanime' || provider === 'gogobackup' ? 'consumet' : 'anify',
-        provider: `${provider === "gogobackup" ? 'gogoanime' : provider}`,
+        source : provider === 'gogoanime' ? 'consumet' : 'zoro',
+        provider: provider,
         episodeid: epid,
         episodenum: epnum,
         subtype: subdub

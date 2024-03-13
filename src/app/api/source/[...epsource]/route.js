@@ -14,13 +14,16 @@ async function consumetEpisode(id) {
     }
   }
 
-async function anifyEpisode(provider, episodeid, epnum, id, subtype) {
+async function zoroEpisode(provider, episodeid, epnum, id, subtype) {
     try {
-      const { data } = await axios.get(
-        `https://api.anify.tv/sources?providerId=${provider}&watchId=${encodeURIComponent(
-          episodeid
-        )}&episodeNumber=${epnum}&id=${id}&subType=${subtype}`
-      );
+      // const { data } = await axios.get(
+      //   `https://api.anify.tv/sources?providerId=${provider}&watchId=${encodeURIComponent(
+      //     episodeid
+      //   )}&episodeNumber=${epnum}&id=${id}&subType=${subtype}`
+      // );
+      const { data } = await axios.get(`${process.env.ZORO_URI}/anime/episode-srcs?id=${episodeid}&server=vidstreaming&category=${subtype}`);
+
+      console.log(data);
       return data;
     } catch (error) {
       console.error(error);
@@ -51,8 +54,8 @@ export const POST = async (req,{params}) => {
       return NextResponse.json(data);
     }
 
-    if (source === "anify") {
-      const data = await anifyEpisode(provider, episodeid, episodenum, id, subtype);
+    if (source === "zoro") {
+      const data = await zoroEpisode(provider, episodeid, episodenum, id, subtype);
       return NextResponse.json(data);
     }
 }
