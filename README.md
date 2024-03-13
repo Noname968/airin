@@ -120,7 +120,7 @@ Run the image:
 docker run -d -it \
 --name Aniplay \
 -p 3000:3000 \
--v <path_of_env_file>/.env:/home/node/app/.env \
+-v <path_of_env_file>/.env:/usr/src/app/.env \
 ghcr.io/luckyhv/aniplay:latest
 ```
 
@@ -133,7 +133,7 @@ services:
     ports:
       - 3000:3000
     volumes:
-      - <path_of_env_file>/.env:/home/node/app/.env
+      - <path_of_env_file>/.env:/usr/src/app/.env
     image: ghcr.io/luckyhv/aniplay:latest
 ```
 
