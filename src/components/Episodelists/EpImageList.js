@@ -10,9 +10,9 @@ function EpImageList({ data, epdata, defaultProvider, subtype }) {
       {epdata?.map((episode) => (
         <Link
           href={`/anime/watch?id=${data?.id}&host=${defaultProvider}&epid=${encodeURIComponent(
-            episode?.id
+            episode?.id || episode?.episodeId
           )}&ep=${episode?.number}&type=${subtype}`}
-          key={episode?.id}
+          key={episode?.id || episode?.episodeId}
           className='relative group'
         >
           <div className='relative w-full flex-1 rounded-lg overflow-hidden bg-[#18181b] aspect-video'>

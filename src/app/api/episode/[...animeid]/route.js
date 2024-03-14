@@ -28,7 +28,6 @@ async function MalSync(idMal) {
         finaldata.push({ providerId, sub: sub || '' });
       }
     });
-    console.log(newdata)
     return finaldata;
   } catch (error) {
     console.error('Error fetching data from Malsync:', error);
@@ -45,12 +44,12 @@ async function fetchConsumetEpisodes(sub, dub) {
       if (data?.message === "Anime not found" && data?.episodes?.length < 1) {
         return [];
       }
-      return data.episodes;
+      return data?.episodes;
     }
 
     const [subData, dubData] = await Promise.all([
       sub !== "" ? fetchData(sub) : Promise.resolve([]),
-      dub !== "" ? fetchData(fetchData(dub)) : Promise.resolve([]),
+      dub !== "" ? fetchData(dub) : Promise.resolve([]),
     ]);
 
     const array = [
@@ -58,8 +57,8 @@ async function fetchConsumetEpisodes(sub, dub) {
         consumet: true,
         providerId: "gogoanime",
         episodes: {
-          sub: subData,
-          dub: dubData,
+          ...(subData && subData.length > 0 && { sub: subData }),
+          ...(dubData && dubData.length > 0 && { dub: dubData }),
         },
       },
     ];
@@ -121,14 +120,20 @@ const fetchAndCacheData = async (id, idMal, meta, redis, cacheTime, refresh) => 
   const malsync = await MalSync(idMal);
   console.log(malsync)
   const promises = [];
+  const gogop = malsync.find((i)=>i.providerId === 'gogoanime');
+  const zorop = malsync.find((i)=>i.providerId === 'zoro');
 
-  malsync.forEach(obj => {
-    if (obj.providerId === 'gogoanime') {
-      promises.push(fetchConsumetEpisodes(obj.sub, obj.dub));
-    } else if (obj.providerId === 'zoro') {
-      promises.push(fetchZoroEpisodes(obj.sub));
-    }
-  });
+  if(gogop){
+    promises.push(fetchConsumetEpisodes(gogop.sub, gogop.dub));
+  } else{
+    promises.push(Promise.resolve([]));
+  }
+
+  if(zorop){
+    promises.push(fetchZoroEpisodes(zorop.sub));
+  } else{
+    promises.push(Promise.resolve([]));
+  }
   promises.push(fetchEpisodeImages(id, !refresh));
 
   const [consumet, zoro, cover] = await Promise.all(promises);

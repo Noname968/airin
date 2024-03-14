@@ -22,7 +22,7 @@ import { useSettings, useTitle, useNowPlaying } from '@/lib/store';
 import { useStore } from "zustand";
 import { toast } from 'sonner';
 
-function Player({ dataInfo, id, groupedEp, sources, session, savedep, subtitles, thumbnails, skiptimes }) {
+function Player({ dataInfo, id, groupedEp, src, session, savedep, subtitles, thumbnails, skiptimes }) {
   const settings = useStore(useSettings, (state) => state.settings);
   const animetitle = useStore(useTitle, (state) => state.animetitle);
   const nowPlaying = useStore(useNowPlaying, (state) => state.nowPlaying);
@@ -30,7 +30,6 @@ function Player({ dataInfo, id, groupedEp, sources, session, savedep, subtitles,
   const { previousep, currentep, nextep } = groupedEp;
   const [getVideoProgress, UpdateVideoProgress] = VideoProgressSave();
   const router = useRouter();
-  const src = sources?.find(i => i.quality === "default" || i.quality === "auto")?.url || sources?.find(i => i.quality === "1080p")?.url || sources?.find(i => i.type === "hls")?.url;
 
   const playerRef = useRef(null);
   const { duration } = useMediaStore(playerRef);
@@ -98,7 +97,7 @@ function Player({ dataInfo, id, groupedEp, sources, session, savedep, subtitles,
     if (!nextep?.id) return;
     if (settings?.autonext) {
       router.push(
-        `/anime/watch?id=${dataInfo?.id}&host=${provider}&epid=${nextep?.id}&ep=${nextep?.number}&type=${subtype}`
+        `/anime/watch?id=${dataInfo?.id}&host=${provider}&epid=${nextep?.id || nextep?.episodeId}&ep=${nextep?.number}&type=${subtype}`
       );
     }
   }
@@ -148,7 +147,7 @@ function Player({ dataInfo, id, groupedEp, sources, session, savedep, subtitles,
           timeWatched: currentTime,
           duration: duration,
           provider: provider,
-          nextepId: nextep?.id || null,
+          nextepId: nextep?.id || nextep?.episodeId || null,
           nextepNum: nextep?.number || null,
           subtype: subtype,
           createdAt: new Date().toISOString(),
@@ -224,7 +223,7 @@ function Player({ dataInfo, id, groupedEp, sources, session, savedep, subtitles,
 
 
   return (
-    <MediaPlayer key={sources} ref={playerRef} playsInline aspectRatio={16 / 9} load={settings?.load || 'idle'} muted={settings?.audio || false}
+    <MediaPlayer key={src} ref={playerRef} playsInline aspectRatio={16 / 9} load={settings?.load || 'idle'} muted={settings?.audio || false}
       autoPlay={settings?.autoplay || false}
       title={currentep?.title || `EP ${epNum}` || 'Loading...'}
       className={`${styles.player} player relative`}

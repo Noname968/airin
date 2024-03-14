@@ -16,14 +16,7 @@ async function consumetEpisode(id) {
 
 async function zoroEpisode(provider, episodeid, epnum, id, subtype) {
     try {
-      // const { data } = await axios.get(
-      //   `https://api.anify.tv/sources?providerId=${provider}&watchId=${encodeURIComponent(
-      //     episodeid
-      //   )}&episodeNumber=${epnum}&id=${id}&subType=${subtype}`
-      // );
       const { data } = await axios.get(`${process.env.ZORO_URI}/anime/episode-srcs?id=${episodeid}&server=vidstreaming&category=${subtype}`);
-
-      console.log(data);
       return data;
     } catch (error) {
       console.error(error);

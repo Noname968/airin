@@ -97,8 +97,8 @@ export default async function RootLayout({ children }) {
         {/* <script src="https://kit.fontawesome.com/c189d5d7c5.js" crossOrigin="anonymous" async></script> */}
       </head>
       <body className={inter.className}>
-        <AuthProvider>
-          <NextUiProvider session={session}>
+        <AuthProvider session={session}>
+          <NextUiProvider>
             {children}
           </NextUiProvider>
         </AuthProvider>

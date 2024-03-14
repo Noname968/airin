@@ -129,7 +129,7 @@ export function NextEpisode({
   const dataInfo = useStore(useDataInfo, (state) => state.dataInfo);
   function handleNext() {
     router.push(
-      `/anime/watch?id=${dataInfo?.id}&host=${nowPlaying?.provider}&epid=${groupedEp?.nextep?.id}&ep=${groupedEp?.nextep?.number}&type=${nowPlaying?.subtype}`
+      `/anime/watch?id=${dataInfo?.id}&host=${nowPlaying?.provider}&epid=${groupedEp?.nextep?.id || groupedEp?.nextep?.episodeId}&ep=${groupedEp?.nextep?.number}&type=${nowPlaying?.subtype}`
     );
   }
 
@@ -167,7 +167,7 @@ export function PreviousEpisode({
   const dataInfo = useStore(useDataInfo, (state) => state.dataInfo);
   function handlePrev() {
     router.push(
-      `/anime/watch?id=${dataInfo?.id}&host=${nowPlaying?.provider}&epid=${groupedEp?.previousep?.id}&ep=${groupedEp?.previousep?.number}&type=${nowPlaying?.subtype}`
+      `/anime/watch?id=${dataInfo?.id}&host=${nowPlaying?.provider}&epid=${groupedEp?.previousep?.id || groupedEp?.previousep?.episodeId}&ep=${groupedEp?.previousep?.number}&type=${nowPlaying?.subtype}`
     );
   }
 
@@ -311,7 +311,7 @@ export function PlayNextButton({
       onClick={() => {
         if (groupedEp?.nextep) {
           router.push(
-            `/anime/watch?id=${dataInfo?.id}&host=${nowPlaying?.provider}&epid=${groupedEp?.nextep?.id}&ep=${groupedEp?.nextep?.number}&type=${nowPlaying?.subtype}`
+            `/anime/watch?id=${dataInfo?.id}&host=${nowPlaying?.provider}&epid=${groupedEp?.nextep?.id || groupedEp?.nextep?.episodeId}&ep=${groupedEp?.nextep?.number}&type=${nowPlaying?.subtype}`
           );
         }
       }}
