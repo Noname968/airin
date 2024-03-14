@@ -141,7 +141,7 @@ function Episodesection({ data, id, progress, setUrl }) {
         setUrl(null);
       }
     }
-  }, [currentEpisodes, progress]);
+  }, [currentEpisodes, progress, defaultProvider]);
 
   return (
     <div className={styles.episodesection}>

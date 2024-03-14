@@ -10,7 +10,7 @@ axios.interceptors.request.use(config => {
 
 async function MalSync(idMal) {
   try {
-    const response = await axios.get(`https://api.malsync.moe/mal/anime/${idMal}`);
+    const response = await axios.get(`https://malsync.aniplaynow.live/malsync/${idMal}`);
 
     const data = response.data;
     const sites = Object.keys(data.Sites).map(providerId => ({ providerId: providerId.toLowerCase(), data: Object.values(data.Sites[providerId]) }));
