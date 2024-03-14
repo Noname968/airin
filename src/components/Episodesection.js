@@ -135,7 +135,7 @@ function Episodesection({ data, id, progress, setUrl }) {
     if (currentEpisodes) {
       const episode = data?.nextAiringEpisode ? currentEpisodes?.find((i) => i.number === progress + 1) : currentEpisodes[0]
       if (episode) {
-        const watchurl = `/anime/watch?id=${data?.id}&host=${defaultProvider}&epid=${encodeURIComponent(episode?.id) || encodeURIComponent(episode?.episodeId)}&ep=${episode?.number}&type=${subtype}`;
+        const watchurl = `/anime/watch?id=${data?.id}&host=${defaultProvider}&epid=${encodeURIComponent(episode?.id || episode?.episodeId)}&ep=${episode?.number}&type=${subtype}`;
         setUrl(watchurl);
       } else {
         setUrl(null);
