@@ -30,7 +30,7 @@ export function ProvidersMap(episodeData, defaultProvider = null, setDefaultProv
   let suboptions = [];
   let dubLength = 0;
 
-  if (dProvider.length > 0) {
+  if (dProvider?.length > 0) {
     const episodes = dProvider[0].episodes;
     if (episodes) {
       suboptions = Object.keys(episodes);
@@ -41,8 +41,8 @@ export function ProvidersMap(episodeData, defaultProvider = null, setDefaultProv
   if (!defaultProvider) {
     setDefaultProvider(dProvider[0]?.providerId || episodeData[0]?.providerId);
   }
-  if (suboptions.length === 0) {
+  if (suboptions.length === 0 || (suboptions.length === 1 && suboptions[0] === 'dub')) {
     suboptions = ['sub'];
-  }
+  }  
   return { suboptions, dubLength };
 }

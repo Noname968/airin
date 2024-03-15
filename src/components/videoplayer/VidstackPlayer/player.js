@@ -32,7 +32,7 @@ function Player({ dataInfo, id, groupedEp, src, session, savedep, subtitles, thu
   const router = useRouter();
 
   const playerRef = useRef(null);
-  const { duration } = useMediaStore(playerRef);
+  const { duration, fullscreen } = useMediaStore(playerRef);
   const remote = useMediaRemote(playerRef);
 
   const [opbutton, setopbutton] = useState(false);
@@ -210,6 +210,13 @@ function Player({ dataInfo, id, groupedEp, src, session, savedep, subtitles, thu
     }
   }
 
+  function onSourceChange() {
+    if(fullscreen){
+      console.log("true")
+    }else{
+      console.log("false")
+    }
+  }
 
   function handleop() {
     console.log("Skipping Intro");
@@ -240,6 +247,7 @@ function Player({ dataInfo, id, groupedEp, src, session, savedep, subtitles, thu
       onPause={onPause}
       onLoadedMetadata={onLoadedMetadata}
       onTimeUpdate={onTimeUpdate}
+      onSourceChange={onSourceChange}
     >
       <MediaProvider>
         {subtitles && subtitles?.map((track) => (
