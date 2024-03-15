@@ -16,6 +16,7 @@ async function MalSync(idMal) {
     const sites = Object.keys(data.Sites).map(providerId => ({ providerId: providerId.toLowerCase(), data: Object.values(data.Sites[providerId]) }));
     const newdata = sites.filter(site => site.providerId === 'gogoanime' || site.providerId === 'zoro');
     const finaldata = [];
+    
     newdata.forEach(item => {
       const { providerId, data } = item;
       if (providerId === 'gogoanime') {
