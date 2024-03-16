@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Modal, ModalContent, ModalBody, ModalFooter, Button, useDisclosure } from "@nextui-org/react";
 import Link from "next/link";
 
-const newVersion = "V2.1.4"
+const newVersion = "Update"
 
 const releaseLogs = [
     // {
@@ -36,13 +36,19 @@ const releaseLogs = [
     //         "View Github for more information",
     //     ],
     // },
+    // {
+    //     version: "V2.1.4",
+    //     changes: [
+    //         "Added Profile Page",
+    //         "Will be adding Anilist wrapped to show more info",
+    //         "Now Continue watching can be deleted on mobile also (for now)",
+    //         "View Github for more information",
+    //     ],
+    // },
     {
-        version: "V2.1.4",
+        version: "Maintainance",
         changes: [
-            "Added Profile Page",
-            "Will be adding Anilist wrapped to show more info",
-            "Now Continue watching can be deleted on mobile also (for now)",
-            "View Github for more information",
+            "Website will be down for sometime due to a maintainance update.",
         ],
     },
 ];
