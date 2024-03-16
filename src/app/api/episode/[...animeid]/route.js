@@ -77,20 +77,22 @@ async function MalSync(idMal) {
     const sites = Object.keys(data.Sites).map(providerId => ({ providerId: providerId.toLowerCase(), data: Object.values(data.Sites[providerId]) }));
     const newdata = sites.filter(site => site.providerId === 'gogoanime' || site.providerId === 'zoro');
     const finaldata = [];
-    
+    console.log(newdata)
     newdata.forEach(item => {
       const { providerId, data } = item;
       if (providerId === 'gogoanime') {
         const remove = 'https://anitaku.to/category/';
-        const sub = data.find(item => item.title.toLowerCase().includes(" (uncensored)"))?.url?.replace(remove,'') ?? data.find(item => !item.title.toLowerCase().includes(")")  && !/\d/.test(item.title))?.url?.replace(remove,'');
-        const dub = data.find(item => item.title.toLowerCase().endsWith(" (dub)"))?.url?.replace(remove,'');
-        finaldata.push({ providerId, sub: sub || "", dub: dub || "" });
+        const dub = data.find(item => item.title.toLowerCase().endsWith(" (dub)"));
+        const duburl = dub?.url?.replace(remove,'');
+        const sub = data.find(item => item.title.toLowerCase().includes(" (uncensored)"))?.url?.replace(remove,'') ?? data.find((item) => item?.url === dub?.url?.replace(/-dub$/, ''))?.url?.replace(remove,'') ?? data.find(item => !item.title.toLowerCase().includes(")"))?.url?.replace(remove,'');
+        finaldata.push({ providerId, sub: sub || "", dub: duburl || "" });
       } else {
         const remove = 'https://hianime.to/';
         const sub = data[0]?.url?.replace(remove, '')
         finaldata.push({ providerId, sub: sub || '' });
       }
     });
+    console.log(finaldata)
     return finaldata;
   } catch (error) {
     console.error('Error fetching data from Malsync:', error);

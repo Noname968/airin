@@ -24,6 +24,20 @@ async function zoroEpisode(provider, episodeid, epnum, id, subtype) {
     }
   }
   
+  async function AnifyEpisode(provider, episodeid, epnum, id, subtype) {
+    try {
+      const { data } = await axios.get(
+        `https://api.anify.tv/sources?providerId=${provider}&watchId=${encodeURIComponent(
+          episodeid
+        )}&episodeNumber=${epnum}&id=${id}&subType=${subtype}`
+      );
+      return data;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
+
 export const POST = async (req,{params}) => {
   const id = params.epsource[0];
   const {source, provider, episodeid, episodenum, subtype} = await req.json();
@@ -47,8 +61,13 @@ export const POST = async (req,{params}) => {
       return NextResponse.json(data);
     }
 
-    if (source === "zoro") {
+    if (source === "anify" && provider === "zoro") {
       const data = await zoroEpisode(provider, episodeid, episodenum, id, subtype);
+      return NextResponse.json(data);
+    }
+
+    if(source === "anify"){
+      const data = await AnifyEpisode(provider, episodeid, episodenum, id, subtype);
       return NextResponse.json(data);
     }
 }
