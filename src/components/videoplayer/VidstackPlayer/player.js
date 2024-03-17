@@ -22,18 +22,17 @@ import { useSettings, useTitle, useNowPlaying } from '@/lib/store';
 import { useStore } from "zustand";
 import { toast } from 'sonner';
 
-function Player({ dataInfo, id, groupedEp, sources, session, savedep, subtitles, thumbnails, skiptimes }) {
+function Player({ dataInfo, id, groupedEp, src, session, savedep, subtitles, thumbnails, skiptimes }) {
   const settings = useStore(useSettings, (state) => state.settings);
   const animetitle = useStore(useTitle, (state) => state.animetitle);
   const nowPlaying = useStore(useNowPlaying, (state) => state.nowPlaying);
   const { epId, provider, epNum, subtype } = nowPlaying;
-  const { previousep, currentep, nextep } = groupedEp;
+  const { previousep, currentep, nextep } = groupedEp || {};
   const [getVideoProgress, UpdateVideoProgress] = VideoProgressSave();
   const router = useRouter();
-  const src = sources?.find(i => i.quality === "default" || i.quality === "auto")?.url || sources?.find(i => i.quality === "1080p")?.url;
 
   const playerRef = useRef(null);
-  const { duration } = useMediaStore(playerRef);
+  const { duration, fullscreen } = useMediaStore(playerRef);
   const remote = useMediaRemote(playerRef);
 
   const [opbutton, setopbutton] = useState(false);
@@ -98,7 +97,7 @@ function Player({ dataInfo, id, groupedEp, sources, session, savedep, subtitles,
     if (!nextep?.id) return;
     if (settings?.autonext) {
       router.push(
-        `/anime/watch?id=${dataInfo?.id}&host=${provider}&epid=${nextep?.id}&ep=${nextep?.number}&type=${subtype}`
+        `/anime/watch?id=${dataInfo?.id}&host=${provider}&epid=${nextep?.id || nextep?.episodeId}&ep=${nextep?.number}&type=${subtype}`
       );
     }
   }
@@ -148,7 +147,7 @@ function Player({ dataInfo, id, groupedEp, sources, session, savedep, subtitles,
           timeWatched: currentTime,
           duration: duration,
           provider: provider,
-          nextepId: nextep?.id || null,
+          nextepId: nextep?.id || nextep?.episodeId || null,
           nextepNum: nextep?.number || null,
           subtype: subtype,
           createdAt: new Date().toISOString(),
@@ -196,7 +195,7 @@ function Player({ dataInfo, id, groupedEp, sources, session, savedep, subtitles,
         saveProgress(session.user.token, dataInfo?.id || id, Number(epNum) || Number(currentep?.number));
       } catch (error) {
         console.error("Error saving progress:", error);
-        toast.error("Something went wrong!");
+        toast.error("Error saving progress due to high traffic.");
       }
     }
 
@@ -211,6 +210,13 @@ function Player({ dataInfo, id, groupedEp, sources, session, savedep, subtitles,
     }
   }
 
+  function onSourceChange() {
+    if(fullscreen){
+      console.log("true")
+    }else{
+      console.log("false")
+    }
+  }
 
   function handleop() {
     console.log("Skipping Intro");
@@ -224,7 +230,7 @@ function Player({ dataInfo, id, groupedEp, sources, session, savedep, subtitles,
 
 
   return (
-    <MediaPlayer key={sources} ref={playerRef} playsInline aspectRatio={16 / 9} load={settings?.load || 'idle'} muted={settings?.audio || false}
+    <MediaPlayer key={src} ref={playerRef} playsInline aspectRatio={16 / 9} load={settings?.load || 'idle'} muted={settings?.audio || false}
       autoPlay={settings?.autoplay || false}
       title={currentep?.title || `EP ${epNum}` || 'Loading...'}
       className={`${styles.player} player relative`}
@@ -241,6 +247,7 @@ function Player({ dataInfo, id, groupedEp, sources, session, savedep, subtitles,
       onPause={onPause}
       onLoadedMetadata={onLoadedMetadata}
       onTimeUpdate={onTimeUpdate}
+      onSourceChange={onSourceChange}
     >
       <MediaProvider>
         {subtitles && subtitles?.map((track) => (
@@ -251,7 +258,7 @@ function Player({ dataInfo, id, groupedEp, sources, session, savedep, subtitles,
       {edbutton && <button onClick={handleed} className='absolute bottom-[70px] sm:bottom-[83px] right-4 z-[40] bg-white text-black py-2 px-3 rounded-[6px] font-medium text-[15px]'>Skip Ending</button>}
       <VideoLayout
         subtitles={subtitles}
-        thumbnails={thumbnails ? process.env.NEXT_PUBLIC_PROXY_URI + thumbnails[0]?.url : ""}
+        thumbnails={thumbnails ? process.env.NEXT_PUBLIC_PROXY_URI + '/' + thumbnails[0]?.src : ""}
         groupedEp={groupedEp}
       />
       <DefaultVideoKeyboardActionDisplay

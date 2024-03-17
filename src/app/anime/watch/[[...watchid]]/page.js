@@ -10,9 +10,8 @@ import { WatchPageInfo } from "@/lib/AnilistUser";
 import { getAuthSession } from "../../../api/auth/[...nextauth]/route";
 import { redis } from '@/lib/rediscache';
 
-export const revalidate = 60;
- 
-async function getInfo(token,id) {
+
+async function getInfo(id) {
   try {
     let cachedData;
     if (redis) {
@@ -25,7 +24,7 @@ async function getInfo(token,id) {
     if (cachedData) {
       return JSON.parse(cachedData);
     } else {
-      const data = await WatchPageInfo(null,id);
+      const data = await AnimeInfoAnilist(id);
       const cacheTime = data?.nextAiringEpisode?.episode ? 60 * 60 * 2 : 60 * 60 * 24 * 45;
       if (redis && data !== null && data) {
         await redis.set(`info:${id}`, JSON.stringify(data), "EX", cacheTime);
@@ -38,10 +37,9 @@ async function getInfo(token,id) {
 }
 
 export async function generateMetadata({ params, searchParams }) {
-  const session = await getAuthSession();
-  const id =  searchParams.id;
-  const data = await getInfo(session?.user?.token, id);
-  const epnum =  searchParams.ep;
+  const id =  searchParams?.id;
+  const data = await getInfo(id);
+  const epnum =  searchParams?.ep;
   
   return {
     title:"Episode "+ epnum + ' - ' + data?.title?.english || data?.title?.romaji || 'Loading...',
@@ -80,7 +78,7 @@ async function AnimeWatch({ params, searchParams }) {
   const epNum = searchParams.ep;
   const epId = searchParams.epid;
   const subdub = searchParams.type;
-  const data = await getInfo(session?.user?.token, id);
+  const data = await getInfo(id);
   const savedep = await Ephistory(session, id, epNum);
   // console.log(savedep)
   // console.log(data)

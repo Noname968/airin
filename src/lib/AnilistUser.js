@@ -92,7 +92,7 @@ export const saveProgress = async (token, id, progress) => {
   }
   try {
     const res = await GraphQlClient(token, updatelistprogress, variables);
-    toast.success("Progress saved successfully");
+    toast.success("Episode progress saved successfully");
   } catch (error) {
     console.log("An error occurred while updating list");
     toast.error("An error occurred while updating list");

@@ -13,10 +13,7 @@ import { useStore } from 'zustand';
 
 function Episodesection({ data, id, progress, setUrl }) {
   const subtype = useStore(useSubtype, (state) => state.subtype);
-  const subdub = ["sub", "dub"];
   const [loading, setloading] = useState(true);
-  const [refreshloading, setRefreshLoading] = useState(false);
-  const [dataRefreshed, setDataRefreshed] = useState(false);
   const [reversed, setReversed] = useState(false);
   const [filteredEpisodes, setFilteredEpisodes] = useState([]);
   const [selectedRange, setSelectedRange] = useState("1-100");
@@ -24,18 +21,17 @@ function Episodesection({ data, id, progress, setUrl }) {
   const [eplisttype, setEplistType] = useState(2);
   const [showSelect, setShowSelect] = useState(false);
 
-  const [currentEpisodes, setCurrentEpisodes] = useState(null);
   const [defaultProvider, setdefaultProvider] = useState("");
-  const [subProviders, setSubProviders] = useState(null);
-  const [dubProviders, setDubProviders] = useState(null);
-
+  const [suboptions, setSuboptions] = useState(null);
+  const [episodeData, setEpisodeData] = useState(null);
+  const [dubcount, setDubcount] = useState(0);
+  const [currentEpisodes, setCurrentEpisodes] = useState(null);  
 
   useEffect(() => {
     const listtype = localStorage.getItem('eplisttype');
     if (listtype) {
       setEplistType(parseInt(listtype, 10));
     }
-
   }, []);
 
   const toggleShowSelect = () => {
@@ -54,11 +50,12 @@ function Episodesection({ data, id, progress, setUrl }) {
   useEffect(() => {
     const fetchepisodes = async () => {
       try {
-        const response = await getEpisodes(id, data?.status === "RELEASING", false);
+        const response = await getEpisodes(id, data?.idMal, data?.status === "RELEASING", false);
+        setEpisodeData(response);
         if (response) {
-          const { subProviders, dubProviders } = ProvidersMap(response, defaultProvider, setdefaultProvider);
-          setSubProviders(subProviders);
-          setDubProviders(dubProviders);
+          const {suboptions, dubLength} = ProvidersMap(response, defaultProvider, setdefaultProvider);
+          setSuboptions(suboptions);
+          setDubcount(dubLength);
         }
         setloading(false);
       } catch (error) {
@@ -75,22 +72,15 @@ function Episodesection({ data, id, progress, setUrl }) {
     setdefaultProvider(event.target.value);
   };
 
-  const selectedProvider =
-    subtype === 'sub'
-      ? subProviders?.find((provider) => provider.providerId === defaultProvider)
-      : dubProviders?.find((provider) => provider.providerId === defaultProvider);
-
   useEffect(() => {
-    const episodes = selectedProvider?.episodes || [];
-    const filteredEp =
-      selectedProvider?.consumet === true
-        ? subtype === 'sub' ? episodes.sub : episodes.dub
-        : subtype === 'dub'
-          ? episodes.filter((item) => item.hasDub === true) || []
-          : episodes.slice(0) || [];
-
-    setCurrentEpisodes(filteredEp);
-  }, [selectedProvider, subtype, dataRefreshed]);
+    const provider = episodeData?.find((i) => i.providerId === defaultProvider);
+      const filteredEp = provider?.consumet === true
+      ? subtype === 'sub' ? provider?.episodes?.sub : provider?.episodes?.dub
+      : subtype === 'dub'
+        ? provider?.episodes?.slice(0, dubcount)  : provider?.episodes;
+  
+    setCurrentEpisodes(filteredEp ?? []);
+  }, [subtype, episodeData, defaultProvider]);
 
   const totalEpisodes = currentEpisodes?.length || 0;
 
@@ -115,29 +105,29 @@ function Episodesection({ data, id, progress, setUrl }) {
 
   useEffect(() => {
     const initialEpisodes = currentEpisodes?.slice(0, 100);
-    setFilteredEpisodes(initialEpisodes);
-  }, [currentEpisodes, totalEpisodes, dataRefreshed]);
+    setFilteredEpisodes(initialEpisodes || null);
+  }, [currentEpisodes, totalEpisodes]);
 
   const reverseOrder = () => {
     setReversed(!reversed)
   }
 
   const refreshEpisodes = async () => {
-    setRefreshLoading(true);
+    setloading(true);
     try {
-      const response = await getEpisodes(id, data?.status === "RELEASING", true);
+      const response = await getEpisodes(id, data?.idMal, data?.status === "RELEASING", true);
+      setEpisodeData(response);
       if (response) {
-        const { subProviders, dubProviders } = ProvidersMap(response, defaultProvider, setdefaultProvider);
-        setSubProviders(subProviders);
-        setDubProviders(dubProviders);
+        const {suboptions, dubLength} = ProvidersMap(response, defaultProvider, setdefaultProvider);
+        setSuboptions(suboptions);
+        setDubcount(dubLength);
       }
-      setRefreshLoading(false);
-      setDataRefreshed(true);
+      setloading(false);
       toast.success("Episodes refreshed successfully!");
     } catch (error) {
       console.error("Error refreshing episodes:", error);
       toast.error("Oops! Something went wrong. If episodes don't appear, please refresh the page.");
-      setRefreshLoading(false);
+      setloading(false);
     }
   };
 
@@ -145,13 +135,13 @@ function Episodesection({ data, id, progress, setUrl }) {
     if (currentEpisodes) {
       const episode = data?.nextAiringEpisode ? currentEpisodes?.find((i) => i.number === progress + 1) : currentEpisodes[0]
       if (episode) {
-        const watchurl = `/anime/watch?id=${data?.id}&host=${defaultProvider}&epid=${encodeURIComponent(episode?.id)}&ep=${episode?.number}&type=${subtype}`;
+        const watchurl = `/anime/watch?id=${data?.id}&host=${defaultProvider}&epid=${encodeURIComponent(episode?.id || episode?.episodeId)}&ep=${episode?.number}&type=${subtype}`;
         setUrl(watchurl);
       } else {
         setUrl(null);
       }
     }
-  }, [currentEpisodes, progress]);
+  }, [currentEpisodes, progress, defaultProvider]);
 
   return (
     <div className={styles.episodesection}>
@@ -164,7 +154,7 @@ function Episodesection({ data, id, progress, setUrl }) {
           {data?.status !== 'NOT_YET_RELEASED' && data?.type !== 'MANGA' &&
             <Tooltip content="Refresh Episodes">
               <button className={styles.refresh} onClick={refreshEpisodes}>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className={`w-[22px] h-[22px] ${refreshloading ? "animate-spin" : ""}`}>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className={`w-[22px] h-[22px] ${loading ? "animate-spin" : ""}`}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
                 </svg>
               </button>
@@ -175,7 +165,6 @@ function Episodesection({ data, id, progress, setUrl }) {
           {<>
             <div className={styles.epright}>
               <div className={styles.selects}>
-                {!refreshloading && currentEpisodes?.length > 0 && <>
                   {totalEpisodes > 100 && (
                     <div className="flex flex-col w-[120px] mr-2">
                       <Select
@@ -223,14 +212,13 @@ function Episodesection({ data, id, progress, setUrl }) {
                       onChange={handleProviderChange}
                       disallowEmptySelection={true}
                     >
-                      {subProviders?.map((item) => (
+                      {episodeData?.map((item) => (
                         <SelectItem key={item.providerId} value={item.providerId}>
                           {item.providerId}
                         </SelectItem>
                       ))}
                     </Select>
                   </div>
-                </>}
                 <div className="flex w-[75px] flex-col gap-2 mr-2">
                   <Select
                     label=""
@@ -249,7 +237,7 @@ function Episodesection({ data, id, progress, setUrl }) {
                     onChange={handleSubDub}
                     disallowEmptySelection={true}
                   >
-                    {subdub.map((type) => (
+                    {suboptions.map((type) => (
                       <SelectItem key={type} value={type}>
                         {type}
                       </SelectItem>
@@ -323,7 +311,7 @@ function Episodesection({ data, id, progress, setUrl }) {
               onChange={handleSubDub}
               disallowEmptySelection={true}
             >
-              {subdub.map((type) => (
+              {suboptions.map((type) => (
                 <SelectItem key={type} value={type}>
                   {type}
                 </SelectItem>
@@ -377,7 +365,7 @@ function Episodesection({ data, id, progress, setUrl }) {
               onChange={handleProviderChange}
               disallowEmptySelection={true}
             >
-              {subProviders?.map((item) => (
+              {episodeData?.map((item) => (
                 <SelectItem key={item.providerId} value={item.providerId}>
                   {item.providerId}
                 </SelectItem>
@@ -408,33 +396,27 @@ function Episodesection({ data, id, progress, setUrl }) {
         </>
       )}
 
-      {refreshloading &&
-        <div className="text-[17px] font-semibold">
-          <p className="text-center mt-4 mb-1">Please Wait... </p>
-          <p className="text-center mb-4">Refreshing Episode Data</p>
-        </div>
-      }
-      {!loading && !refreshloading && filteredEpisodes?.length < 1 && (
+      {!loading && !filteredEpisodes && (
         <div className="text-[17px] font-semibold">
           <p className="text-center mt-4">Oh no! </p>
           <p className="text-center mb-4">This anime is currently unavailable. Check back later for updates!</p>
         </div>
       )}
-      {!loading && !refreshloading && (
+      {!loading && (
         <>
           {eplisttype === 3 && (
             <div className={styles.epnumlist}>
-              <EpNumList data={data} epdata={reversed ? filteredEpisodes.reverse() : filteredEpisodes} defaultProvider={defaultProvider} subtype={subtype} />
+              <EpNumList data={data} epdata={filteredEpisodes} defaultProvider={defaultProvider} subtype={subtype} progress={progress}/>
             </div>
           )}
           {eplisttype === 2 && (
             <div className={styles.epimgconist}>
-              <EpImgContent data={data} epdata={reversed ? filteredEpisodes.reverse() : filteredEpisodes} defaultProvider={defaultProvider} subtype={subtype} />
+              <EpImgContent data={data} epdata={filteredEpisodes} defaultProvider={defaultProvider} subtype={subtype} progress={progress}/>
             </div>
           )}
           {eplisttype === 1 && (
             <div className={styles.epimagelist}>
-              <EpImageList data={data} epdata={reversed ? filteredEpisodes.reverse() : filteredEpisodes} defaultProvider={defaultProvider} subtype={subtype} />
+              <EpImageList data={data} epdata={filteredEpisodes} defaultProvider={defaultProvider} subtype={subtype} progress={progress}/>
             </div>
           )}
         </>

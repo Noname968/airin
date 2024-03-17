@@ -16,23 +16,23 @@ function PlayerEpisodeList({ id, data, onprovider, setwatchepdata, epnum }) {
   const router = useRouter();
 
   const [loading, setloading] = useState(true);
-  const [episodeData, setepisodeData] = useState(null);
-  const [currentEpisodes, setCurrentEpisodes] = useState([]);
-  const [defaultProvider, setdefaultProvider] = useState(null);
-  const [subProviders, setSubProviders] = useState(null);
-  const [dubProviders, setDubProviders] = useState(null);
-  const [providerChanged, setProviderChanged] = useState(true);
+  const [providerChanged, setProviderChanged] = useState(false);
   const [refreshloading, setRefreshLoading] = useState(false);
-  const [dataRefreshed, setDataRefreshed] = useState(false);
   const [eplisttype, setEplistType] = useState(2);
   const [currentPage, setCurrentPage] = useState(1);
   const [filteredEp, setFilteredEp] = useState([]);
   const itemsPerPage = 35;
 
+  const [defaultProvider, setdefaultProvider] = useState("");
+  const [suboptions, setSuboptions] = useState(null);
+  const [episodeData, setEpisodeData] = useState(null);
+  const [dubcount, setDubcount] = useState(0);
+  const [currentEpisodes, setCurrentEpisodes] = useState(null);
+
   useEffect(() => {
     const startIndex = (parseInt(currentPage) - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
-    const slicedep = currentEpisodes.slice(startIndex, endIndex) || [];
+    const slicedep = currentEpisodes?.slice(startIndex, endIndex) || [];
     setFilteredEp(slicedep);
   }, [currentEpisodes, currentPage]);
 
@@ -63,9 +63,14 @@ function PlayerEpisodeList({ id, data, onprovider, setwatchepdata, epnum }) {
   useEffect(() => {
     const fetchepisodes = async () => {
       try {
-        const response = await getEpisodes(id, data.status === "RELEASING", false);
-        setepisodeData(response);
-        setloading(false)
+        const response = await getEpisodes(id, data?.idMal, data?.status === "RELEASING", false);
+        setEpisodeData(response);
+        if (response) {
+          const { suboptions, dubLength } = ProvidersMap(response);
+          setSuboptions(suboptions);
+          setDubcount(dubLength);
+        }
+        setloading(false);
       } catch (error) {
         console.log(error)
         setloading(false)
@@ -73,12 +78,6 @@ function PlayerEpisodeList({ id, data, onprovider, setwatchepdata, epnum }) {
     }
     fetchepisodes();
   }, [id]);
-
-  useEffect(() => {
-    const { subProviders, dubProviders } = ProvidersMap(episodeData, defaultProvider, setdefaultProvider);
-    setSubProviders(subProviders);
-    setDubProviders(dubProviders);
-  }, [episodeData]);
 
   const handleProviderChange = (provider, subvalue = "sub") => {
     setdefaultProvider(provider);
@@ -89,49 +88,43 @@ function PlayerEpisodeList({ id, data, onprovider, setwatchepdata, epnum }) {
   useEffect(() => {
     setdefaultProvider(onprovider);
     setProviderChanged(true);
-    console.log(onprovider);
   }, [])
 
-  const selectedProvider =
-    subtype === 'sub'
-      ? subProviders?.find((provider) => provider.providerId === defaultProvider)
-      : dubProviders?.find((provider) => provider.providerId === defaultProvider);
 
   useEffect(() => {
-    const episodes = selectedProvider?.episodes || [];
-    const filteredEp =
-      selectedProvider?.consumet === true
-        ? subtype === 'sub' ? episodes.sub : episodes.dub
-        : subtype === 'dub'
-          ? episodes.filter((item) => item.hasDub === true) || []
-          : episodes.slice(0) || [];
+    const provider = episodeData?.find((i) => i.providerId === defaultProvider);
+    const filteredEp = provider?.consumet === true
+      ? subtype === 'sub' ? provider?.episodes?.sub : provider?.episodes?.dub
+      : subtype === 'dub'
+        ? provider?.episodes?.slice(0, dubcount) : provider?.episodes;
+
     setwatchepdata(filteredEp);
     setCurrentEpisodes(filteredEp);
     if (filteredEp) {
       setProviderChanged(false);
     }
-  }, [selectedProvider, subtype, defaultProvider]);
+  }, [episodeData, subtype, defaultProvider]);
+
 
   useEffect(() => {
-    if (!providerChanged && currentEpisodes[epnum - 1]?.id) {
-      // Use  setTimeout to wait for the component to re-render
-      router.push(`/anime/watch?id=${id}&host=${defaultProvider}&epid=${encodeURIComponent(currentEpisodes[epnum - 1]?.id)}&ep=${epnum}&type=${subtype}`);
-      setTimeout(() => {
-      }, 0);
-    }
+    if (!providerChanged && (currentEpisodes?.[epnum - 1]?.id || currentEpisodes?.[epnum - 1]?.episodeId)) {
+      const episodeId = encodeURIComponent(currentEpisodes?.[epnum - 1]?.id || currentEpisodes?.[epnum - 1]?.episodeId);
+      router.push(`/anime/watch?id=${id}&host=${defaultProvider}&epid=${episodeId}&ep=${epnum}&type=${subtype}`);
+    }  
+  //   setTimeout(() => {
+  // }, 0);
   }, [providerChanged]);
 
   const refreshEpisodes = async () => {
     setRefreshLoading(true);
     try {
-      const response = await getEpisodes(id, data.status === "RELEASING", true);
+      const response = await getEpisodes(id, data?.idMal, data.status === "RELEASING", true);
       if (response) {
-        const { subProviders, dubProviders } = ProvidersMap(response, defaultProvider, setdefaultProvider);
-        setSubProviders(subProviders);
-        setDubProviders(dubProviders);
+        const { suboptions, dubLength } = ProvidersMap(response);
+        setSuboptions(suboptions);
+        setDubcount(dubLength);
       }
       setRefreshLoading(false);
-      setDataRefreshed(true);
     } catch (error) {
       console.error("Error refreshing episodes:", error);
       setRefreshLoading(false);
@@ -162,22 +155,24 @@ function PlayerEpisodeList({ id, data, onprovider, setwatchepdata, epnum }) {
             <span className="!leading-tight !text-[0.8rem] flex flex-col items-center justify-center text-center">If current server doesn't work please try other servers beside.</span>
           </div>
           <div className={styles.episodetopright}>
-            <div className={styles.episodesub}>
-              <span className={styles.episodetypes}>
-                <svg viewBox="0 0 32 32" className="w-5 h-5" fill="none" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" clipRule="evenodd" d="M4.6661 6.66699C4.29791 6.66699 3.99943 6.96547 3.99943 7.33366V24.667C3.99943 25.0352 4.29791 25.3337 4.6661 25.3337H27.3328C27.701 25.3337 27.9994 25.0352 27.9994 24.667V7.33366C27.9994 6.96547 27.701 6.66699 27.3328 6.66699H4.6661ZM8.66667 21.3333C8.29848 21.3333 8 21.0349 8 20.6667V11.3333C8 10.9651 8.29848 10.6667 8.66667 10.6667H14C14.3682 10.6667 14.6667 10.9651 14.6667 11.3333V12.6667C14.6667 13.0349 14.3682 13.3333 14 13.3333H10.8C10.7264 13.3333 10.6667 13.393 10.6667 13.4667V18.5333C10.6667 18.607 10.7264 18.6667 10.8 18.6667H14C14.3682 18.6667 14.6667 18.9651 14.6667 19.3333V20.6667C14.6667 21.0349 14.3682 21.3333 14 21.3333H8.66667ZM18 21.3333C17.6318 21.3333 17.3333 21.0349 17.3333 20.6667V11.3333C17.3333 10.9651 17.6318 10.6667 18 10.6667H23.3333C23.7015 10.6667 24 10.9651 24 11.3333V12.6667C24 13.0349 23.7015 13.3333 23.3333 13.3333H20.1333C20.0597 13.3333 20 13.393 20 13.4667V18.5333C20 18.607 20.0597 18.6667 20.1333 18.6667H23.3333C23.7015 18.6667 24 18.9651 24 19.3333V20.6667C24 21.0349 23.7015 21.3333 23.3333 21.3333H18Z" fill="currentColor"></path></svg>
-                SUB: </span>
-              {subProviders?.map((item) => (
-                <div key={item.providerId} value={item.providerId} className={item.providerId === defaultProvider && subtype === 'sub' ? styles.providerselected : styles.provider} onClick={() => handleProviderChange(item.providerId, "sub")}>
-                  {item.providerId}
-                </div>
-              ))}
-            </div>
-            {dubProviders?.length > 0 && (
+            {suboptions?.includes('sub') && (
+              <div className={styles.episodesub}>
+                <span className={styles.episodetypes}>
+                  <svg viewBox="0 0 32 32" className="w-5 h-5" fill="none" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" clipRule="evenodd" d="M4.6661 6.66699C4.29791 6.66699 3.99943 6.96547 3.99943 7.33366V24.667C3.99943 25.0352 4.29791 25.3337 4.6661 25.3337H27.3328C27.701 25.3337 27.9994 25.0352 27.9994 24.667V7.33366C27.9994 6.96547 27.701 6.66699 27.3328 6.66699H4.6661ZM8.66667 21.3333C8.29848 21.3333 8 21.0349 8 20.6667V11.3333C8 10.9651 8.29848 10.6667 8.66667 10.6667H14C14.3682 10.6667 14.6667 10.9651 14.6667 11.3333V12.6667C14.6667 13.0349 14.3682 13.3333 14 13.3333H10.8C10.7264 13.3333 10.6667 13.393 10.6667 13.4667V18.5333C10.6667 18.607 10.7264 18.6667 10.8 18.6667H14C14.3682 18.6667 14.6667 18.9651 14.6667 19.3333V20.6667C14.6667 21.0349 14.3682 21.3333 14 21.3333H8.66667ZM18 21.3333C17.6318 21.3333 17.3333 21.0349 17.3333 20.6667V11.3333C17.3333 10.9651 17.6318 10.6667 18 10.6667H23.3333C23.7015 10.6667 24 10.9651 24 11.3333V12.6667C24 13.0349 23.7015 13.3333 23.3333 13.3333H20.1333C20.0597 13.3333 20 13.393 20 13.4667V18.5333C20 18.607 20.0597 18.6667 20.1333 18.6667H23.3333C23.7015 18.6667 24 18.9651 24 19.3333V20.6667C24 21.0349 23.7015 21.3333 23.3333 21.3333H18Z" fill="currentColor"></path></svg>
+                  SUB: </span>
+                {episodeData?.map((item) => (
+                  <div key={item.providerId} value={item.providerId} className={item.providerId === defaultProvider && subtype === 'sub' ? styles.providerselected : styles.provider} onClick={() => handleProviderChange(item.providerId, "sub")}>
+                    {item.providerId}
+                  </div>
+                ))}
+              </div>
+            )}
+            {suboptions?.includes('dub') && (
               <div className={styles.episodedub}>
                 <span className={styles.episodetypes}>
                   <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3a3 3 0 0 1-3-3V5a3 3 0 0 1 3-3m7 9c0 3.53-2.61 6.44-6 6.93V21h-2v-3.07c-3.39-.49-6-3.4-6-6.93h2a5 5 0 0 0 5 5a5 5 0 0 0 5-5z" /></svg>
                   DUB: </span>
-                {dubProviders?.map((item) => (
+                {episodeData?.map((item) => (
                   <div key={item.providerId} value={item.providerId} className={item.providerId === defaultProvider && subtype === 'dub' ? styles.providerselected : styles.provider} onClick={() => handleProviderChange(item.providerId, "dub")}>
                     {item.providerId}
                   </div>
@@ -215,7 +210,7 @@ function PlayerEpisodeList({ id, data, onprovider, setwatchepdata, epnum }) {
                     </Tooltip>
                   </div>
                   <div className={styles.epright}>
-                    {currentEpisodes.length > itemsPerPage && (
+                    {currentEpisodes?.length > itemsPerPage && (
                       <>
                         <Select
                           label=""

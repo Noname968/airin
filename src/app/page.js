@@ -9,13 +9,43 @@ import VerticalList from '@/components/home/VerticalList'
 import ContinueWatching from '@/components/home/ContinueWatching'
 import RecentEpisodes from '@/components/home/RecentEpisodes'
 import { getAuthSession } from './api/auth/[...nextauth]/route'
+import { redis } from '@/lib/rediscache'
 // import { getWatchHistory } from '@/lib/EpHistoryfunctions'
+
+async function getHomePage() {
+  try {
+    let cachedData;
+    if (redis) {
+      cachedData = await redis.get(`homepage`);
+      if (!JSON.parse(cachedData)) {
+        await redis.del(`homepage`);
+        cachedData = null;
+      }
+    }
+    if (cachedData) {
+      const { herodata, top100data, seasonaldata } = JSON.parse(cachedData);
+      return { herodata, top100data, seasonaldata };
+    } else {
+      const [herodata, top100data, seasonaldata] = await Promise.all([
+        TrendingAnilist(),
+        Top100Anilist(),
+        SeasonalAnilist()
+      ]);
+      const cacheTime = 60 * 60 * 2;
+      if (redis) {
+        await redis.set(`homepage`, JSON.stringify({ herodata, top100data, seasonaldata }), "EX", cacheTime);
+      }
+      return { herodata, top100data, seasonaldata };
+    }
+  } catch (error) {
+    console.error("Error fetching homepage from anilist: ", error);
+    return null;
+  }
+}
 
 async function Home() {
   const session = await getAuthSession();
-  const herodata = await TrendingAnilist();
-  const top100data = await Top100Anilist();
-  const seasonaldata = await SeasonalAnilist();
+  const { herodata = [], top100data = [], seasonaldata = [] } = await getHomePage();
   // const history = await getWatchHistory();
   // console.log(history)
 
@@ -38,7 +68,7 @@ async function Home() {
           transition={{ duration: 0.4 }}
           viewport={{ once: true }}
         >
-          <RecentEpisodes cardid="Recent Episodes"/>
+          <RecentEpisodes cardid="Recent Episodes" />
         </MotionDiv>
         <MotionDiv
           initial={{ y: 10, opacity: 0 }}
@@ -46,7 +76,7 @@ async function Home() {
           transition={{ duration: 0.4 }}
           viewport={{ once: true }}
         >
-          <ContinueWatching session={session}/>
+          <ContinueWatching session={session} />
         </MotionDiv>
         <MotionDiv
           initial={{ y: 10, opacity: 0 }}

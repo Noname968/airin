@@ -13,7 +13,7 @@ function PlayerComponent({ id, epId, provider, epNum, subdub, data, session, sav
     const [episodeData, setepisodeData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [groupedEp, setGroupedEp] = useState(null);
-    const [sources, setSources] = useState(null);
+    const [src, setSrc] = useState(null);
     const [subtitles, setSubtitles] = useState(null);
     const [thumbnails, setThumbnails] = useState(null);
     const [skiptimes, setSkipTimes] = useState(null);
@@ -32,18 +32,19 @@ function PlayerComponent({ id, epId, provider, epNum, subdub, data, session, sav
                     toast.error("Failed to load episode. Please try again later.");
                     setError(true);
                 }
-                setSources(response?.sources);
-                const download = response?.download
+                const sources = response?.sources?.find(i => i.quality === "default" || i.quality === "auto")?.url || response?.sources?.find(i => i.quality === "1080p")?.url || response?.sources?.find(i => i.type === "hls")?.url;
+                setSrc(sources);
+                const download = response?.download;
 
-                const reFormSubtitles = response?.subtitles?.map((i) => ({
-                    src: process.env.NEXT_PUBLIC_PROXY_URI+i.url,
-                    label: i.lang,
-                    kind: i.lang === "Thumbnails" ? "thumbnails" : "subtitles",
-                    ...(i.lang === "English" && { default: true }),
+                const reFormSubtitles = response?.tracks?.map((i) => ({
+                    src: i.file,
+                    label: i.label,
+                    kind: i.kind,
+                    default: i?.default,
                 }));
 
                 setSubtitles(reFormSubtitles?.filter((s) => s.kind !== 'thumbnails'));
-                setThumbnails(response?.subtitles?.filter((s) => s.lang === 'Thumbnails'));
+                setThumbnails(reFormSubtitles?.filter((s) => s.kind === 'thumbnails'));
 
                 const skipResponse = await fetch(
                     `https://api.aniskip.com/v2/skip-times/${data?.idMal}/${parseInt(epNum)}?types[]=ed&types[]=mixed-ed&types[]=mixed-op&types[]=op&types[]=recap&episodeLength=`
@@ -135,7 +136,7 @@ function PlayerComponent({ id, epId, provider, epNum, subdub, data, session, sav
                 <div className='mb-2'>
                     {!loading && !error ? (
                         <div className='h-full w-full aspect-video overflow-hidden'>
-                            <Player dataInfo={data} id={id} groupedEp={groupedEp} session={session} savedep={savedep} sources={sources} subtitles={subtitles} thumbnails={thumbnails} skiptimes={skiptimes} />
+                            <Player dataInfo={data} id={id} groupedEp={groupedEp} session={session} savedep={savedep} src={src} subtitles={subtitles} thumbnails={thumbnails} skiptimes={skiptimes} />
                         </div>
                     ) : (
                         <div className="h-full w-full rounded-[8px] relative flex items-center text-xl justify-center aspect-video border border-solid border-white border-opacity-10">
