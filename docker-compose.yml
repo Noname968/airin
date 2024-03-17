@@ -10,8 +10,8 @@ services:
       - redis:redis
       - consumet:consumet
       - db:db
-    env_file:
-      - ./.env
+    volumes:
+      - .env:/usr/src/app/.env
   redis:
     image: redis:7.2.4-alpine
     restart: always
