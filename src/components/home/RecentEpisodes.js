@@ -73,19 +73,14 @@ function RecentEpisodes({ cardid }) {
                             title: item.title || '',
                             status: item.status || '',
                             format: item.format || '',
-                            episodes: item?.episodes || '',
+                            latestEpisode: item?.latestEpisode || '',
                             totalEpisodes: item?.totalEpisodes || '',
                             currentEpisode: item?.currentEpisode || ''
                         };
-                        const gogoEpisodes = item?.episodes?.data?.find(
-                            (x) => x.providerId === "gogoanime"
-                        );
-                        const currentEpisode = gogoEpisodes?.episodes?.find(
-                            (x) => x.number === item.currentEpisode
-                        );
+                        const latestEpisode = item?.latestEpisode || '';
                         return (
-                            currentEpisode?.id ? (
-                                <Link href={`/anime/watch?id=${anime.id}&host=gogoanime&epid=${encodeURIComponent(currentEpisode?.id)}&ep=${item?.currentEpisode}&type=sub`} key={anime.id}>
+                            latestEpisode!=='' ? (
+                                <Link href={`/anime/watch?id=${anime.id}&host=gogoanime&epid=${encodeURIComponent(latestEpisode)}&ep=${item?.currentEpisode}&type=sub`} key={anime.id}>
                                     <ItemContent anime={anime} cardid={cardid} />
                                 </Link>
                             ) : (

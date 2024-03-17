@@ -624,3 +624,27 @@ query ($username: String, $status: MediaListStatus) {
   }
 }
 `
+
+export const schedule = ` 
+query($page: Int, $perPage: Int, $from: Int, $to: Int){
+  Page(page: $page, perPage: $perPage){
+    pageInfo{
+      hasNextPage
+    },
+    airingSchedules(airingAt_greater: $from, airingAt_lesser: $to){
+      episode,
+      timeUntilAiring,
+      airingAt,
+      media{
+        title
+        coverImage{
+          extraLarge
+        }
+        bannerImage
+        format,
+        status,
+        episodes
+      }
+    }
+  }
+}`

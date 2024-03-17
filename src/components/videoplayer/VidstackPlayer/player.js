@@ -27,7 +27,7 @@ function Player({ dataInfo, id, groupedEp, src, session, savedep, subtitles, thu
   const animetitle = useStore(useTitle, (state) => state.animetitle);
   const nowPlaying = useStore(useNowPlaying, (state) => state.nowPlaying);
   const { epId, provider, epNum, subtype } = nowPlaying;
-  const { previousep, currentep, nextep } = groupedEp;
+  const { previousep, currentep, nextep } = groupedEp || {};
   const [getVideoProgress, UpdateVideoProgress] = VideoProgressSave();
   const router = useRouter();
 
@@ -195,7 +195,7 @@ function Player({ dataInfo, id, groupedEp, src, session, savedep, subtitles, thu
         saveProgress(session.user.token, dataInfo?.id || id, Number(epNum) || Number(currentep?.number));
       } catch (error) {
         console.error("Error saving progress:", error);
-        toast.error("Something went wrong!");
+        toast.error("Error saving progress due to high traffic.");
       }
     }
 

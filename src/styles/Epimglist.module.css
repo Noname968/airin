@@ -35,8 +35,8 @@
 }
 .epimgnumber{
     position: absolute;
-    bottom: 4px;
-    left: 4px;
+    bottom: 6px;
+    left: 6px;
     background-color: rgba(0,0,0,0.6);
     padding: 3px 6px;
     font-size: 13px;
@@ -77,7 +77,7 @@
 }
 
 .epdiv{
-    background-color: #18181b;
+    /* background-color: #18181b; */
     display: inline-block;
     padding: 8px 0;
     border-radius: 10px;

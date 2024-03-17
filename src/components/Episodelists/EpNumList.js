@@ -14,7 +14,7 @@ function EpNumList({ data, epdata, defaultProvider, subtype, epnum }) {
                         )}&ep=${episode?.number}&type=${subtype}`}
                         key={episode?.id || episode?.episodeId}
                     >
-                        <div className={`${styles.epdiv} ${parseInt(epnum) === episode.number ? styles.selectedEpnum : ''}`}>
+                        <div className={`${episode.isFiller === true ? 'bg-[#f9a825]/20' : 'bg-[#67686f]/40'} ${styles.epdiv} ${parseInt(epnum) === episode.number ? styles.selectedEpnum : ''}`}>
                             {episode.number}</div>
                     </Link>
                 ))}

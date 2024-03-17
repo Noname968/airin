@@ -12,10 +12,17 @@ export async function CombineEpisodeMeta(episodeData, imageData) {
 
     for (const episode of episodesArray) {
       const episodeNum = episode.number;
-
       if (episodeImages[episodeNum]) {
         const img = episodeImages[episodeNum].img || episodeImages[episodeNum].image;
-        const title = episodeImages[episodeNum]?.title?.en || episodeImages[episodeNum].title;
+        let title;
+        if (typeof episodeImages[episodeNum]?.title === 'object') {
+          const en = episodeImages[episodeNum]?.title?.en;
+          const xJat = episodeImages[episodeNum]?.title?.['x-jat'];
+          title = en || xJat || `EPISODE ${episodeNum}`;
+        } else {
+          title = episodeImages[episodeNum]?.title || '';
+        }
+
         const description = episodeImages[episodeNum].description || episodeImages[episodeNum].overview || episodeImages[episodeNum].summary;
         Object.assign(episode, { img, title, description });
       }
@@ -25,11 +32,11 @@ export async function CombineEpisodeMeta(episodeData, imageData) {
   return episodeData;
 }
 
-export function ProvidersMap(episodeData, defaultProvider = null, setDefaultProvider = () => {}) {
+export function ProvidersMap(episodeData, defaultProvider = null, setDefaultProvider = () => { }) {
   let dProvider = episodeData.filter((i) => i?.consumet === true);
   let suboptions = [];
   let dubLength = 0;
-console.log(dProvider)
+
   if (dProvider?.length > 0) {
     const episodes = dProvider[0].episodes;
     if (episodes) {
@@ -43,6 +50,6 @@ console.log(dProvider)
   }
   if (suboptions.length === 0 || (suboptions.length === 1 && suboptions[0] === 'dub')) {
     suboptions.push('sub');
-  }  
+  }
   return { suboptions, dubLength };
 }

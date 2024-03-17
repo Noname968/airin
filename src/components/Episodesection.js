@@ -406,17 +406,17 @@ function Episodesection({ data, id, progress, setUrl }) {
         <>
           {eplisttype === 3 && (
             <div className={styles.epnumlist}>
-              <EpNumList data={data} epdata={filteredEpisodes} defaultProvider={defaultProvider} subtype={subtype} />
+              <EpNumList data={data} epdata={filteredEpisodes} defaultProvider={defaultProvider} subtype={subtype} progress={progress}/>
             </div>
           )}
           {eplisttype === 2 && (
             <div className={styles.epimgconist}>
-              <EpImgContent data={data} epdata={filteredEpisodes} defaultProvider={defaultProvider} subtype={subtype} />
+              <EpImgContent data={data} epdata={filteredEpisodes} defaultProvider={defaultProvider} subtype={subtype} progress={progress}/>
             </div>
           )}
           {eplisttype === 1 && (
             <div className={styles.epimagelist}>
-              <EpImageList data={data} epdata={filteredEpisodes} defaultProvider={defaultProvider} subtype={subtype} />
+              <EpImageList data={data} epdata={filteredEpisodes} defaultProvider={defaultProvider} subtype={subtype} progress={progress}/>
             </div>
           )}
         </>

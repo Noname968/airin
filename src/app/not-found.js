@@ -21,7 +21,7 @@ function NotFound() {
                 </div>
                 <div className='flex flex-row gap-5 mt-3 items-center'>
                     <button className='flex flex-row items-center notf' onClick={() => { router.back(); }} >
-                        <div class="button">
+                        {/* <div class="button">
                             <div class="button-box">
                                 <span class="button-elem">
                                     <svg viewBox="0 0 46 40" xmlns="http://www.w3.org/2000/svg">
@@ -38,15 +38,15 @@ function NotFound() {
                                     </svg>
                                 </span>
                             </div>
-                        </div>
-                        <div className='bg-white text-black p-2 rounded-lg font-semibold'>Go back</div>
+                        </div> */}
+                        <div className='bg-white text-black p-2 rounded-lg font-medium'>Go back</div>
                     </button>
                     <button
                         type="button"
                         onClick={() => {
                             router.push("/");
                         }}
-                        className="bg-white text-black font-semibold px-2 h-[40px] rounded-lg"
+                        className="bg-white text-black font-medium px-2 h-[40px] rounded-lg"
                     >
                         Return Home
                     </button>

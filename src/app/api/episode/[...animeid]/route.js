@@ -181,7 +181,10 @@ async function fetchEpisodeMeta(id, available = false) {
 }
 
 const fetchAndCacheData = async (id, idMal, meta, redis, cacheTime, refresh) => {
-  const malsync = await MalSync(idMal);
+  let malsync;
+  if(idMal){
+    malsync = await MalSync(idMal);
+  }
   const promises = [];
   
   if (malsync) {
