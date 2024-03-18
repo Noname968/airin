@@ -71,7 +71,7 @@ async function fetchAnify(id) {
 
 async function MalSync(idMal) {
   try {
-    const response = await axios.get(`${process.env.MALSYNC_URI}/${idMal}`);
+    const response = await axios.get(`${process.env.MALSYNC_URI}${idMal}`);
 
     const data = response.data;
     const sites = Object.keys(data.Sites).map(providerId => ({ providerId: providerId.toLowerCase(), data: Object.values(data.Sites[providerId]) }));
