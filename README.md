@@ -35,7 +35,7 @@ Enjoy ad-free streaming and seamless progress tracking with AniList integration,
 
 - [X] Add Changelog
 - [ ] Download episodes
-- [ ] Add Comment section from Disqus
+- [ ] Add Comment section
 - [ ] Create separate page for anilist users
     - [ ] To view their progress
     - [ ] Check all their details imported from anilist
@@ -72,6 +72,10 @@ NEXTAUTH_URL="for development use http://localhost:3000/ and for production use 
 ## NextJS
 NEXT_PUBLIC_PROXY_URI="Use a proxy if u wish, not mandatory"
 CONSUMET_URI="host your own API from this repo https://github.com/consumet/api.consumet.org. Don't put / at the end of the url."
+
+## Optional (Will work without this)
+MALSYNC_URI=https://api.malsync.moe/mal/anime/anilist: ## Dont worry if it not works they ban ips so cant do anything
+ZORO_URI="host your own API from this repo https://github.com/ghoshRitesh12/aniwatch-api. Don't put / at the end of the url."
 
 ## MongoDB
 MONGODB_URI="Your Mongodb connection String"

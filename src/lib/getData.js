@@ -15,10 +15,10 @@ export const getRecentEpisodes = async () => {
   }
 }
 
-export const getEpisodes = async (id, idMal, status, refresh = false) => {
+export const getEpisodes = async (id, status, refresh = false) => {
   try {
     const response = await fetch(
-      `${checkEnvironment()}/api/episode/${id}?idMal=${idMal}&releasing=${status === "RELEASING" ? "true" : "false"}&refresh=${refresh}`,{ next: { revalidate: status === "FINISHED" ? false : 3600 } }
+      `${checkEnvironment()}/api/episode/${id}?releasing=${status === "RELEASING" ? "true" : "false"}&refresh=${refresh}`,{ next: { revalidate: status === "FINISHED" ? false : 3600 } }
     );
     if (!response.ok) {
       throw new Error('Failed to fetch episodes')

@@ -36,12 +36,14 @@ function PlayerComponent({ id, epId, provider, epNum, subdub, data, session, sav
                 setSrc(sources);
                 const download = response?.download;
 
-                const reFormSubtitles = response?.tracks?.map((i) => ({
-                    src: i.file,
-                    label: i.label,
-                    kind: i.kind,
-                    default: i?.default,
+                let subtitlesArray = response.tracks || response.subtitles;
+                const reFormSubtitles = subtitlesArray?.map((i) => ({
+                    src: i?.file || i?.url,
+                    label: i?.label || i?.lang,
+                    kind: i?.kind || (i?.lang === "Thumbnails" ? "thumbnails" : "subtitles"),
+                    default: i?.default || (i?.lang === "English"),
                 }));
+                
 
                 setSubtitles(reFormSubtitles?.filter((s) => s.kind !== 'thumbnails'));
                 setThumbnails(reFormSubtitles?.filter((s) => s.kind === 'thumbnails'));
