@@ -16,11 +16,12 @@ async function consumetEpisode(id) {
 
 async function zoroEpisode(provider, episodeid, epnum, id, subtype) {
     try {
-      const { data } = await axios.get(`${process.env.ZORO_URI}/anime/episode-srcs?id=${episodeid}&server=vidstreaming&category=${subtype}`);
-      return data;
+      const cleanEpisodeId = episodeid.replace("/watch/", "");
+      const { data } = await axios.get(`${process.env.ZORO_URI}/anime/episode-srcs?id=${cleanEpisodeId}&server=vidstreaming&category=${subtype}`);
+    return data;
     } catch (error) {
       console.error(error);
-      return null;
+      return AnifyEpisode(provider, episodeid, epnum, id, subtype);
     }
   }
   

@@ -63,7 +63,7 @@ function PlayerEpisodeList({ id, data, onprovider, setwatchepdata, epnum }) {
   useEffect(() => {
     const fetchepisodes = async () => {
       try {
-        const response = await getEpisodes(id, data?.idMal, data?.status === "RELEASING", false);
+        const response = await getEpisodes(id, data?.status === "RELEASING", false);
         setEpisodeData(response);
         if (response) {
           const { suboptions, dubLength } = ProvidersMap(response);
@@ -118,7 +118,8 @@ function PlayerEpisodeList({ id, data, onprovider, setwatchepdata, epnum }) {
   const refreshEpisodes = async () => {
     setRefreshLoading(true);
     try {
-      const response = await getEpisodes(id, data?.idMal, data.status === "RELEASING", true);
+      const response = await getEpisodes(id, data.status === "RELEASING", true);
+      setEpisodeData(response);
       if (response) {
         const { suboptions, dubLength } = ProvidersMap(response);
         setSuboptions(suboptions);
