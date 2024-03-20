@@ -11,6 +11,7 @@ import Feedbackform from './Feedbackform';
 import { NotificationTime } from '@/utils/TimeFunctions';
 import { useTitle, useSearchbar } from '@/lib/store';
 import { useStore } from 'zustand';
+import Image from 'next/image';
 
 function Navbarcomponent({ home = false }) {
     const animetitle = useStore(useTitle, (state) => state.animetitle);
@@ -109,13 +110,15 @@ function Navbarcomponent({ home = false }) {
             <div className={styles.navleft}>
                 <div className={styles.logoContainer}>
                     <Link href="/" className={styles.logoLink}>
-                        ANIPLAY
+                        {/* ANIPLAY */}
+                        <Image src='/logo.svg' width={50} height={50} className="w-32 h-20 "/>
                     </Link>
                 </div>
                 <div className={styles.navItemsContainer}>
                     <Link href="/anime/catalog" className={styles.navItem}>Catalog</Link>
                     <Link href="/anime/catalog?sortby=TRENDING_DESC" className={styles.navItem}>Trending</Link>
                     <Link href="/anime/catalog?format=MOVIE" className={styles.navItem}>Movies</Link>
+                    <Link href="https://community.aniplaynow.live" className={styles.navItem}>Community</Link>
                 </div>
             </div>
             <div className={styles.navright}>

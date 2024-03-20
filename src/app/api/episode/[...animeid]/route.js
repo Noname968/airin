@@ -69,11 +69,11 @@ async function fetchAnify(id) {
   }
 }
 
-async function MalSync(idMal) {
+async function MalSync(id) {
   try {
-    const response = await axios.get(`${process.env.MALSYNC_URI}/${idMal}`);
+    const response = await axios.get(`${process.env.MALSYNC_URI}${id}`);
 
-    const data = response.data;
+    const data = response?.data;
     const sites = Object.keys(data.Sites).map(providerId => ({ providerId: providerId.toLowerCase(), data: Object.values(data.Sites[providerId]) }));
     const newdata = sites.filter(site => site.providerId === 'gogoanime' || site.providerId === 'zoro');
     const finaldata = [];
@@ -180,10 +180,10 @@ async function fetchEpisodeMeta(id, available = false) {
   }
 }
 
-const fetchAndCacheData = async (id, idMal, meta, redis, cacheTime, refresh) => {
+const fetchAndCacheData = async (id, meta, redis, cacheTime, refresh) => {
   let malsync;
-  if(idMal){
-    malsync = await MalSync(idMal);
+  if(id){
+    malsync = await MalSync(id);
   }
   const promises = [];
   
@@ -245,7 +245,6 @@ const fetchAndCacheData = async (id, idMal, meta, redis, cacheTime, refresh) => 
 export const GET = async (req, { params }) => {
   const url = new URL(req.url);
   const id = params.animeid[0];
-  const idMal = url.searchParams.get('idMal');
   const releasing = url.searchParams.get('releasing') || false;
   const refresh = url.searchParams.get('refresh') === 'true' || false;
 
@@ -282,7 +281,7 @@ export const GET = async (req, { params }) => {
       }
       let data;
       if (refresh) {
-        data = await fetchAndCacheData(id, idMal, meta, redis, cacheTime, refresh);
+        data = await fetchAndCacheData(id, meta, redis, cacheTime, refresh);
       }
       if (data?.length > 0) {
         console.log("deleted cache");
@@ -306,7 +305,7 @@ export const GET = async (req, { params }) => {
       console.error("Error parsing cached data:", error.message);
     }
   } else {
-    const fetchdata = await fetchAndCacheData(id, idMal, meta, redis, cacheTime, !refresh);
+    const fetchdata = await fetchAndCacheData(id, meta, redis, cacheTime, !refresh);
     return NextResponse.json(fetchdata);
   }
 };
