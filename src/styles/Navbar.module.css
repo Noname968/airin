@@ -27,7 +27,7 @@
     height: 68px;
     padding: 0 3%;
     margin: auto;
-    background-color: rgba(0, 0, 0, 0.4);
+    background-color: rgba(0, 0, 0, 0.7);
     backdrop-filter: blur(4px);
     position: fixed;
     top: 0;
@@ -38,7 +38,7 @@
 }
 
 .navbarscroll {
-    background-color: rgba(0, 0, 0, 0.4);
+    background-color: rgba(0, 0, 0, 0.7);
     backdrop-filter: blur(10px);
     transition:all 300ms ease-in-out;
 }
