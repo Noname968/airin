@@ -11,9 +11,10 @@
     font-family: "28 Days Later";
 }
 
-/* html {
-    scroll-behavior: smooth !important;
-   } */
+html {
+    /* scroll-behavior: smooth !important; */
+    letter-spacing:0.05rem;
+   }
    
 ::-webkit-scrollbar {
     width: 6px;
@@ -169,5 +170,3 @@
     transition: 0.4s;
     transform: translateX(-56px);
   }
-  
-  
