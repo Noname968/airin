@@ -3,6 +3,7 @@ import React from 'react'
 import Link from 'next/link'
 import { useTitle } from '@/lib/store';
 import { useStore } from 'zustand';
+import Image from 'next/image';
 
 function Footer() {
     const animetitle = useStore(useTitle, (state) => state.animetitle);
@@ -42,11 +43,14 @@ function Footer() {
             <footer className="bg-[#151518] mt-10">
                 <div className="mx-auto w-full lg:max-w-[85%] p-4 py-6 lg:pt-8 lg:pb-3">
                     <div className="lg:flex lg:justify-between">
-                        <div className="mb-6 lg:mb-0">
+                        <div className="mb-6 lg:mb-0 flex flex-col lg:flex-row lg:items-center lg:gap-6">
                             <Link href="/" className="flex items-center w-fit">
-                                <p className={`aniplay self-center text-3xl font-medium whitespace-nowrap dark:text-white`}>ANIPLAY</p>
+                                {/* <p className={`aniplay self-center text-3xl font-medium whitespace-nowrap dark:text-white`}>
+                                    ANIPLAY
+                                    </p> */}
+                                    <Image src='/logo.svg' width={50} height={50} className="w-32 h-20 "/>
                             </Link>
-                            <p className="font-karla lg:text-[0.8rem] text-[0.7rem] text-[#ffffffb2] lg:w-[520px]">
+                            <p className="lg:text-[0.8rem] text-[0.7rem] text-[#ffffffb2] lg:w-[480px]">
                                 This site does not store any files on our server, we are linked
                                 to the media which is hosted on 3rd party services.
                             </p>

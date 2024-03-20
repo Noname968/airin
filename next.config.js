@@ -12,8 +12,11 @@ const withPWA = require("@ducanh2912/next-pwa").default({
   // ... other options you like
 });
 
+const million = require("million/compiler")
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  reactStrictMode: true,
     images: {
         domains: ['s4.anilist.co','artworks.thetvdb.com','media.kitsu.io', 'image.tmdb.org'],
         unoptimized: true
@@ -40,7 +43,12 @@ const nextConfig = {
     },
   }
   
-module.exports = withPWA(nextConfig);
+  const millionConfig = {
+    auto: true,// if you're using RSC: auto: { rsc: true },
+  };
+   
+  module.exports = million.next(withPWA(nextConfig), millionConfig);
+// module.exports = withPWA(nextConfig);
 // const withBundleAnalyzer = require('@next/bundle-analyzer')({
 //   enabled: process.env.ANALYZE === 'true',
 // })

@@ -4,7 +4,7 @@ import { NextUiProvider } from "./NextUiProvider";
 // import NextTopLoader from 'nextjs-toploader';
 import Search from '@/components/search/Search'
 import GoToTop from '@/components/GoToTop';
-// import localFont from 'next/font/local';
+import localFont from 'next/font/local';
 import Footer from '@/components/Footer';
 import Script from "next/script";
 import { getAuthSession } from './api/auth/[...nextauth]/route';
@@ -14,7 +14,7 @@ import FloatingButton from '@/components/FloatingButton';
 import { AuthProvider } from './SessionProvider';
 
 const inter = Inter({ subsets: ['latin'] })
-// const myfont = localFont({ src: "../static-fonts/28 Days Later.ttf" })
+const myfont = localFont({ src: "../static-fonts/AldotheApache.ttf" })
 
 const APP_NAME = "Aniplay";
 const APP_DEFAULT_TITLE = "Aniplay - Watch Anime Online";
@@ -96,7 +96,7 @@ export default async function RootLayout({ children }) {
         <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png" />
         {/* <script src="https://kit.fontawesome.com/c189d5d7c5.js" crossOrigin="anonymous" async></script> */}
       </head>
-      <body className={inter.className}>
+      <body className={myfont.className}>
         <AuthProvider session={session}>
           <NextUiProvider>
             {children}
