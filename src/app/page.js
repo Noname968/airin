@@ -60,6 +60,15 @@ async function Home() {
           transition={{ duration: 0.4 }}
           viewport={{ once: true }}
         >
+           <ContinueWatching session={session} />
+        </MotionDiv>
+        <MotionDiv
+          initial={{ y: 10, opacity: 0 }}
+          whileInView={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.4 }}
+          viewport={{ once: true }}
+        >
+        
           <Animecard data={herodata} cardid="Trending Now" />
         </MotionDiv>
         <MotionDiv
@@ -69,14 +78,6 @@ async function Home() {
           viewport={{ once: true }}
         >
           <RecentEpisodes cardid="Recent Episodes" />
-        </MotionDiv>
-        <MotionDiv
-          initial={{ y: 10, opacity: 0 }}
-          whileInView={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.4 }}
-          viewport={{ once: true }}
-        >
-          <ContinueWatching session={session} />
         </MotionDiv>
         <MotionDiv
           initial={{ y: 10, opacity: 0 }}
