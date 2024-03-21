@@ -1,4 +1,4 @@
-import { Inter } from 'next/font/google'
+import { Electrolize } from 'next/font/google'
 import './globals.css'
 import { NextUiProvider } from "./NextUiProvider";
 // import NextTopLoader from 'nextjs-toploader';
@@ -13,12 +13,12 @@ import Changelogs from '../components/Changelogs';
 import FloatingButton from '@/components/FloatingButton';
 import { AuthProvider } from './SessionProvider';
 
-const inter = Inter({ subsets: ['latin'] })
-const myfont = localFont({ src: "../static-fonts/AldotheApache.ttf" })
+const electrolize = Electrolize({ weight: '400', subsets: ['latin'] })
+//const myfont = localFont({ src: "../static-fonts/AldotheApache.ttf" })
 
 const APP_NAME = "Aniplay";
-const APP_DEFAULT_TITLE = "Aniplay - Watch Anime Online";
-const APP_DESCRIPTION = "Explore a vast collection of anime on Aniplay, your go-to destination for streaming the latest and classic anime series. Immerse yourself in captivating storylines, vibrant animation, and diverse genres. Discover a world of entertainment at your fingertips with Aniplay, where every episode is an adventure.";
+const APP_DEFAULT_TITLE = "Welcome to AniPlay - Your Ad-Free Anime Haven!";
+const APP_DESCRIPTION = "Discover a world of anime without interruptions on AniPlay! Watch your favorite series for free, with no ads to disrupt your viewing experience. Join now and immerse yourself in the captivating stories and vibrant characters that AniPlay has to offer!";
 
 export const metadata = {
   metadataBase: new URL('https://aniplaynow.live'),
@@ -96,7 +96,7 @@ export default async function RootLayout({ children }) {
         <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png" />
         {/* <script src="https://kit.fontawesome.com/c189d5d7c5.js" crossOrigin="anonymous" async></script> */}
       </head>
-      <body className={myfont.className}>
+      <body className={electrolize.className}>
         <AuthProvider session={session}>
           <NextUiProvider>
             {children}
