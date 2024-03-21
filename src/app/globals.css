@@ -2,21 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
+/* @font-face {
     font-family: "28 Days Later";
     src: url('../static-fonts/28 Days Later.ttf');
 }
 
 .aniplay{
     font-family: "28 Days Later";
-}
+} */
 
 #disqus_thread { color-scheme: none; }
-
+/* 
 html {
-    /* scroll-behavior: smooth !important; */
+    scroll-behavior: smooth !important;
     letter-spacing:0.05rem;
-   }
+   } */
 
 ::-webkit-scrollbar {
     width: 6px;

@@ -7,7 +7,7 @@
     justify-content: space-between;
     align-items: center;
     color: white;
-    height: 68px;
+    height: 64px;
     padding: 0 6.8%;
     margin: auto;
     background: transparent;
@@ -24,10 +24,10 @@
     justify-content: space-between;
     align-items: center;
     color: white;
-    height: 68px;
+    height: 60px;
     padding: 0 3%;
     margin: auto;
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(4px);
     position: fixed;
     top: 0;
@@ -58,7 +58,7 @@
 }
 
 .logoLink {
-    font-size: 2.2rem;
+    font-size: 2rem;
     margin: 4px 0 0 0;
     line-height: normal;
     text-decoration: none;

@@ -111,7 +111,7 @@ function Navbarcomponent({ home = false }) {
                 <div className={styles.logoContainer}>
                     <Link href="/" className={styles.logoLink}>
                         {/* ANIPLAY */}
-                        <Image src='/logo.svg' width={50} height={50} className="w-32 h-20 "/>
+                        <Image src='/logo.svg' width={50} height={50} className="w-32 !h-12 "/>
                     </Link>
                 </div>
                 <div className={styles.navItemsContainer}>
