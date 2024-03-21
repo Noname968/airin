@@ -11,11 +11,13 @@
     font-family: "28 Days Later";
 }
 
+#disqus_thread { color-scheme: none; }
+
 html {
     /* scroll-behavior: smooth !important; */
     letter-spacing:0.05rem;
    }
-   
+
 ::-webkit-scrollbar {
     width: 6px;
 }
@@ -110,7 +112,7 @@ html {
     cursor: pointer;
     border: 0;
   }
-  
+
   .button:before,
   .button:after {
     content: "";
@@ -118,13 +120,13 @@ html {
     border-radius: 50%;
     inset: 7px;
   }
-  
+
   .button:before {
     border: 4px solid #f0eeef;
     transition: opacity 0.4s cubic-bezier(0.77, 0, 0.175, 1) 80ms,
       transform 0.5s cubic-bezier(0.455, 0.03, 0.515, 0.955) 80ms;
   }
-  
+
   .button:after {
     border: 4px solid #96daf0;
     transform: scale(1.3);
@@ -132,14 +134,14 @@ html {
       transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     opacity: 0;
   }
-  
+
   .button-box {
     display: flex;
     position: absolute;
     top: 0;
     left: 0;
   }
-  
+
   .button-elem {
     display: block;
     width: 20px;
@@ -148,7 +150,7 @@ html {
     transform: rotate(180deg);
     fill: #f0eeef;
   }
-  
+
   .notf:hover .button:before,
   .notf:hover .button:before {
     opacity: 0;
@@ -156,7 +158,7 @@ html {
     transition: opacity 0.4s cubic-bezier(0.165, 0.84, 0.44, 1),
       transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
-  
+
   .notf:hover .button:after,
   .notf:focus .button:after {
     opacity: 1;
@@ -164,7 +166,7 @@ html {
     transition: opacity 0.4s cubic-bezier(0.77, 0, 0.175, 1) 80ms,
       transform 0.5s cubic-bezier(0.455, 0.03, 0.515, 0.955) 80ms;
   }
-  
+
   .notf:hover .button .button-box,
   .notf:focus .button .button-box {
     transition: 0.4s;
