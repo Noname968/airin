@@ -93,7 +93,8 @@ async function AnimeWatch({ params, searchParams }) {
           {data?.status === 'RELEASING' &&
             <NextAiringDate nextAiringEpisode={data?.nextAiringEpisode} />
           }
-          <DisqusComments
+         <div className="p-1">
+         <DisqusComments
             key={epId}
             post={{
               id: id,
@@ -102,6 +103,7 @@ async function AnimeWatch({ params, searchParams }) {
               name: "aniplayz",
             }}
           />
+         </div>
         </div>
         <div className="h-full lg:flex lg:flex-col md:max-lg:w-full gap-10">
         {/* <div className="rounded-lg hidden lg:block lg:max-w-[280px] xl:max-w-[380px] w-[100%] xl:overflow-y-scroll xl:overflow-x-hidden overflow-hidden scrollbar-hide overflow-y-hidden">
@@ -114,9 +116,9 @@ async function AnimeWatch({ params, searchParams }) {
         {/* <div className="lg:hidden">
         <Animecards data={data?.relations?.edges} cardid="Related Anime"/>
         </div> */}
-        <div className="lg:hidden">
+        {/* <div className="lg:hidden">
         <Animecards data={data?.recommendations?.nodes} cardid={"Recommendations"}/>
-        </div>
+        </div> */}
       </div>
     </>
   );
