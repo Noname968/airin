@@ -1,9 +1,9 @@
 <div align="center">
-  <a href="https://aniplaynow.live" target="_blank">
-    <img src="https://github.com/Luckyhv/aniplay/blob/c39875dc6e1bc2db9d8371574a9ab3ed95ff3b93/public/icon-512x512.png" alt="Logo" width="140" height="140">
+  <a href="https://Airinnow.live" target="_blank">
+    <img src="https://github.com/Luckyhv/Airin/blob/c39875dc6e1bc2db9d8371574a9ab3ed95ff3b93/public/icon-512x512.png" alt="Logo" width="140" height="140">
   </a>
 
-  <h2 align="center">Aniplay</h3>
+  <h2 align="center">Airin</h3>
 
   <p align="center">
     An open-source Anime streaming site built with Nextjs 14
@@ -48,7 +48,7 @@ Enjoy ad-free streaming and seamless progress tracking with AniList integration,
     - [ ] Mangadex
     - [ ] And some more
 
-See the [open issues](https://github.com/Luckyhv/aniplay/issues) for a full list of proposed features (and known issues).
+See the [open issues](https://github.com/Luckyhv/Airin/issues) for a full list of proposed features (and known issues).
 
 
 ## Environment Variables
@@ -94,12 +94,12 @@ NEXT_PUBLIC_PRODUCTION_URL="Your deployement URL. Don't put / at the end of the 
 
 Clone the project
 ```bash
-  git clone https://github.com/Luckyhv/aniplay.git
+  git clone https://github.com/Luckyhv/Airin.git
 ```
 
 Go to the project directory
 ```bash
-  cd aniplay
+  cd Airin
 ```
 
 Install dependencies
@@ -122,29 +122,29 @@ Move the .env file somewhere it won't bother you (optional)
 Run the image:
 ```bash
 docker run -d -it \
---name Aniplay \
+--name Airin \
 -p 3000:3000 \
 -v <path_of_env_file>/.env:/usr/src/app/.env \
-ghcr.io/luckyhv/aniplay:latest
+ghcr.io/luckyhv/Airin:latest
 ```
 
 For Docker Compose:
 ```yaml
 version: "3.3"
 services:
-  aniplay:
-    container_name: Aniplay
+  Airin:
+    container_name: Airin
     ports:
       - 3000:3000
     volumes:
       - <path_of_env_file>/.env:/usr/src/app/.env
-    image: ghcr.io/luckyhv/aniplay:latest
+    image: ghcr.io/luckyhv/Airin:latest
 ```
 
 For at full stack deploy (db, redis, consumet api)
-See [docker-compose.yml](https://github.com/Luckyhv/aniplay/blob/master/docker-compose.yml)
+See [docker-compose.yml](https://github.com/Luckyhv/Airin/blob/master/docker-compose.yml)
 
-Access Aniplay at ``http://localhost:3000``
+Access Airin at ``http://localhost:3000``
 
 <!-- CONTRIBUTING -->
 ## Contributing
@@ -163,7 +163,7 @@ Don't forget to give the project a star! Thanks again!
 <!-- CONTACT -->
 ## Contact
 
-Project Link: [https://github.com/Luckyhv/aniplay](https://github.com/Luckyhv/aniplay)
+Project Link: [https://github.com/Luckyhv/Airin](https://github.com/Luckyhv/Airin)
 
 Discord Server: [https://discord.gg/aW5P4W94ZS](https://discord.gg/aW5P4W94ZS)
 

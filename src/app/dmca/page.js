@@ -11,7 +11,7 @@ function page() {
       <div className="mx-auto w-[94%] lg:w-[80%]">
         <h1 className="text-3xl font-bold mt-4 md:mt-8">DMCA - Disclaimer</h1>
         <p className="mt-4 text-[#bdbdbd]">
-          Aniplaynow.live is committed to respecting the intellectual property
+          Airinnow.live is committed to respecting the intellectual property
           rights of others and complying with the Digital Millennium Copyright
           Act (DMCA). We take copyright infringement seriously and will respond
           to notices of alleged copyright infringement that comply with the DMCA
@@ -76,7 +76,7 @@ function page() {
 
         <h2 className="text-2xl font-bold mt-8">NOTE:</h2>
         <p className="mt-4 text-[#bdbdbd]">
-          None of the files listed on aniplaynow.live are hosted on our servers. All
+          None of the files listed on Airinnow.live are hosted on our servers. All
           links point to content hosted on third-party websites. gojo.live does
           not accept responsibility for content hosted on third-party websites
           and has no involvement in the downloading/uploading of movies. We only
@@ -84,8 +84,8 @@ function page() {
           content on our website infringes upon your intellectual property
           rights and you hold the copyright for that content, please report it
           to{" "}
-          <Link href="mailto:contact@aniplaynow.live" className="text-white">
-            contact@aniplaynow.live
+          <Link href="mailto:contact@Airinnow.live" className="text-white">
+            contact@Airinnow.live
           </Link>{" "}
           and the content will be immediately removed.
         </p>

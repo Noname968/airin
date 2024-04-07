@@ -5,7 +5,7 @@ import { DiscussionEmbed } from "disqus-react";
 const DisqusComments = ({ post }) => {
   let currentUrl = typeof window !== 'undefined' ? window.location.href : '';
   currentUrl = currentUrl.replace(/&?host=[^&]*/, '').replace(/&?epid=[^&]*/, '').replace(/&?type=[^&]*/, '');
-  const disqusShortname = "aniplayz";
+  const disqusShortname = "Airinz";
   const disqusConfig = {
     url: currentUrl,
     identifier: currentUrl,

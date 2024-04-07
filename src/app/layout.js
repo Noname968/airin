@@ -16,9 +16,9 @@ import { AuthProvider } from './SessionProvider';
 const inter = Inter({ subsets: ['latin'] })
 //const myfont = localFont({ src: "../static-fonts/AldotheApache.ttf" })
 
-const APP_NAME = "Aniplay";
-const APP_DEFAULT_TITLE = "Welcome to AniPlay - Your Ad-Free Anime Haven!";
-const APP_DESCRIPTION = "Discover a world of anime without interruptions on AniPlay! Watch your favorite series for free, with no ads to disrupt your viewing experience. Join now and immerse yourself in the captivating stories and vibrant characters that AniPlay has to offer!";
+const APP_NAME = "Airin";
+const APP_DEFAULT_TITLE = "Welcome to Airin - Your Ad-Free Anime Haven!";
+const APP_DESCRIPTION = "Discover a world of anime without interruptions on Airin! Watch your favorite series for free, with no ads to disrupt your viewing experience. Join now and immerse yourself in the captivating stories and vibrant characters that Airin has to offer!";
 
 export const metadata = {
   metadataBase: new URL('https://aniplaynow.live'),
@@ -48,7 +48,7 @@ export const metadata = {
     'latest dubbed anime',
     'subbed anime streaming',
     'dubbed anime streaming',
-    'aniplay latest anime',
+    'Airin latest anime',
   ],
   manifest: "/manifest.json",
   appleWebApp: {
