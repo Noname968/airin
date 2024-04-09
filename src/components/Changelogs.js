@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Modal, ModalContent, ModalBody, ModalFooter, Button, useDisclosure } from "@nextui-org/react";
 import Link from "next/link";
 
-const newVersion = "V3.0.0"
+const newVersion = "V3.2.0"
 
 const releaseLogs = [
     // {
@@ -46,15 +46,12 @@ const releaseLogs = [
     //     ],
     // },
     {
-        version: "V3.0.0",
+        version: "V3.2.0",
         changes: [
-            "Many anime now has Gogoanime, Zoro is also fixed.",
-            "Now Episode details will be available for more anime.",
-            "Newly added filler tag - Currently on Zoro Provider.",
-            "Now u can find Uncensored Versions of anime.",
-            "Major Performance Improvement.",
-            "I guess Recent Episodes is fixed.",
-            "View Github for more information",
+            "Rebranded from Aniplay to Airin.",
+            "WIll push new updates next week.",
+            "Made some changes to license.",
+           "Aniplay will still work but with different Ui."
         ],
     },
 ];
@@ -92,7 +89,7 @@ export default function Changelogs() {
                                         <div className="flex gap-3 items-center">
                                             {/* Github Icon */}
                                             <Link
-                                                href="https://github.com"
+                                                href="https://github.com/Noname968/airin"
                                                 target="_blank"
                                                 className="w-5 h-5 hover:opacity-75"
                                             >
@@ -122,7 +119,7 @@ export default function Changelogs() {
                                             </Link>
                                             {/* Discord Icon */}
                                             <Link
-                                                href="https://discord.gg/pZT5y8EDxn"
+                                                href="https://discord.gg/QnbFaudJNf"
                                                 target="_blank"
                                                 className="w-6 h-6 hover:opacity-75"
                                             >
