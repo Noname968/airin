@@ -1,5 +1,5 @@
 <div align="center">
-  <a href="https://Airinnow.live" target="_blank">
+  <a href="https://Aniplaynow.live" target="_blank">
     <img src="https://github.com/Luckyhv/Airin/blob/c39875dc6e1bc2db9d8371574a9ab3ed95ff3b93/public/icon-512x512.png" alt="Logo" width="140" height="140">
   </a>
 
@@ -163,8 +163,8 @@ Don't forget to give the project a star! Thanks again!
 <!-- CONTACT -->
 ## Contact
 
-Project Link: [https://github.com/Luckyhv/Airin](https://github.com/Luckyhv/Airin)
+Project Link: [https://github.com/Noname968/Airin](https://github.com/Noname968/Airin)
 
-Discord Server: [https://discord.gg/aW5P4W94ZS](https://discord.gg/aW5P4W94ZS)
+Discord Server: [https://discord.gg/QnbFaudJNf](https://discord.gg/QnbFaudJNf)
 
 For any queries you can DM me on Discord `harsha9680`.
