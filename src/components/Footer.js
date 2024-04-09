@@ -45,8 +45,8 @@ function Footer() {
                     <div className="lg:flex lg:justify-between">
                         <div className="mb-6 lg:mb-0 flex flex-col lg:flex-row lg:items-center lg:gap-6">
                             <Link href="/" className="flex items-center w-fit">
-                                {/* <p className={`aniplay self-center text-3xl font-medium whitespace-nowrap dark:text-white`}>
-                                    ANIPLAY
+                                {/* <p className={`Airin self-center text-3xl font-medium whitespace-nowrap dark:text-white`}>
+                                    Airin
                                     </p> */}
                                     <Image src='/logo.svg' width={50} height={50} className="w-32 h-20 "/>
                             </Link>
@@ -87,7 +87,7 @@ function Footer() {
                 </div>
                 <div className='bg-tersier border-t border-white/5 mt-2'></div>
                 <div className="mx-auto w-full lg:max-w-[83%] lg:flex lg:items-center lg:justify-between lg:text-[0.8rem] text-[0.7rem] text-[#ffffffb2] py-3">
-                    <span className="sm:text-center ms-5 lg:ms-0">© {year} <Link href="/" className="hover:text-white">ANIPLAY™</Link> | Made by <span className="font-bold" >Aniplay Team</span>
+                    <span className="sm:text-center ms-5 lg:ms-0">© {year} <Link href="/" className="hover:text-white">Airin™</Link> | Made by <span className="font-bold" >Airin Team</span>
                     </span>
                     <div className="flex mt-4 lg:justify-center lg:mt-0">
                         <Link href="https://github.com" target="_blank" className=" hover:text-gray-900 dark:hover:text-white ms-5 lg:ms-0">

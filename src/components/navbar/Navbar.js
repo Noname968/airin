@@ -110,7 +110,7 @@ function Navbarcomponent({ home = false }) {
             <div className={styles.navleft}>
                 <div className={styles.logoContainer}>
                     <Link href="/" className={styles.logoLink}>
-                        {/* ANIPLAY */}
+                        {/* Airin */}
                         <Image src='/logo.svg' width={50} height={50} className="w-32 !h-12 "/>
                     </Link>
                 </div>
@@ -118,7 +118,7 @@ function Navbarcomponent({ home = false }) {
                     <Link href="/anime/catalog" className={styles.navItem}>Catalog</Link>
                     <Link href="/anime/catalog?sortby=TRENDING_DESC" className={styles.navItem}>Trending</Link>
                     <Link href="/anime/catalog?format=MOVIE" className={styles.navItem}>Movies</Link>
-                    <Link href="https://community.aniplaynow.live" className={styles.navItem}>Community</Link>
+                    <Link href="https://community.Airinnow.live" className={styles.navItem}>Community</Link>
                 </div>
             </div>
             <div className={styles.navright}>
