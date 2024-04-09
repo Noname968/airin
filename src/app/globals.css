@@ -2,16 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
-/* @font-face {
+@font-face {
     font-family: "28 Days Later";
     src: url('../static-fonts/28 Days Later.ttf');
 }
 
-.aniplay{
+.Airin{
     font-family: "28 Days Later";
-} */
+}
 
-#disqus_thread { color-scheme: none; }
 /* 
 html {
     scroll-behavior: smooth !important;

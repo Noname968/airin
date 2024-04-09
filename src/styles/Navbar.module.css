@@ -58,12 +58,12 @@
 }
 
 .logoLink {
-    font-size: 2rem;
+    font-size: 2.2rem;
     margin: 4px 0 0 0;
     line-height: normal;
+    letter-spacing: 1px;
     text-decoration: none;
 }
-
 
 .navItemsContainer {
     display: flex;

@@ -6,7 +6,6 @@ import Navbarcomponent from "@/components/navbar/Navbar";
 import PlayerComponent from "@/components/videoplayer/PlayerComponent";
 import Animecards from "@/components/CardComponent/Animecards";
 import { createWatchEp, getEpisode } from "@/lib/EpHistoryfunctions";
-import DisqusComments from "@/components/comments/DisqusComments";
 import { WatchPageInfo } from "@/lib/AnilistUser";
 import { getAuthSession } from "../../../api/auth/[...nextauth]/route";
 import { redis } from '@/lib/rediscache';
@@ -93,17 +92,6 @@ async function AnimeWatch({ params, searchParams }) {
           {data?.status === 'RELEASING' &&
             <NextAiringDate nextAiringEpisode={data?.nextAiringEpisode} />
           }
-         <div className="p-1">
-         <DisqusComments
-            key={epId}
-            post={{
-              id: id,
-              title: data?.title?.english || data?.title?.romaji,
-              episode: epNum,
-              name: "Airinz",
-            }}
-          />
-         </div>
         </div>
         <div className="h-full lg:flex lg:flex-col md:max-lg:w-full gap-10">
         {/* <div className="rounded-lg hidden lg:block lg:max-w-[280px] xl:max-w-[380px] w-[100%] xl:overflow-y-scroll xl:overflow-x-hidden overflow-hidden scrollbar-hide overflow-y-hidden">
