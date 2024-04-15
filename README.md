@@ -1,6 +1,6 @@
 <div align="center">
   <a href="https://Aniplaynow.live" target="_blank">
-    <img src="https://github.com/Luckyhv/Airin/blob/c39875dc6e1bc2db9d8371574a9ab3ed95ff3b93/public/icon-512x512.png" alt="Logo" width="140" height="140">
+    <img src="https://github.com/Noname968/airin/blob/c39875dc6e1bc2db9d8371574a9ab3ed95ff3b93/public/icon-512x512.png" alt="Logo" width="140" height="140">
   </a>
 
   <h2 align="center">Airin</h3>
@@ -48,7 +48,7 @@ Enjoy ad-free streaming and seamless progress tracking with AniList integration,
     - [ ] Mangadex
     - [ ] And some more
 
-See the [open issues](https://github.com/Luckyhv/Airin/issues) for a full list of proposed features (and known issues).
+See the [open issues](https://github.com/Noname968/airin/issues) for a full list of proposed features (and known issues).
 
 
 ## Environment Variables
@@ -94,12 +94,12 @@ NEXT_PUBLIC_PRODUCTION_URL="Your deployement URL. Don't put / at the end of the 
 
 Clone the project
 ```bash
-  git clone https://github.com/Luckyhv/Airin.git
+  git clone https://github.com/Noname968/airin.git
 ```
 
 Go to the project directory
 ```bash
-  cd Airin
+  cd airin
 ```
 
 Install dependencies
@@ -122,27 +122,27 @@ Move the .env file somewhere it won't bother you (optional)
 Run the image:
 ```bash
 docker run -d -it \
---name Airin \
+--name airin \
 -p 3000:3000 \
 -v <path_of_env_file>/.env:/usr/src/app/.env \
-ghcr.io/luckyhv/Airin:latest
+ghcr.io/Noname968/airin:latest
 ```
 
 For Docker Compose:
 ```yaml
 version: "3.3"
 services:
-  Airin:
-    container_name: Airin
+  airin:
+    container_name: airin
     ports:
       - 3000:3000
     volumes:
       - <path_of_env_file>/.env:/usr/src/app/.env
-    image: ghcr.io/luckyhv/Airin:latest
+    image: ghcr.io/Noname968/airin:latest
 ```
 
 For at full stack deploy (db, redis, consumet api)
-See [docker-compose.yml](https://github.com/Luckyhv/Airin/blob/master/docker-compose.yml)
+See [docker-compose.yml](https://github.com/Noname968/airin/blob/master/docker-compose.yml)
 
 Access Airin at ``http://localhost:3000``
 
@@ -163,7 +163,7 @@ Don't forget to give the project a star! Thanks again!
 <!-- CONTACT -->
 ## Contact
 
-Project Link: [https://github.com/Noname968/Airin](https://github.com/Noname968/Airin)
+Project Link: [https://github.com/Noname968/airin](https://github.com/Noname968/airin)
 
 Discord Server: [https://discord.gg/QnbFaudJNf](https://discord.gg/QnbFaudJNf)
 
