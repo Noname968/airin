@@ -1,11 +1,11 @@
 version: "3.3"
 services:
-  aniplay:
-    container_name: Aniplay
+  airin:
+    container_name: airin
     restart: always
     ports:
       - 3000:3000
-    image: ghcr.io/luckyhv/aniplay:latest
+    image: ghcr.io/Noname968/airin:latest
     links:
       - redis:redis
       - consumet:consumet
