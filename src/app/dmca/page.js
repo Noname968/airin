@@ -11,7 +11,7 @@ function page() {
       <div className="mx-auto w-[94%] lg:w-[80%]">
         <h1 className="text-3xl font-bold mt-4 md:mt-8">DMCA - Disclaimer</h1>
         <p className="mt-4 text-[#bdbdbd]">
-          Airinnow.live is committed to respecting the intellectual property
+          mirn is committed to respecting the intellectual property
           rights of others and complying with the Digital Millennium Copyright
           Act (DMCA). We take copyright infringement seriously and will respond
           to notices of alleged copyright infringement that comply with the DMCA

@@ -110,7 +110,7 @@ function Navbarcomponent({ home = false }) {
             <div className={styles.navleft}>
                 <div className={styles.logoContainer}>
                     <Link href="/" className={styles.logoLink}>
-                        Airin
+                        Mirn
                     </Link>
                 </div>
                 <div className={styles.navItemsContainer}>
