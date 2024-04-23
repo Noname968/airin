@@ -16,7 +16,7 @@ import { AuthProvider } from './SessionProvider';
 const inter = Inter({ subsets: ['latin'] })
 //const myfont = localFont({ src: "../static-fonts/AldotheApache.ttf" })
 
-const APP_NAME = "Mirn";
+const APP_NAME = "Mussab";
 const APP_DEFAULT_TITLE = "Mirn  - Watch Anime Online, Free Anime Streaming";
 const APP_DESCRIPTION = "Discover a world of anime without interruptions on Mirn! Watch your favorite series for free, with no ads to disrupt your viewing experience. Join now and immerse yourself in the captivating stories and vibrant characters that Airin has to offer!";
 
