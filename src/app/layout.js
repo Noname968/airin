@@ -17,7 +17,7 @@ const inter = Inter({ subsets: ['latin'] })
 //const myfont = localFont({ src: "../static-fonts/AldotheApache.ttf" })
 
 const APP_NAME = "Airin";
-const APP_DEFAULT_TITLE = "Welcome to Airin - Your Ad-Free Anime Haven!";
+const APP_DEFAULT_TITLE = "Airin - Watch Anime Online";
 const APP_DESCRIPTION = "Discover a world of anime without interruptions on Airin! Watch your favorite series for free, with no ads to disrupt your viewing experience. Join now and immerse yourself in the captivating stories and vibrant characters that Airin has to offer!";
 
 export const metadata = {

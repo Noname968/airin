@@ -185,7 +185,7 @@ function Episodesection({ data, id, progress, setUrl }) {
                         radius="sm"
                         onChange={handleRangeChange}
                       >
-                        {episodeRangeOptions.map((option) => (
+                        {episodeRangeOptions?.map((option) => (
                           <SelectItem key={option.value} value={option.value}>
                             {option.label}
                           </SelectItem>
@@ -237,7 +237,7 @@ function Episodesection({ data, id, progress, setUrl }) {
                     onChange={handleSubDub}
                     disallowEmptySelection={true}
                   >
-                    {suboptions.map((type) => (
+                    {suboptions?.map((type) => (
                       <SelectItem key={type} value={type}>
                         {type}
                       </SelectItem>

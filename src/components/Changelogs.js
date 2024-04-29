@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Modal, ModalContent, ModalBody, ModalFooter, Button, useDisclosure } from "@nextui-org/react";
 import Link from "next/link";
 
-const newVersion = "V3.2.0"
+const newVersion = "V3.2.1"
 
 const releaseLogs = [
     // {
@@ -46,12 +46,13 @@ const releaseLogs = [
     //     ],
     // },
     {
-        version: "V3.2.0",
+        version: "V3.2.1",
         changes: [
-            "Rebranded from Aniplay to Airin.",
-            "WIll push new updates next week.",
-            "Made some changes to license.",
-           "Aniplay will still work but with different Ui."
+            "Performance Improvements",
+            "Added All Time Popular in home page",
+            "Change Seasonal Anime to latest Season",
+            "Fixed Player Not Working Properly",
+            "Fixed Some Bugs",
         ],
     },
 ];
@@ -158,7 +159,7 @@ export default function Changelogs() {
                             </ModalBody>
                             <ModalFooter>
                                 <Button className="bg-[#4D148C] rounded-lg" onPress={onClose}>
-                                Dismiss
+                                    Dismiss
                                 </Button>
                             </ModalFooter>
                         </>
