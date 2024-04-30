@@ -105,6 +105,59 @@ query($perPage: Int, $page: Int) {
     }
 }`
 
+
+export const popular = `
+query($perPage: Int, $page: Int) {
+    Page(page: $page, perPage: $perPage) {
+        pageInfo {
+            total
+            perPage
+            currentPage
+            lastPage
+            hasNextPage
+        }
+        media (sort :POPULARITY_DESC, type : ANIME){
+            id
+            idMal
+            title {
+                romaji
+                english
+                userPreferred
+            }
+            coverImage {
+                large
+                extraLarge
+                color
+            }
+            episodes
+            status
+            duration
+            genres
+            description
+            bannerImage
+            season
+            format
+            averageScore
+            popularity
+            nextAiringEpisode {
+                airingAt
+                episode
+              }
+              seasonYear
+              startDate {
+                year
+                month
+                day
+              }
+              endDate {
+                year
+                month
+                day
+              }
+        }
+    }
+}`
+
 export const seasonal = `
 query($perPage: Int, $page: Int) {
     Page(page: $page, perPage: $perPage) {
