@@ -69,4 +69,4 @@ COPY --from=build /usr/src/app/.next ./.next
 EXPOSE 3000
 
 # Run the application.
-CMD npm dev
+CMD npm start
