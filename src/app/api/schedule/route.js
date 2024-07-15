@@ -5,7 +5,7 @@ import { NextResponse } from "next/server";
 async function fetchSchedule() {
     try {
         const { data } = await axios.get(
-            `https://api.anify.tv/schedule?fields=[id,title,coverImage]`
+            `https://anify.eltik.cc/schedule?fields=[id,title,coverImage]`
         );
         return data;
     } catch (error) {

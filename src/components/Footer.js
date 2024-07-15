@@ -83,7 +83,7 @@ function Footer() {
                 </div>
                 <div className='bg-tersier border-t border-white/5 mt-2'></div>
                 <div className="mx-auto w-full lg:max-w-[83%] lg:flex lg:items-center lg:justify-between lg:text-[0.8rem] text-[0.7rem] text-[#ffffffb2] py-3">
-                    <span className="sm:text-center ms-5 lg:ms-0">© {year} <Link href="/" className="hover:text-white">Airin™</Link> | Made by <span className="font-bold" >Airin Team</span>
+                    <span className="sm:text-center ms-5 lg:ms-0">© {year} <Link href="/" className="hover:text-white">Airin™</Link> | Made by <span className="font-bold" >Luckyhv</span>
                     </span>
                     <div className="flex mt-4 lg:justify-center lg:mt-0">
                         <Link href="https://github.com/Noname968/airin" target="_blank" className=" hover:text-gray-900 dark:hover:text-white ms-5 lg:ms-0">

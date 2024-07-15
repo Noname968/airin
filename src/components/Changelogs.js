@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Modal, ModalContent, ModalBody, ModalFooter, Button, useDisclosure } from "@nextui-org/react";
 import Link from "next/link";
 
-const newVersion = "V3.2.1"
+const newVersion = "V3.2.2"
 
 const releaseLogs = [
     // {
@@ -45,12 +45,22 @@ const releaseLogs = [
     //         "View Github for more information",
     //     ],
     // },
+    // {
+    //     version: "V3.2.1",
+    //     changes: [
+    //         "Performance Improvements",
+    //         "Added All Time Popular in home page",
+    //         "Change Seasonal Anime to latest Season",
+    //         "Fixed Player Not Working Properly",
+    //         "Fixed Some Bugs",
+    //     ],
+    // },
     {
-        version: "V3.2.1",
+        version: "V3.2.2",
         changes: [
-            "Performance Improvements",
-            "Added All Time Popular in home page",
-            "Change Seasonal Anime to latest Season",
+            "Fixed new anime not showing.",
+            "Fixed anime not found issue.",
+            "Fixed recent episodes",
             "Fixed Player Not Working Properly",
             "Fixed Some Bugs",
         ],

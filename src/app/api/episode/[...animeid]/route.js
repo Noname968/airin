@@ -45,7 +45,7 @@ async function fetchConsumet(id) {
 
 async function fetchAnify(id) {
   try {
-    const { data } = await axios.get(`https://api.anify.tv/info/${id}?fields=[episodes]`);
+    const { data } = await axios.get(`https://anify.eltik.cc/info/${id}?fields=[episodes]`);
 
     if (!data || !data?.episodes?.data) {
       return [];
@@ -81,14 +81,12 @@ async function MalSync(id) {
     newdata.forEach(item => {
       const { providerId, data } = item;
       if (providerId === 'gogoanime') {
-        const remove = 'https://anitaku.to/category/';
         const dub = data.find(item => item.title.toLowerCase().endsWith(" (dub)"));
-        const duburl = dub?.url?.replace(remove,'');
-        const sub = data.find(item => item.title.toLowerCase().includes(" (uncensored)"))?.url?.replace(remove,'') ?? data.find((item) => item?.url === dub?.url?.replace(/-dub$/, ''))?.url?.replace(remove,'') ?? data.find(item => !item.title.toLowerCase().includes(")"))?.url?.replace(remove,'');
+        const duburl = dub?.url?.split('/').pop();
+        const sub = data.find(item => item.title.toLowerCase().includes(" (uncensored)"))?.url?.split('/').pop() ?? data.find((item) => item?.url === dub?.url?.replace(/-dub$/, ''))?.url?.split('/').pop() ?? data.find(item => !item.title.toLowerCase().includes(")"))?.url?.split('/').pop();
         finaldata.push({ providerId, sub: sub || "", dub: duburl || "" });
       } else {
-        const remove = 'https://hianime.to/';
-        const sub = data[0]?.url?.replace(remove, '')
+        const sub = data[0]?.url?.split('/').pop()
         finaldata.push({ providerId, sub: sub || '' });
       }
     });

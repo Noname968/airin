@@ -10,7 +10,7 @@ axios.interceptors.request.use(config => {
 async function fetchRecent() {
     try {
         const { data } = await axios.get(
-            `https://api.anify.tv/recent?type=anime&page=1&perPage=20&fields=[id,title,status,format,currentEpisode,coverImage,episodes,totalEpisodes]`
+            `https://anify.eltik.cc/recent?type=anime&page=1&perPage=20&fields=[id,title,status,format,currentEpisode,coverImage,episodes,totalEpisodes]`
         );
 
         const mappedData = data.map((i) => {
