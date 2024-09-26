@@ -1057,6 +1057,26 @@
   resolved "https://registry.npmjs.org/@eslint/js/-/js-8.57.1.tgz"
   integrity sha512-d9zaMRSTIKDLhctzH12MtXvJKSSUhaHcjV+2Z+GK+EEY7XKpP5yR4x+N3TAcHTcu963nIr+TMcCb4DBCYX1z6Q==
 
+"@floating-ui/core@^1.6.0":
+  version "1.6.8"
+  resolved "https://registry.npmjs.org/@floating-ui/core/-/core-1.6.8.tgz"
+  integrity sha512-7XJ9cPU+yI2QeLS+FCSlqNFZJq8arvswefkZrYI1yQBbftw6FyrZOxYSh+9S7z7TpeWlRt9zJ5IhM1WIL334jA==
+  dependencies:
+    "@floating-ui/utils" "^0.2.8"
+
+"@floating-ui/dom@^1.6.10":
+  version "1.6.11"
+  resolved "https://registry.npmjs.org/@floating-ui/dom/-/dom-1.6.11.tgz"
+  integrity sha512-qkMCxSR24v2vGkhYDo/UzxfJN3D4syqSjyuTFz6C7XcpU1pASPRieNI0Kj5VP3/503mOfYiGY891ugBX1GlABQ==
+  dependencies:
+    "@floating-ui/core" "^1.6.0"
+    "@floating-ui/utils" "^0.2.8"
+
+"@floating-ui/utils@^0.2.8":
+  version "0.2.8"
+  resolved "https://registry.npmjs.org/@floating-ui/utils/-/utils-0.2.8.tgz"
+  integrity sha512-kym7SodPp8/wloecOpcmSnWJsK7M0E5Wg8UcFA+uO4B9s5d0ywXOEro/8HM9x0rW+TljRzul/14UYz3TleT3ig==
+
 "@formatjs/ecma402-abstract@1.18.2":
   version "1.18.2"
   resolved "https://registry.npmjs.org/@formatjs/ecma402-abstract/-/ecma402-abstract-1.18.2.tgz"
@@ -3144,12 +3164,13 @@
   resolved "https://registry.npmjs.org/@ungap/structured-clone/-/structured-clone-1.2.0.tgz"
   integrity sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==
 
-"@vidstack/react@^1.11.21":
-  version "1.11.21"
-  resolved "https://registry.npmjs.org/@vidstack/react/-/react-1.11.21.tgz"
-  integrity sha512-eaMh8raSJw8L523UtmooC7IkBxMriny9X1LMk0qsJ1oZ+JGjvgLEYTPkdyLsDIJjrP4hmeeK+12kPZepHSC1pw==
+"@vidstack/react@^1.12.11":
+  version "1.12.11"
+  resolved "https://registry.npmjs.org/@vidstack/react/-/react-1.12.11.tgz"
+  integrity sha512-rtSRjjob1k/mkzImN0wWPKYFi/Y7bsuSkDl/RfTxTKlDs4QzFtVwkUfgN1h8y+EUKJvMe9ozVHKdBtGYKDr6FQ==
   dependencies:
-    media-captions "^1.0.1"
+    "@floating-ui/dom" "^1.6.10"
+    media-captions "^1.0.4"
 
 "@webassemblyjs/ast@^1.11.5", "@webassemblyjs/ast@1.11.6":
   version "1.11.6"
@@ -4848,10 +4869,10 @@ hasown@^2.0.0, hasown@^2.0.1:
   dependencies:
     function-bind "^1.1.2"
 
-hls.js@^1.5.8:
-  version "1.5.8"
-  resolved "https://registry.npmjs.org/hls.js/-/hls.js-1.5.8.tgz"
-  integrity sha512-hJYMPfLhWO7/7+n4f9pn6bOheCGx0WgvVz7k3ouq3Pp1bja48NN+HeCQu3XCGYzqWQF/wo7Sk6dJAyWVJD8ECA==
+hls.js@^1.5.15:
+  version "1.5.15"
+  resolved "https://registry.npmjs.org/hls.js/-/hls.js-1.5.15.tgz"
+  integrity sha512-6cD7xN6bycBHaXz2WyPIaHn/iXFizE5au2yvY5q9aC4wfihxAr16C9fUy4nxh2a3wOw0fEgLRa9dN6wsYjlpNg==
 
 html-escaper@^2.0.2:
   version "2.0.2"
@@ -5511,10 +5532,10 @@ magic-string@^0.25.0, magic-string@^0.25.7:
   dependencies:
     sourcemap-codec "^1.4.8"
 
-media-captions@^1.0.1:
-  version "1.0.2"
-  resolved "https://registry.npmjs.org/media-captions/-/media-captions-1.0.2.tgz"
-  integrity sha512-QxAFc+XTGZeMx+ZvLtMxEDgAjd0kr1LJ2NekLr1cw/UKENOxK7B9g6HwtuTQzCXxmb4Dknd4T8M7FOqqCK9buA==
+media-captions@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.npmjs.org/media-captions/-/media-captions-1.0.4.tgz"
+  integrity sha512-cyDNmuZvvO4H27rcBq2Eudxo9IZRDCOX/I7VEyqbxsEiD2Ei7UYUhG/Sc5fvMZjmathgz3fEK7iAKqvpY+Ux1w==
 
 media-icons@^1.1.4:
   version "1.1.4"

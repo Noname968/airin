@@ -104,8 +104,13 @@ const fetchAndCacheData = async (id, meta, redis, cacheTime, refresh) => {
         );
       }
       if (subEpisodes?.length > 0) {
+        const transformedEpisodes = subEpisodes.map(episode => ({
+          ...episode,
+          id: transformEpisodeId(episode.id)
+        }));
+      
         allepisodes.push({
-          episodes: subEpisodes,
+          episodes: transformedEpisodes,
           providerId: "zoro",
         });
       }
@@ -214,3 +219,14 @@ export const getEpisodes = async (id, status, refresh = false) => {
     return fetchdata;
   }
 };
+
+
+function transformEpisodeId(episodeId) {
+  const regex = /^([^$]*)\$episode\$([^$]*)/;
+  const match = episodeId.match(regex);
+
+  if (match && match[1] && match[2]) {
+    return `${match[1]}?ep=${match[2]}`; // Construct the desired output with the episode number
+  }
+  return episodeId; // Return original ID if no match is found
+}
