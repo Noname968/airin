@@ -13,7 +13,7 @@ import {
 import { useRouter } from "next/navigation";
 import VideoProgressSave from '../../../utils/VideoProgressSave';
 import { VideoLayout } from "./components/layouts/video-layout";
-// import { DefaultVideoKeyboardActionDisplay } from '@vidstack/react/player/layouts/default';
+import { DefaultKeyboardDisplay } from '@vidstack/react/player/layouts/default';
 import '@vidstack/react/player/styles/default/keyboard.css';
 import { updateEp } from "@/lib/EpHistoryfunctions";
 import { saveProgress } from "@/lib/AnilistUser";
@@ -236,6 +236,7 @@ function Player({ dataInfo, id, groupedEp, src, session, savedep, subtitles, thu
       className={`${styles.player} player relative`}
       crossOrigin={"anonymous"}
       streamType="on-demand"
+      keyTarget={playerRef}
       onEnd={onEnd}
       onEnded={onEnded}
       onCanPlay={onCanPlay}
@@ -261,7 +262,7 @@ function Player({ dataInfo, id, groupedEp, src, session, savedep, subtitles, thu
         thumbnails={thumbnails ? process.env.NEXT_PUBLIC_PROXY_URI + '/' + thumbnails[0]?.src : ""}
         groupedEp={groupedEp}
       />
-      {/* <DefaultVideoKeyboardActionDisplay
+      <DefaultKeyboardDisplay
         icons={{
           Play: null,
           Pause: null,
@@ -277,7 +278,7 @@ function Player({ dataInfo, id, groupedEp, src, session, savedep, subtitles, thu
           SeekForward: FastForwardIcon,
           SeekBackward: FastBackwardIcon,
         }}
-      /> */}
+      />
     </MediaPlayer>
   )
 }

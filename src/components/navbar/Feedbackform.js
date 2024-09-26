@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Input, Select, SelectItem, Textarea } from "@nextui-org/react";
 import { toast } from 'sonner';
+import { createFeedback } from '@/actions/feedback';
 
 export default function Feedbackform({ isOpen, onOpenChange }) {
     const [title, setTitle] = useState("");
@@ -12,7 +13,7 @@ export default function Feedbackform({ isOpen, onOpenChange }) {
         { label: "Suggestion", value: "Suggestion" },
         { label: "Bug Report", value: "Bug Report" },
         { label: "Feature Request", value: "Feature Request" },
-        { label: "Other", value: "Other"}
+        { label: "Other", value: "Other" }
     ];
 
     const severityOptions = [
@@ -27,20 +28,14 @@ export default function Feedbackform({ isOpen, onOpenChange }) {
             toast.error('Title and Description are required!');
             return;
         }
-    
+
         try {
-            const response = await fetch(`/api/admin/feedback-report`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    title,
-                    description,
-                    type: feedbackType,
-                    severity: severityLevel
-                }),
-            });
+            const response = await createFeedback({
+                title,
+                description,
+                type: feedbackType || "Bug Report",
+                severity: severityLevel || "Low"
+            })
             if (response.status === 201) {
                 toast.success('Feedback report successfully submitted');
                 setTitle("");
@@ -55,7 +50,7 @@ export default function Feedbackform({ isOpen, onOpenChange }) {
             toast.error('An error occurred while submitting the feedback report. Please try again later.');
         }
     };
-    
+
     return (
         <>
             <Modal

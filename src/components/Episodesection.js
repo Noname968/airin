@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { Select, SelectItem, Tooltip } from "@nextui-org/react";
 import styles from '../styles/Episodesection.module.css'
-import { getEpisodes } from "@/lib/getData";
+import { getEpisodes } from "@/actions/episode";
 import { ProvidersMap } from "@/utils/EpisodeFunctions";
 import EpImageList from "./Episodelists/EpImageList";
 import EpNumList from "./Episodelists/EpNumList";

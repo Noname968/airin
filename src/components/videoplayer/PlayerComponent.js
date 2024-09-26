@@ -1,6 +1,6 @@
 "use client"
 import React, { useEffect, useState } from 'react'
-import { getSources } from '@/lib/getData';
+import { getAnimeSources } from '@/actions/source';
 import PlayerEpisodeList from './PlayerEpisodeList';
 import Player from './VidstackPlayer/player';
 import { Spinner } from '@vidstack/react';
@@ -25,7 +25,7 @@ function PlayerComponent({ id, epId, provider, epNum, subdub, data, session, sav
             setError(false);
             setLoading(true);
             try {
-                const response = await getSources(id, provider, epId, epNum, subdub);
+                const response = await getAnimeSources(id, provider, epId, epNum, subdub);
 
                 // console.log(response)
                 if (!response?.sources?.length > 0) {

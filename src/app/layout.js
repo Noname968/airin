@@ -74,7 +74,7 @@ export const metadata = {
 
 
 export default async function RootLayout({ children }) {
-  const session = await getAuthSession();
+  const session = null;
 
   return (
     <html lang="en" className='dark text-foreground bg-background' suppressHydrationWarning={true}>
