@@ -1,44 +1,54 @@
-// This approach is taken from https://github.com/vercel/next.js/tree/canary/examples/with-mongodb
-import { MongoClient } from "mongodb"
+import { MongoClient } from "mongodb";
 import mongoose from 'mongoose';
 
 const uri = process.env.MONGODB_URI ?? "";
-const options = {}
+const options = {};
 
-let client
-let clientPromise
+let client;
+let clientPromise;
 
-if (!uri) {
-  console.log("Please add your MongoDB URI to .env")
-}
-
-try {
-  if (process.env.NODE_ENV === "development") {
-    // In development mode, use a global variable so that the value
-    // is preserved across module reloads caused by HMR (Hot Module Replacement).
-    if (!global._mongoClientPromise && uri) {
-      client = new MongoClient(uri, options)
-      global._mongoClientPromise = client.connect()
-    }
-    clientPromise = global._mongoClientPromise
-  } else {
-    // In production mode, it's best to not use a global variable.
-    client = new MongoClient(uri, options)
-    clientPromise = client.connect()
+// Function to connect to MongoDB
+const connectToMongo = () => {
+  if (!uri) {
+    console.warn("Please add your MongoDB URI to .env");
+    return null;
   }
-} catch (err) {
-  console.log(err)
+  
+  try {
+    // Create a new MongoClient
+    const client = new MongoClient(uri, options);
+    // Connect to the client and return the promise
+    return client.connect();
+  } catch (err) {
+    console.error("Failed to connect to MongoDB:", err);
+    return null;
+  }
+};
+
+// Initialize MongoDB connections based on the environment
+if (process.env.NODE_ENV === "development") {
+  // In development mode, use a global variable so that the value
+  // is preserved across module reloads caused by HMR (Hot Module Replacement).
+  if (!global._mongoClientPromise) {
+    global._mongoClientPromise = connectToMongo();
+  }
+  clientPromise = global._mongoClientPromise;
+} else {
+  // In production mode, do not use a global variable.
+  clientPromise = connectToMongo();
 }
 
 export const connectMongo = async () => {
-  if (!uri) return;
-  try {
-    mongoose.connect(uri);
-  } catch (err) {
-    console.log(err)
+  if (!uri) {
+    console.warn("MongoDB URI is not configured. Database functions will be unavailable.");
+    return;
   }
-}
+  try {
+    // Use Mongoose to connect if preferred, this can be a fallback or the main method if using Mongoose.
+    await mongoose.connect(uri);
+  } catch (err) {
+    console.error("Failed to connect with mongoose to MongoDB:", err);
+  }
+};
 
-// Export a module-scoped MongoClient promise. By doing this in a
-// separate module, the client 
-export default clientPromise
+export default clientPromise;
