@@ -71,18 +71,12 @@ NEXTAUTH_URL="for development use http://localhost:3000/ and for production use 
 
 ## NextJS
 NEXT_PUBLIC_PROXY_URI="Use a proxy if u wish, not mandatory"
-CONSUMET_URI="host your own API from this repo https://github.com/consumet/api.consumet.org. Don't put / at the end of the url."
 
 ## Optional (Will work without this)
-MALSYNC_URI=https://api.malsync.moe/mal/anime/anilist: ## Dont worry if it not works they ban ips so cant do anything
 ZORO_URI="host your own API from this repo https://github.com/ghoshRitesh12/aniwatch-api. Don't put / at the end of the url."
 
 ## MongoDB
 MONGODB_URI="Your Mongodb connection String"
-
-## Deployment URLs
-NEXT_PUBLIC_DEV_URL=http://localhost:3000  # This is the URL for your current local development environment.
-NEXT_PUBLIC_PRODUCTION_URL="Your deployement URL. Don't put / at the end of the url"
 
 ## In AniList Developer console add redirect url :
 # https://{your-domain}/api/auth/callback/AniListProvider
@@ -145,6 +139,12 @@ For at full stack deploy (db, redis, consumet api)
 See [docker-compose.yml](https://github.com/Noname968/airin/blob/master/docker-compose.yml)
 
 Access Airin at ``http://localhost:3000``
+
+## Self-Hosting Notice
+
+> [!CAUTION]
+> Self-hosting this application is **strictly limited to personal use only**. Commercial utilization is **prohibited**, and the inclusion of advertisements on your self-hosted website may lead to serious consequences, including **potential site takedown measures**. Ensure compliance to avoid any legal or operational issues.
+
 
 <!-- CONTRIBUTING -->
 ## Contributing
