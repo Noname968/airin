@@ -167,4 +167,4 @@ Project Link: [https://github.com/Noname968/airin](https://github.com/Noname968/
 
 Discord Server: [https://discord.gg/QnbFaudJNf](https://discord.gg/QnbFaudJNf)
 
-For any queries you can DM me on Discord `harsha9680`.
+For any queries you can DM me on Discord `Luckyhv`.
